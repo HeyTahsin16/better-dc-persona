@@ -1,3 +1,5 @@
+import { Persona } from '../types';
+
 export const alya: Persona = {
   id: 'alya',
   name: 'Alya',
