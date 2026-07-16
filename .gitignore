@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+*.log
+
+# Runtime data — persisted at runtime, not meant to be committed
+data/*
+!data/.gitkeep
