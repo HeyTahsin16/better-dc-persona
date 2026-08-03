@@ -6,6 +6,14 @@ This replaces the old single-file `bot.js` project entirely. See **[Migrating fr
 
 ---
 
+## What's new in v3.7
+
+| Area | What changed |
+|---|---|
+| `/affection mood` gets a visual | Now posts a generated card — persona art centered over a background, mood phrase on a frosted glass panel below it — instead of a plain text reply |
+| Public by default | `/affection mood` now posts publicly so the card can be shown off, instead of only to the person who ran it. `/affection view` and `/affection reset` are unchanged — still private, still Admin+/Owner |
+| Per-persona backgrounds | Drop an image in `backgrounds/` named after a persona's avatarKey (same convention as `avatars/`) and that persona's mood card uses it. Personas without one yet get a generated gradient instead of breaking |
+
 ## What's new in v3.6
 
 | Area | What changed |
@@ -109,11 +117,13 @@ discord-persona-bot/
 │ │ └── providers/ One file per AI provider
 │ ├── emoji/appEmojis.ts Custom app emoji loading, resolution, reactions
 │ ├── webhooks/ Persona webhook identities: creation, avatar hosting, reply-thread tracking
-│ ├── features/ Cross-cutting logic: triggers, welcome, reminders, log Q&A
+│ ├── features/ Cross-cutting logic: triggers, welcome, reminders, log Q&A, mood card rendering
 │ ├── commands/ One file per slash command + the registry
 │ ├── events/ ready, interactionCreate, messageCreate, guildMemberAdd
 │ └── utils/ chunking, friendly errors, time/timezone helpers
 ├── avatars/ Persona profile pictures (you supply these — see avatars/README.md)
+├── backgrounds/ Per-persona mood card backdrops (you supply these — see backgrounds/README.md)
+├── assets/fonts/ Bundled Poppins font used for mood-card text (see Credits)
 ├── data/ Auto-created at runtime (gitignored except .gitkeep)
 ├── package.json
 ├── tsconfig.json
@@ -146,7 +156,11 @@ Discord Settings → **Advanced** → enable **Developer Mode** → right-click 
 
 Drop images into `avatars/`, named to match each character (see `avatars/README.md` for the exact filenames, e.g. `violet_evergarden.png`). Skip this and personas will still work, just with Discord's default webhook icon instead of a face.
 
-### 4. Get API keys for the providers you want
+### 4. Add mood card backgrounds (optional)
+
+Drop images into `backgrounds/`, named to match each persona's avatarKey — the exact same filenames as `avatars/` (see `backgrounds/README.md`). `/affection mood` uses these to build its card. Skip this, or skip individual personas, and those mood cards just use a generated gradient instead.
+
+### 5. Get API keys for the providers you want
 
 | Provider | Free tier | Get a key |
 |---|---|---|
@@ -161,7 +175,7 @@ Drop images into `avatars/`, named to match each character (see `avatars/README.
 
 A fully free setup: **Groq** for chat + **Together AI** for images.
 
-### 5. Configure and run
+### 6. Configure and run
 
 ```bash
 cp .env.example .env
@@ -428,13 +442,13 @@ Decay is computed lazily from elapsed wall-clock time whenever a score is touche
 **Safety rail:** even at the most negative level, a persona is instructed to become colder and more guarded, never genuinely cruel, abusive, or unsafe — the meter changes warmth, not the baseline safety rules everyone shares.
 
 ```
-/affection mood persona:asuna                        — casual, number-free read on how a persona feels about you (everyone)
+/affection mood persona:asuna                        — casual, number-free read on how a persona feels about you — posts publicly as a generated card (everyone)
 /affection view persona:asuna                         — exact score for yourself (Admin+)
 /affection view persona:asuna user:@Alex              — exact score for someone else (Admin+)
 /affection reset user:@Alex persona:asuna             — reset to neutral (Owner)
 ```
 
-`/affection mood` is the one built for casually checking in without spoiling the fun with exact numbers — it returns a short line like "Frieren seems to have a decent impression of you" rather than a score. `/affection view` is the precise, numeric version for admins who want to actually audit or debug it.
+`/affection mood` is the one built for casually checking in without spoiling the fun with exact numbers — rather than a bare score, it posts publicly as a generated card: the persona's art centered over a background, with a short line like "Frieren seems to have a decent impression of you" on a frosted glass panel underneath. Backgrounds are per-persona — drop an image in `backgrounds/` named after that persona's avatarKey, same convention as `avatars/` (see `backgrounds/README.md`) — and personas without one yet just fall back to a generated gradient. `/affection view` is the precise, numeric version for admins who want to actually audit or debug it, and stays private and Admin+ like before.
 
 > **Cost note:** this roughly doubles API calls per conversational message (one for the reply, one for the classifier), which is exactly why the [rate limit guard](#monitoring--logging) below exists — make sure `CHAT_RATE_LIMIT_PER_MINUTE` is set to something safely under your provider's actual per-minute cap.
 
@@ -612,6 +626,7 @@ If you're coming from the old `!prefix`-based `bot.js`:
 ## Credits
 
 * **Bot Avatar / Artwork:** Illustrated by **banishment** ([Twitter/X](https://x.com/y_banishment) / [Pixiv](https://www.pixiv.net/en/users/2281440))
+* **Font:** [Poppins](https://github.com/google/fonts/tree/main/ofl/poppins) by Indian Type Foundry, bundled under `assets/fonts/` for `/affection mood` cards, licensed under the [SIL Open Font License 1.1](https://openfontlicense.org/)
 
 ---
 

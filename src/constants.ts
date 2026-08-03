@@ -6,6 +6,13 @@ import { ChatProviderName, ImageProviderName } from './types';
 
 export const DATA_DIR = path.join(process.cwd(), 'data');
 export const AVATARS_DIR = path.join(process.cwd(), 'avatars');
+// Backdrop images for /affection mood's generated card — see backgrounds/README.md.
+// Any image dropped here is fair game; one is picked at random per card (falls back
+// to a generated gradient if the folder is empty, so the command never hard-fails).
+export const BACKGROUNDS_DIR = path.join(process.cwd(), 'backgrounds');
+// Bundled Poppins weights used for mood-card text — see moodCard.ts. Bundled rather
+// than relying on system fonts so rendering looks the same locally and on Railway.
+export const FONTS_DIR = path.join(process.cwd(), 'assets', 'fonts');
 
 // The designated "neutral" persona — used for welcome messages regardless of whatever
 // persona is currently active for conversations (/persona set doesn't affect this).

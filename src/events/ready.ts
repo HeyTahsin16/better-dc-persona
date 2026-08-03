@@ -4,6 +4,7 @@ import { state, activeChatModel, activeImageModel } from '../store/stateStore';
 import { listAuthorized } from '../store/authStore';
 import { loadAppEmojis } from '../emoji/appEmojis';
 import { refreshAvatarCache, getPublicBaseUrl } from '../webhooks/avatarResolver';
+import { refreshBackgroundCache } from '../features/moodCard';
 import { registerCommands } from '../commands/registry';
 import { startReminderScheduler } from '../features/reminders';
 import { getActivePersona } from '../ai/promptBuilder';
@@ -17,6 +18,7 @@ export async function onReady(client: Client<true>): Promise<void> {
   logger.info(`Authorized users: ${listAuthorized().length}`);
 
   refreshAvatarCache();
+  refreshBackgroundCache();
   const publicUrl = getPublicBaseUrl();
   if (publicUrl) logger.info(`Avatar public URL: ${publicUrl}/avatars/`);
   else logger.warn('No public URL configured (PUBLIC_URL or RAILWAY_PUBLIC_DOMAIN) — persona webhooks will use default icons instead of custom avatars.');

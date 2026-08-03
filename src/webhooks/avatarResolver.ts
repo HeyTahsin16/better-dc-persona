@@ -46,6 +46,15 @@ export function getAvatarUrl(avatarKey: string): string | undefined {
   return `${base}/avatars/${encodeURIComponent(filename)}`;
 }
 
+// Local filesystem path for a persona's avatar — for server-side image work
+// (e.g. compositing the /affection mood card) where we read the file directly
+// instead of serving it over HTTP. Unlike getAvatarUrl, this needs no public
+// URL configured. Returns null if no file matches this avatarKey.
+export function getAvatarFilePath(avatarKey: string): string | null {
+  const filename = fileMap.get(avatarKey.toLowerCase());
+  return filename ? path.join(AVATARS_DIR, filename) : null;
+}
+
 export function resolveAvatarFilePath(filename: string): string | null {
   // Guards against path traversal since this backs a public HTTP route.
   const safe = path.basename(filename);

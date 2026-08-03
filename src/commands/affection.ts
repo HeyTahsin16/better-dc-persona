@@ -1,9 +1,11 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, ColorResolvable } from 'discord.js';
 import { SlashCommand } from './types';
 import { Role } from '../types';
 import { hasRole } from '../permissions/roles';
 import { getAffectionScore, getAffectionLevel, getAffectionMoodPhrase, resetAffection } from '../store/affectionStore';
 import { searchPersonas, getPersona, isValidPersonaId } from '../personas';
+import { generateMoodCard, moodAccentColor } from '../features/moodCard';
+import { logger } from '../logger';
 
 export const affectionCommand: SlashCommand = {
   data: new SlashCommandBuilder()
@@ -35,10 +37,33 @@ export const affectionCommand: SlashCommand = {
     }
     const persona = getPersona(personaId)!;
 
-    // mood — open to everyone, casual read, no numbers, self only.
+    // mood — open to everyone, casual read, no numbers, self only. Public reply
+    // (not ephemeral) so the card can be shown off in the channel; contrast
+    // with view/reset below, which stay private admin/owner tools.
     if (sub === 'mood') {
+      const level = getAffectionLevel(interaction.user.id, personaId);
       const phrase = getAffectionMoodPhrase(interaction.user.id, personaId, persona.name);
-      await interaction.reply({ content: phrase, ephemeral: true });
+      await interaction.deferReply();
+      try {
+        const buffer = await generateMoodCard({
+          personaName: persona.name,
+          avatarKey: persona.avatarKey,
+          phrase,
+          level,
+        });
+        const attachment = new AttachmentBuilder(buffer, { name: 'mood-card.png' });
+        const embed = new EmbedBuilder()
+          .setColor(moodAccentColor(level) as ColorResolvable)
+          .setAuthor({ name: interaction.user.displayName, iconURL: interaction.user.displayAvatarURL() })
+          .setTitle(`${persona.name}'s mood`)
+          .setDescription(phrase)
+          .setImage('attachment://mood-card.png')
+          .setFooter({ text: persona.source });
+        await interaction.editReply({ embeds: [embed], files: [attachment] });
+      } catch (err) {
+        logger.error('[affection] Mood card generation failed, falling back to text', err);
+        await interaction.editReply({ content: phrase });
+      }
       return;
     }
 
