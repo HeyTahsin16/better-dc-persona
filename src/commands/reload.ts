@@ -9,7 +9,7 @@ import { refreshBackgroundCache } from '../features/moodCard';
 export const reloadCommand: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName('reload')
-    .setDescription('[Admin+] Clear conversation memory everywhere, re-fetch app emojis, avatar files, and mood card backgrounds'),
+    .setDescription('[Admin+] Clear conversation memory everywhere, re-fetch app emojis, avatars, and backgrounds'),
 
   minRole: Role.ADMIN,
 
