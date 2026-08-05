@@ -8,44 +8,50 @@ import { logger } from '../logger';
 /**
  * Renders the image used by `/affection mood`: a persona-specific background
  * (matched by the same avatarKey used in /avatars, so e.g. avatars/alya.jpg pairs
- * with backgrounds/alya.jpg), the persona's avatar centered in a rounded frame,
+ * with backgrounds/alya.jpg), the persona's avatar centered in a circular frame,
  * and the mood phrase in a frosted/blurred glass panel underneath it.
  *
- * Deliberately never renders the numeric affection score or level — only the
- * qualitative phrase. Exact numbers stay admin-only via `/affection view`.
+ * Canvas is 1920x1080 to match desktop-wallpaper-sized backgrounds 1:1 (no
+ * cropping needed if the source already is that size). Deliberately never
+ * renders the numeric affection score or level — only the qualitative phrase.
+ * Exact numbers stay admin-only via `/affection view`.
  */
 
 // ---------------------------------------------------------------------------
 // Layout constants
 // ---------------------------------------------------------------------------
 
-const CARD_W = 720;
-const CARD_H = 960;
+const CARD_W = 1920;
+const CARD_H = 1080;
 
-const FRAME_W = 380;
-const FRAME_H = 460;
-const FRAME_RADIUS = 28;
-const FRAME_RING_WIDTH = 5;
+const AVATAR_DIAMETER = 520;
+const AVATAR_RING_WIDTH = 8;
 const AVATAR_FOCUS_Y = 0.15; // bias crop toward the top so faces aren't cut off
 
-const GAP_FRAME_TO_PANEL = 34;
+const GAP_AVATAR_TO_PANEL = 40;
 
-const PANEL_MARGIN_X = 48;
-const PANEL_RADIUS = 24;
-const PANEL_PAD_X = 40;
-const PANEL_PAD_TOP = 34;
-const PANEL_PAD_BOTTOM = 32;
-const PANEL_BLUR_PX = 16;
+// Panel is intentionally narrower than the canvas (not edge-to-edge) — this is
+// a landscape background with a compact centered card floating on it, not a
+// portrait card that fills the frame.
+const PANEL_WIDTH = 820;
+const PANEL_RADIUS = 28;
+const PANEL_PAD_X = 46;
+const PANEL_PAD_TOP = 40;
+const PANEL_PAD_BOTTOM = 36;
+const PANEL_BLUR_PX = 28;
+const PANEL_BLUR_OVERDRAW = PANEL_BLUR_PX * 2; // avoids the blur sampling transparent edges
 const PANEL_OVERLAY_ALPHA = 0.44;
 
 const TITLE_FONT = 'Poppins SemiBold';
-const TITLE_SIZE = 33;
-const TITLE_BLOCK_H = 40;
-const TITLE_TO_PHRASE_GAP = 12;
+const TITLE_SIZE = 40;
+const TITLE_BLOCK_H = 52;
+const TITLE_TO_PHRASE_GAP = 16;
+const TITLE_BASELINE_OFFSET = Math.round(TITLE_SIZE * 0.82);
 
 const PHRASE_FONT = 'Poppins';
-const PHRASE_SIZE = 23;
-const PHRASE_LINE_HEIGHT = 31;
+const PHRASE_SIZE = 29;
+const PHRASE_LINE_HEIGHT = 40;
+const PHRASE_FIRST_LINE_OFFSET = Math.round(PHRASE_SIZE * 0.86);
 
 // ---------------------------------------------------------------------------
 // Mood accent color — interpolated so it never needs to expose the raw number
@@ -142,7 +148,8 @@ function getBackgroundFilePath(avatarKey: string): string | null {
 // ---------------------------------------------------------------------------
 
 /** Draws `img` into the dest rect using CSS `object-fit: cover` semantics.
- *  `focusY` (0..1) biases the crop vertically — 0 keeps the top, 0.5 centers. */
+ *  `focusY` (0..1) biases the crop vertically — 0 keeps the top, 0.5 centers.
+ *  A 1920x1080 source into a 1920x1080 dest needs no cropping at all here. */
 function drawCover(
   ctx: SKRSContext2D,
   img: Awaited<ReturnType<typeof loadImage>>,
@@ -192,19 +199,22 @@ function drawVignette(ctx: SKRSContext2D): void {
   ctx.fillRect(0, 0, CARD_W, CARD_H);
 }
 
-function drawAvatarPlaceholder(ctx: SKRSContext2D, x: number, y: number, w: number, h: number, name: string, accent: string): void {
-  const grad = ctx.createLinearGradient(x, y, x + w, y + h);
+/** Fills a `size`x`size` box (the avatar's circular clip is already active
+ *  when this is called) with a gradient + the persona's initial, for when no
+ *  avatar file matches. */
+function drawAvatarPlaceholder(ctx: SKRSContext2D, x: number, y: number, size: number, name: string, accent: string): void {
+  const grad = ctx.createLinearGradient(x, y, x + size, y + size);
   grad.addColorStop(0, accent);
   grad.addColorStop(1, 'rgba(22,20,32,0.92)');
   ctx.fillStyle = grad;
-  ctx.fillRect(x, y, w, h);
+  ctx.fillRect(x, y, size, size);
 
   ctx.save();
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = 'rgba(255,255,255,0.88)';
-  ctx.font = `${Math.round(h * 0.4)}px "Poppins Bold"`;
-  ctx.fillText((name.trim()[0] || '?').toUpperCase(), x + w / 2, y + h / 2 + h * 0.03);
+  ctx.font = `${Math.round(size * 0.4)}px "Poppins Bold"`;
+  ctx.fillText((name.trim()[0] || '?').toUpperCase(), x + size / 2, y + size / 2 + size * 0.03);
   ctx.restore();
 }
 
@@ -232,8 +242,13 @@ function drawFrostedPanel(ctx: SKRSContext2D, source: Canvas, x: number, y: numb
   const blurCanvas = createCanvas(CARD_W, CARD_H);
   const bctx = blurCanvas.getContext('2d');
   bctx.filter = `blur(${PANEL_BLUR_PX}px)`;
-  // Oversize the draw slightly so the blur doesn't sample transparent edges.
-  bctx.drawImage(source, -24, -24, CARD_W + 48, CARD_H + 48);
+  bctx.drawImage(
+    source,
+    -PANEL_BLUR_OVERDRAW,
+    -PANEL_BLUR_OVERDRAW,
+    CARD_W + PANEL_BLUR_OVERDRAW * 2,
+    CARD_H + PANEL_BLUR_OVERDRAW * 2
+  );
 
   ctx.save();
   ctx.beginPath();
@@ -276,79 +291,82 @@ export async function generateMoodCard(opts: MoodCardOptions): Promise<Buffer> {
   drawVignette(ctx);
 
   // Measure/wrap the phrase first so we know the panel height, which lets us
-  // vertically center the whole frame+panel group regardless of phrase length.
+  // vertically center the whole avatar+panel group regardless of phrase length.
   ctx.font = `${PHRASE_SIZE}px "${PHRASE_FONT}"`;
-  const maxTextWidth = CARD_W - 2 * PANEL_MARGIN_X - 2 * PANEL_PAD_X;
+  const maxTextWidth = PANEL_WIDTH - 2 * PANEL_PAD_X;
   const phraseLines = wrapText(ctx, opts.phrase, maxTextWidth);
 
-  const panelWidth = CARD_W - 2 * PANEL_MARGIN_X;
   const panelHeight =
     PANEL_PAD_TOP + TITLE_BLOCK_H + TITLE_TO_PHRASE_GAP + phraseLines.length * PHRASE_LINE_HEIGHT + PANEL_PAD_BOTTOM;
 
-  const totalContentH = FRAME_H + GAP_FRAME_TO_PANEL + panelHeight;
-  const frameY = Math.max(56, Math.round((CARD_H - totalContentH) / 2));
-  const frameX = Math.round((CARD_W - FRAME_W) / 2);
+  const totalContentH = AVATAR_DIAMETER + GAP_AVATAR_TO_PANEL + panelHeight;
+  const avatarTop = Math.max(48, Math.round((CARD_H - totalContentH) / 2));
+  const avatarRadius = AVATAR_DIAMETER / 2;
+  const avatarCx = CARD_W / 2;
+  const avatarCy = avatarTop + avatarRadius;
 
-  // Avatar frame: drop shadow, clipped image (or placeholder), accent ring.
+  // Avatar: drop shadow, clipped circular image (or placeholder), accent ring.
   ctx.save();
   ctx.shadowColor = 'rgba(0,0,0,0.45)';
-  ctx.shadowBlur = 32;
-  ctx.shadowOffsetY = 12;
+  ctx.shadowBlur = 40;
+  ctx.shadowOffsetY = 14;
   ctx.beginPath();
-  ctx.roundRect(frameX, frameY, FRAME_W, FRAME_H, FRAME_RADIUS);
+  ctx.arc(avatarCx, avatarCy, avatarRadius, 0, Math.PI * 2);
   ctx.fillStyle = '#000';
   ctx.fill();
   ctx.restore();
 
   const avatarPath = getAvatarFilePath(opts.avatarKey);
+  const avatarBoxX = avatarCx - avatarRadius;
+  const avatarBoxY = avatarCy - avatarRadius;
   ctx.save();
   ctx.beginPath();
-  ctx.roundRect(frameX, frameY, FRAME_W, FRAME_H, FRAME_RADIUS);
+  ctx.arc(avatarCx, avatarCy, avatarRadius, 0, Math.PI * 2);
   ctx.clip();
   if (avatarPath) {
     try {
       const avatarImg = await loadImage(avatarPath);
-      drawCover(ctx, avatarImg, frameX, frameY, FRAME_W, FRAME_H, AVATAR_FOCUS_Y);
+      drawCover(ctx, avatarImg, avatarBoxX, avatarBoxY, AVATAR_DIAMETER, AVATAR_DIAMETER, AVATAR_FOCUS_Y);
     } catch (err) {
       logger.warn(`[moodCard] Failed to load avatar "${avatarPath}"`, err);
-      drawAvatarPlaceholder(ctx, frameX, frameY, FRAME_W, FRAME_H, opts.personaName, accent);
+      drawAvatarPlaceholder(ctx, avatarBoxX, avatarBoxY, AVATAR_DIAMETER, opts.personaName, accent);
     }
   } else {
-    drawAvatarPlaceholder(ctx, frameX, frameY, FRAME_W, FRAME_H, opts.personaName, accent);
+    drawAvatarPlaceholder(ctx, avatarBoxX, avatarBoxY, AVATAR_DIAMETER, opts.personaName, accent);
   }
   ctx.restore();
 
   ctx.save();
   ctx.beginPath();
-  ctx.roundRect(frameX, frameY, FRAME_W, FRAME_H, FRAME_RADIUS);
-  ctx.lineWidth = FRAME_RING_WIDTH;
+  ctx.arc(avatarCx, avatarCy, avatarRadius, 0, Math.PI * 2);
+  ctx.lineWidth = AVATAR_RING_WIDTH;
   ctx.strokeStyle = accent;
   ctx.stroke();
   ctx.restore();
 
   // Frosted text panel, sampling the composite so far (background + avatar).
-  const panelX = PANEL_MARGIN_X;
-  const panelY = frameY + FRAME_H + GAP_FRAME_TO_PANEL;
-  drawFrostedPanel(ctx, canvas, panelX, panelY, panelWidth, panelHeight);
+  const panelX = (CARD_W - PANEL_WIDTH) / 2;
+  const panelY = avatarTop + AVATAR_DIAMETER + GAP_AVATAR_TO_PANEL;
+  drawFrostedPanel(ctx, canvas, panelX, panelY, PANEL_WIDTH, panelHeight);
 
   ctx.save();
   ctx.textAlign = 'center';
   ctx.fillStyle = '#ffffff';
   ctx.shadowColor = 'rgba(0,0,0,0.55)';
-  ctx.shadowBlur = 10;
+  ctx.shadowBlur = 12;
 
-  const maxTitleWidth = panelWidth - 2 * PANEL_PAD_X;
+  const maxTitleWidth = PANEL_WIDTH - 2 * PANEL_PAD_X;
   ctx.font = `${TITLE_SIZE}px "${TITLE_FONT}"`;
   const titleWidth = ctx.measureText(opts.personaName).width;
   if (titleWidth > maxTitleWidth) {
-    const fitSize = Math.max(18, Math.floor((TITLE_SIZE * maxTitleWidth) / titleWidth));
+    const fitSize = Math.max(22, Math.floor((TITLE_SIZE * maxTitleWidth) / titleWidth));
     ctx.font = `${fitSize}px "${TITLE_FONT}"`;
   }
-  ctx.fillText(opts.personaName, CARD_W / 2, panelY + PANEL_PAD_TOP + 26);
+  ctx.fillText(opts.personaName, CARD_W / 2, panelY + PANEL_PAD_TOP + TITLE_BASELINE_OFFSET);
 
   ctx.font = `${PHRASE_SIZE}px "${PHRASE_FONT}"`;
-  ctx.shadowBlur = 6;
-  let ty = panelY + PANEL_PAD_TOP + TITLE_BLOCK_H + TITLE_TO_PHRASE_GAP + 20;
+  ctx.shadowBlur = 8;
+  let ty = panelY + PANEL_PAD_TOP + TITLE_BLOCK_H + TITLE_TO_PHRASE_GAP + PHRASE_FIRST_LINE_OFFSET;
   for (const line of phraseLines) {
     ctx.fillText(line, CARD_W / 2, ty);
     ty += PHRASE_LINE_HEIGHT;
