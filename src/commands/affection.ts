@@ -55,8 +55,6 @@ export const affectionCommand: SlashCommand = {
         const embed = new EmbedBuilder()
           .setColor(moodAccentColor(level) as ColorResolvable)
           .setAuthor({ name: interaction.user.displayName, iconURL: interaction.user.displayAvatarURL() })
-          .setTitle(`${persona.name}'s mood`)
-          .setDescription(phrase)
           .setImage('attachment://mood-card.png')
           .setFooter({ text: persona.source });
         await interaction.editReply({ embeds: [embed], files: [attachment] });

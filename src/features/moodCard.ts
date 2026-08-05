@@ -138,7 +138,10 @@ export function refreshBackgroundCache(): void {
   );
 }
 
-function getBackgroundFilePath(avatarKey: string): string | null {
+/** Local filesystem path to a persona's raw background file, or null if none is
+ *  set yet. Exposed for commands that want the unedited source image directly
+ *  (e.g. `/persona profile`), as opposed to generateMoodCard's composited card. */
+export function getBackgroundFilePath(avatarKey: string): string | null {
   const filename = backgroundFileMap.get(avatarKey.toLowerCase());
   return filename ? path.join(BACKGROUNDS_DIR, filename) : null;
 }

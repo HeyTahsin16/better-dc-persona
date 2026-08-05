@@ -1,4 +1,5 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, ColorResolvable } from 'discord.js';
+import path from 'path';
 import { SlashCommand } from './types';
 import { Role } from '../types';
 import { hasRole } from '../permissions/roles';
@@ -7,12 +8,35 @@ import { setPersonaId, state } from '../store/stateStore';
 import { getUserPersonaId } from '../store/userPersonaStore';
 import { NEUTRAL_PERSONA_ID } from '../constants';
 import { replyChunked } from '../utils/interactionReply';
+import { getAvatarFilePath } from '../webhooks/avatarResolver';
+import { getBackgroundFilePath } from '../features/moodCard';
+import { logger } from '../logger';
+
+// Deterministic per-persona accent color (hash the avatarKey -> hue, fixed
+// saturation/lightness) so every character's profile card gets a distinct,
+// stable strip color without needing 40+ colors hand-picked and maintained.
+function hslToHex(h: number, s: number, l: number): string {
+  s /= 100; l /= 100;
+  const k = (n: number) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  const toHex = (x: number) => Math.round(255 * x).toString(16).padStart(2, '0');
+  return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`;
+}
+
+function personaAccentColor(seed: string): string {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  return hslToHex(hash % 360, 62, 68);
+}
 
 export const personaCommand: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName('persona')
     .setDescription('View or switch the server-wide default persona')
     .addSubcommand(s => s.setName('current').setDescription('Show the server-wide default persona'))
+    .addSubcommand(s => s.setName('profile').setDescription("View a character's profile: avatar, bio, and background art")
+      .addStringOption(o => o.setName('persona').setDescription('Which persona').setRequired(true).setAutocomplete(true)))
     .addSubcommand(s => s.setName('list').setDescription('List all available personas')
       .addStringOption(o => {
         o.setName('version').setDescription('Optional: only show personas added in a specific version');
@@ -41,6 +65,48 @@ export const personaCommand: SlashCommand = {
 
   async execute(interaction) {
     const sub = interaction.options.getSubcommand();
+
+    if (sub === 'profile') {
+      const id = interaction.options.getString('persona', true);
+      if (!isValidPersonaId(id)) {
+        await interaction.reply({ content: `❌ Unknown persona \`${id}\` — try searching again with the autocomplete list.`, ephemeral: true });
+        return;
+      }
+      const persona = getPersona(id)!;
+      await interaction.deferReply();
+      try {
+        const files: AttachmentBuilder[] = [];
+        const embed = new EmbedBuilder()
+          .setColor(personaAccentColor(persona.avatarKey) as ColorResolvable)
+          .setDescription(persona.description)
+          .setFooter({ text: persona.source });
+
+        const avatarPath = getAvatarFilePath(persona.avatarKey);
+        if (avatarPath) {
+          const avatarFile = `persona-avatar${path.extname(avatarPath)}`;
+          files.push(new AttachmentBuilder(avatarPath, { name: avatarFile }));
+          embed.setAuthor({ name: persona.name, iconURL: `attachment://${avatarFile}` });
+        } else {
+          embed.setAuthor({ name: persona.name });
+        }
+
+        // Raw background art, unedited — no avatar composited on top, unlike
+        // the /affection mood card. Silently omitted if this persona doesn't
+        // have one uploaded yet, rather than faking one in.
+        const backgroundPath = getBackgroundFilePath(persona.avatarKey);
+        if (backgroundPath) {
+          const bgFile = `persona-background${path.extname(backgroundPath)}`;
+          files.push(new AttachmentBuilder(backgroundPath, { name: bgFile }));
+          embed.setImage(`attachment://${bgFile}`);
+        }
+
+        await interaction.editReply({ embeds: [embed], files });
+      } catch (err) {
+        logger.error('[persona] Profile command failed', err);
+        await interaction.editReply({ content: `**${persona.name}** — *${persona.source}*\n${persona.description}` });
+      }
+      return;
+    }
 
     if (sub === 'list') {
       const versionFilter = interaction.options.getString('version') ?? undefined;
