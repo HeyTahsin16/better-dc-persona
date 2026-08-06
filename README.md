@@ -6,6 +6,15 @@ This replaces the old single-file `bot.js` project entirely. See **[Migrating fr
 
 ---
 
+## What's new in v3.8
+
+| Area | What changed |
+|---|---|
+| Threads & voice-channel chat | Persona replies (with full webhook styling — name, avatar) now work in threads and in voice channels' text chat. Previously both silently fell back to a plain bot-identity reply, or didn't respond at all in threads |
+| Fewer, better-organized commands | `/imagine` + `/analyze` → `/image create` / `/image analyze`. `/imgprovider` folded into `/provider image ...`. `/mypersona` folded into `/persona my ...`. Existing muscle memory for `/provider`, `/persona`, and their unmerged subcommands is unaffected — only the commands that moved changed names |
+| `/affection mood` embed cleanup | Removed the title/description text that was duplicating what the mood card image already shows |
+| `/persona profile` | New — view any character's avatar, bio, and background art on its own |
+
 ## What's new in v3.7
 
 | Area | What changed |
@@ -211,7 +220,7 @@ Three tiers, each a superset of the one below it:
 |---|---|---|
 | **Owner** | `OWNER_ID` env var (exactly one) | Everything, plus `/auth`, `/memory`, and `/affection reset` (the only owner-exclusive commands) |
 | **Admin** | `/auth add role:Admin` | Reload, switch chat/image provider, manage triggers, set reminder timezones, configure welcome messages and the open/trial channel, switch the server-wide default persona (`/persona set`), view exact affection scores (`/affection view`), everything Normal can do |
-| **Normal** | `/auth add role:Normal` | Chat with the bot, `/imagine`, `/analyze`, `/remind` (set/list/cancel), `/mypersona`, `/affection mood`, view logs |
+| **Normal** | `/auth add role:Normal` | Chat with the bot, `/image create/analyze`, `/remind` (set/list/cancel), `/persona my`, `/affection mood`, view logs |
 
 ```
 /auth add user:@Alex role:Admin
@@ -229,12 +238,12 @@ Unauthorized users are silently ignored in normal chat, and get a polite "not on
 
 There are two independent layers of persona selection:
 
-- **`/mypersona set`** (everyone) — your own personal default. Only affects you — fresh @mentions and DMs from you talk to whichever persona you picked, no matter what anyone else has set or what the server default is.
-- **`/persona set`** (Admin+) — the server-wide fallback, used for anyone who hasn't picked a personal one with `/mypersona`.
+- **`/persona my set`** (everyone) — your own personal default. Only affects you — fresh @mentions and DMs from you talk to whichever persona you picked, no matter what anyone else has set or what the server default is.
+- **`/persona set`** (Admin+) — the server-wide fallback, used for anyone who hasn't picked a personal one with `/persona my set`.
 
-Both use autocomplete — start typing a name and matching personas show up (there are too many now for Discord's old-style dropdown menus). `/persona list` shows the full roster **A-Z by name**, and `/mypersona current` / `/persona current` show what you personally get vs. the server default, respectively.
+Both use autocomplete — start typing a name and matching personas show up (there are too many now for Discord's old-style dropdown menus). `/persona list` shows the full roster **A-Z by name**, and `/persona my current` / `/persona current` show what you personally get vs. the server default, respectively. `/persona profile persona:` shows a character's avatar, bio, and background art on its own, independent of either default.
 
-**Browsing by version:** every persona is also tagged with the version it was added in, as an optional narrower. `/persona set`, `/mypersona set`, and `/remind set` all take an optional `version` field — pick one (e.g. `v3.4`) before typing in the name field, and the autocomplete suggestions narrow to just that batch, so you can browse "what got added recently" instead of needing to already know a name. `/persona list version:v3.4` does the same. Versions that didn't add any personas (feature-only releases) simply don't show up as an option. This — search instead of a fixed dropdown — is what actually lets the roster scale past Discord's 25-choice cap; A-Z sorting is just the default display, not a separate mechanism.
+**Browsing by version:** every persona is also tagged with the version it was added in, as an optional narrower. `/persona set`, `/persona my set`, and `/remind set` all take an optional `version` field — pick one (e.g. `v3.4`) before typing in the name field, and the autocomplete suggestions narrow to just that batch, so you can browse "what got added recently" instead of needing to already know a name. `/persona list version:v3.4` does the same. Versions that didn't add any personas (feature-only releases) simply don't show up as an option. This — search instead of a fixed dropdown — is what actually lets the roster scale past Discord's 25-choice cap; A-Z sorting is just the default display, not a separate mechanism.
 
 Switching either one does **not** clear conversation memory — history is already isolated per (channel, persona), so nothing gets mixed up.
 
@@ -294,7 +303,7 @@ Every persona defaults to roughly 1-5 sentences per reply, only writing longer w
 2. Export a `Persona` object with a unique `id`, an `avatarKey` (e.g. `'new_character'`), and an `addedInVersion` tag (e.g. `'v3.6'`)
 3. Import and register it in `src/personas/index.ts` (alphabetically by name if convenient — makes cross-referencing `avatars/README.md` easier, though it has no functional effect since listings always sort A-Z at runtime regardless of file order)
 4. Drop a matching image in `avatars/` (e.g. `new_character.png`)
-5. Rebuild and redeploy — it appears automatically in `/persona list`, `/persona set`, and `/mypersona set`, browsable by version alongside everything else
+5. Rebuild and redeploy — it appears automatically in `/persona list`, `/persona set`, and `/persona my set`, browsable by version alongside everything else
 
 All personas share the same baseline safety rules (defined once in `promptBuilder.ts`) regardless of character — these aren't overridable per-persona.
 
@@ -315,7 +324,7 @@ Each persona replies as **itself** — its own name and avatar in the channel �
 
 ### Continuing a conversation without repeated @mentions
 
-1. @mention the bot (or DM it) once — you get a reply styled as your resolved persona (your personal pick from `/mypersona`, or the server default if you haven't set one)
+1. @mention the bot (or DM it) once — you get a reply styled as your resolved persona (your personal pick from `/persona my`, or the server default if you haven't set one)
 2. From then on, just **reply to that message** to keep talking — no need to @mention again
 3. Replying pins you to *that specific character's* thread in *that channel*, regardless of anyone's personal pick or the server default changing in the meantime
 
@@ -368,8 +377,8 @@ Admin+ can designate one channel where **anyone can talk to the bot, authorized 
 
 Rules specific to this channel:
 - Every message gets a reply, from anyone, regardless of the authorized-users list
-- Only the **server-wide default persona** ever responds here — personal `/mypersona` picks and persona-thread continuation (replying to a specific character's message) are both deliberately ignored, so behavior stays predictable for people who've never used the bot before
-- Slash commands are unaffected — unauthorized users still can't run `/persona`, `/imagine`, etc., anywhere, including this channel. The bypass only applies to plain conversational messages
+- Only the **server-wide default persona** ever responds here — personal `/persona my` picks and persona-thread continuation (replying to a specific character's message) are both deliberately ignored, so behavior stays predictable for people who've never used the bot before
+- Slash commands are unaffected — unauthorized users still can't run `/persona`, `/image`, etc., anywhere, including this channel. The bypass only applies to plain conversational messages
 
 Since this opens the door to genuinely unlimited message volume from anyone in the channel, this is exactly the kind of usage the [rate limit guard](#monitoring--logging) is there to protect against.
 
@@ -498,10 +507,10 @@ There's no `set-message` or `set-mode` — that's intentional. One less thing to
 ## Image Analysis
 
 ```
-/analyze image:<upload> question:What's happening in this picture?
+/image analyze image:<upload> question:What's happening in this picture?
 ```
 
-Also works automatically: attach an image to any message that @mentions the bot, replies to it, or DMs it, and it's included in context. Uses whichever configured chat provider supports vision (Gemini, OpenAI, or Anthropic); if the active chat provider doesn't support vision, it transparently falls back to Gemini or another vision-capable key you have configured, so `/analyze` keeps working regardless of your chat provider choice.
+Also works automatically: attach an image to any message that @mentions the bot, replies to it, or DMs it, and it's included in context. Uses whichever configured chat provider supports vision (Gemini, OpenAI, or Anthropic); if the active chat provider doesn't support vision, it transparently falls back to Gemini or another vision-capable key you have configured, so `/image analyze` keeps working regardless of your chat provider choice.
 
 ---
 
@@ -535,11 +544,11 @@ Switching provider or model clears conversation memory (new backend, fresh conte
 | `gemini` | `gemini-2.5-flash-image` | Google's native image model ("Nano Banana"), reuses `GEMINI_API_KEY` |
 | `openai-dall-e` | `dall-e-3` | Paid |
 | `stability` | `stable-diffusion-xl-1024-v1-0` | Paid |
-| `none` | — | Disables `/imagine` |
+| `none` | — | Disables `/image create` |
 
 ```
-/imgprovider list
-/imgprovider set name:together
+/provider image list
+/provider image set name:together
 ```
 
 Image generation always uses a separate provider from chat, so you can mix and match freely (e.g. Groq for chat, Together for images).
@@ -561,21 +570,22 @@ Image generation always uses a separate provider from chat, so you can mix and m
 
 ## Commands Reference
 
-> **Note:** slash command *responses* (`/imagine`, `/analyze`, etc.) always appear under the bot's own name — Discord doesn't allow interaction replies to be webhook-styled. Persona identities apply to normal conversation (@mentions, replies, DMs), which is where they matter most.
+> **Note:** slash command *responses* (`/image create`, `/image analyze`, etc.) always appear under the bot's own name — Discord doesn't allow interaction replies to be webhook-styled. Persona identities apply to normal conversation (@mentions, replies, DMs), which is where they matter most.
 
 ### Normal (all authorized users)
 | Command | Description |
 |---|---|
 | `/help` | Show every command available to you, with descriptions (only visible to you) |
-| `/imagine prompt:` | Generate an image |
-| `/analyze image: [question:]` | Analyze an uploaded image |
+| `/image create prompt:` | Generate an image |
+| `/image analyze image: [question:]` | Analyze an uploaded image |
 | `/logs recent [count:]` / `search keyword:` / `ask question:` | View, search, or ask AI about chat history |
 | `/remind set/list/cancel` | Manage your own reminders |
-| `/mypersona set/current/clear` | Set your own personal persona (only affects you) |
+| `/persona my set/current/clear` | Set your own personal persona (only affects you) |
 | `/persona list` / `current` | Browse personas / see the server default |
-| `/affection mood persona:` | Casual, number-free read on how a persona feels about you |
+| `/persona profile persona:` | View a character's profile — avatar, bio, and background art |
+| `/affection mood persona:` | Casual, number-free read on how a persona feels about you — posts publicly as a generated card |
 | `/provider list` / `models` | View chat provider info |
-| `/imgprovider list` | View image provider info |
+| `/provider image list` | View image provider info |
 | `/status` | Bot health, rate-limit usage, and active config |
 | `/clear` | Clear conversation memory for this channel |
 
@@ -584,13 +594,13 @@ Image generation always uses a separate provider from chat, so you can mix and m
 |---|---|
 | `/trigger add/remove/list` | Manage keyword auto-replies |
 | `/provider set` / `model` | Switch chat provider/model |
-| `/imgprovider set` | Switch image provider/model |
+| `/provider image set` | Switch image provider/model |
 | `/persona set` | Switch the server-wide default persona |
 | `/remind timezone` | Set a user's timezone for reminder scheduling |
 | `/welcome set-channel/toggle/status/test` | Configure new-member greetings (channel + on/off only — greeting itself is fixed) |
 | `/openchannel set/clear/status` | Designate the open/trial channel |
 | `/affection view` | View the exact score (yourself or, with `user:`, someone else) |
-| `/reload` | Clear all conversation memory, re-fetch app emojis and avatar files |
+| `/reload` | Clear all conversation memory, re-fetch app emojis, avatar files, and mood card backgrounds |
 
 ### Owner only
 | Command | Description |

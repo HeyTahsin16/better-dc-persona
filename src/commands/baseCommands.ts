@@ -1,17 +1,14 @@
 import { SlashCommand } from './types';
 
-import { imagineCommand } from './imagine';
-import { analyzeCommand } from './analyze';
+import { imageCommand } from './image';
 import { memoryCommand } from './memory';
 import { logsCommand } from './logs';
 import { statusCommand } from './status';
 import { personaCommand } from './persona';
-import { myPersonaCommand } from './myPersona';
 import { clearCommand } from './clear';
 import { triggerCommand } from './trigger';
 import { authCommand } from './auth';
 import { providerCommand } from './provider';
-import { imgProviderCommand } from './imgprovider';
 import { reloadCommand } from './reload';
 import { remindCommand } from './remind';
 import { welcomeCommand } from './welcome';
@@ -22,19 +19,23 @@ import { openChannelCommand } from './openChannel';
 // registry.ts needs both this list and /help — keeping /help itself out of this
 // array (registry.ts appends it separately) avoids a circular import between
 // registry.ts and help.ts.
+//
+// As of v3.8: /imagine + /analyze merged into /image; /imgprovider folded into
+// /provider (as an "image" subcommand group); /mypersona folded into /persona
+// (as a "my" subcommand group). See README changelog for the reasoning — in
+// short, each pair was doing the same *type* of thing (pick a provider, pick a
+// persona, do something with an image) under two separate top-level commands
+// for no real reason other than history.
 export const baseCommands: SlashCommand[] = [
-  imagineCommand,
-  analyzeCommand,
+  imageCommand,
   memoryCommand,
   logsCommand,
   statusCommand,
   personaCommand,
-  myPersonaCommand,
   clearCommand,
   triggerCommand,
   authCommand,
   providerCommand,
-  imgProviderCommand,
   reloadCommand,
   remindCommand,
   welcomeCommand,

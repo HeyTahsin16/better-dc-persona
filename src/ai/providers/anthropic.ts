@@ -58,7 +58,7 @@ export async function complete(prompt: string, systemPrompt: string): Promise<st
   return res.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('');
 }
 
-// One-shot image Q&A, no conversation history — used by /analyze and as a vision fallback.
+// One-shot image Q&A, no conversation history — used by /image analyze and as a vision fallback.
 export async function visionAnswer(imageBuffer: Buffer, mimeType: string, question: string, systemPrompt?: string): Promise<string> {
   const res = await getClient().messages.create({
     model: activeChatModel(),

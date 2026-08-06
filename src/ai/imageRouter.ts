@@ -9,7 +9,7 @@ import * as stability from './providers/stability';
 export async function generateImage(prompt: string): Promise<GeneratedImage> {
   switch (state.imageProvider) {
     case 'none':
-      throw new Error('Image generation is disabled. An admin can enable it with /imgprovider set.');
+      throw new Error('Image generation is disabled. An admin can enable it with /provider image set.');
     case 'gemini':
       return gemini.generateImage(prompt);
     case 'together':

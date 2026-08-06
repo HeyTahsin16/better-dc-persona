@@ -27,13 +27,13 @@ const DEFAULT_RESPONSE_LENGTH_RULE =
   'Keep replies short and conversational — about 1 to 5 sentences. Only go longer than that if the person explicitly asks for more detail, a list, a story, or something else that genuinely needs the extra length.';
 
 // The server-wide fallback persona (settable by Admin+ via /persona set) — used for
-// anyone who hasn't picked their own with /mypersona set.
+// anyone who hasn't picked their own with /persona my set.
 export function getActivePersona(): Persona {
   return getPersona(state.personaId) ?? Object.values(PERSONAS)[0];
 }
 
 // What a given user actually gets for a fresh @mention/DM: their own personal choice
-// if they've set one via /mypersona, otherwise the server-wide default. Reply-thread
+// if they've set one via /persona my, otherwise the server-wide default. Reply-thread
 // continuations don't use this — they resolve from the message they're replying to instead.
 export function resolvePersonaForUser(userId: string): Persona {
   const chosenId = getUserPersonaId(userId);

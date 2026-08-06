@@ -1,16 +1,21 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { SlashCommand } from './types';
-import { Role, ChatProviderName } from '../types';
+import { Role, ChatProviderName, ImageProviderName } from '../types';
 import { hasRole } from '../permissions/roles';
-import { state, setChatProvider, setChatModel, activeChatModel } from '../store/stateStore';
+import { state, setChatProvider, setChatModel, activeChatModel, setImageProvider, activeImageModel } from '../store/stateStore';
 import { clearAllHistory } from '../ai/history';
-import { PROVIDER_DEFAULTS, FREE_MODELS, CHAT_PROVIDER_NAMES } from '../constants';
+import { PROVIDER_DEFAULTS, FREE_MODELS, CHAT_PROVIDER_NAMES, IMAGE_PROVIDER_DEFAULTS, IMAGE_PROVIDER_NAMES } from '../constants';
 import { replyChunked } from '../utils/interactionReply';
 
+// Was two separate commands (/provider for chat, /imgprovider for images) —
+// both "pick which AI provider handles X", same shape, same USER/ADMIN split
+// per action. Chat stays at the top level unchanged (existing muscle memory:
+// /provider set, /provider list, etc. all still work exactly as before);
+// image provider management moves in as a subcommand group.
 export const providerCommand: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName('provider')
-    .setDescription('Manage the chat AI provider')
+    .setDescription('Manage the chat and image AI providers')
     .addSubcommand(s => s.setName('set').setDescription('[Admin+] Switch chat provider')
       .addStringOption(o => {
         o.setName('name').setDescription('Provider name').setRequired(true);
@@ -21,13 +26,42 @@ export const providerCommand: SlashCommand = {
     .addSubcommand(s => s.setName('model').setDescription('[Admin+] Set the chat model on the current provider')
       .addStringOption(o => o.setName('name').setDescription('Model name').setRequired(true)))
     .addSubcommand(s => s.setName('list').setDescription('List all chat providers'))
-    .addSubcommand(s => s.setName('models').setDescription('List free/default models for the current provider')),
+    .addSubcommand(s => s.setName('models').setDescription('List free/default models for the current provider'))
+    .addSubcommandGroup(g => g.setName('image').setDescription('Manage the image generation provider')
+      .addSubcommand(s => s.setName('set').setDescription('[Admin+] Switch image provider')
+        .addStringOption(o => {
+          o.setName('name').setDescription('Provider name').setRequired(true);
+          for (const p of IMAGE_PROVIDER_NAMES) o.addChoices({ name: p, value: p });
+          return o;
+        })
+        .addStringOption(o => o.setName('model').setDescription('Override model (leave blank for provider default)')))
+      .addSubcommand(s => s.setName('list').setDescription('List all image providers'))),
 
   minRole: Role.USER,
 
   async execute(interaction) {
+    const group = interaction.options.getSubcommandGroup();
     const sub = interaction.options.getSubcommand();
 
+    if (group === 'image') {
+      if (sub === 'list') {
+        const list = Object.entries(IMAGE_PROVIDER_DEFAULTS).map(([p, m]) => `${p === state.imageProvider ? '✅' : '•'} **${p}** — default: \`${m || 'n/a'}\``).join('\n');
+        await replyChunked(interaction, `**Image providers:**\n${list}`);
+        return;
+      }
+      // set
+      if (!hasRole(interaction.user.id, Role.ADMIN)) {
+        await interaction.reply({ content: '🚫 Admin only.', ephemeral: true });
+        return;
+      }
+      const name = interaction.options.getString('name', true) as ImageProviderName;
+      const model = interaction.options.getString('model') || '';
+      setImageProvider(name, model);
+      await interaction.reply(`✅ Image provider → **${state.imageProvider}** / model → \`${activeImageModel()}\`.`);
+      return;
+    }
+
+    // chat (unchanged from before the merge)
     if (sub === 'list') {
       const list = Object.entries(PROVIDER_DEFAULTS).map(([p, m]) => `${p === state.chatProvider ? '✅' : '•'} **${p}** — default: \`${m}\``).join('\n');
       await replyChunked(interaction, `**Chat providers:**\n${list}`);

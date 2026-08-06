@@ -61,7 +61,7 @@ export async function complete(backend: Backend, prompt: string, systemPrompt: s
   return res.choices[0]?.message?.content ?? '';
 }
 
-// One-shot image Q&A, no conversation history — used by /analyze and as a vision fallback.
+// One-shot image Q&A, no conversation history — used by /image analyze and as a vision fallback.
 export async function visionAnswer(backend: Backend, imageBuffer: Buffer, mimeType: string, question: string, systemPrompt?: string): Promise<string> {
   const dataUrl = `data:${mimeType};base64,${imageBuffer.toString('base64')}`;
   const messages = [

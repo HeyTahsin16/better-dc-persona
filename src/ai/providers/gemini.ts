@@ -45,7 +45,7 @@ export async function chatWithImage(
   return reply;
 }
 
-// One-shot image Q&A, no conversation history — used by /analyze and as a vision fallback.
+// One-shot image Q&A, no conversation history — used by /image analyze and as a vision fallback.
 export async function visionAnswer(imageBuffer: Buffer, mimeType: string, question: string, systemPrompt?: string): Promise<string> {
   const response = await getClient().models.generateContent({
     model: activeChatModel(),

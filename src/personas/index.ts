@@ -50,7 +50,7 @@ import { yukiSuou } from './yukiSuou';
 // ─── To add a new persona in the future ────────────────────────────────────
 // 1. Create src/personas/<id>.ts exporting a `Persona` object (copy an existing file as a template).
 // 2. Import it above and add it below, in alphabetical order by display name if convenient.
-// 3. Redeploy — it will show up in /persona list and can be activated with /persona set or /mypersona set.
+// 3. Redeploy — it will show up in /persona list and can be activated with /persona set or /persona my set.
 
 export const PERSONAS: Record<string, Persona> = {
   [hayasaka.id]: hayasaka,

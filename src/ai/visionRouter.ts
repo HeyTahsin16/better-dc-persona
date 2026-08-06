@@ -19,7 +19,7 @@ export async function describeImageForChat(buffer: Buffer, mimeType: string, que
   throw new Error('No vision-capable provider is configured. Set GEMINI_API_KEY, OPENAI_API_KEY, or ANTHROPIC_API_KEY.');
 }
 
-// User-facing image analysis (e.g. /analyze) — answers in the active persona's voice
+// User-facing image analysis (e.g. /image analyze) — answers in the active persona's voice
 // when the active chat provider supports vision, otherwise falls back to a neutral description.
 export async function analyzeImage(buffer: Buffer, mimeType: string, question: string, userId: string, username: string): Promise<string> {
   const systemPrompt = buildSystemPrompt(userId, username);

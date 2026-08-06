@@ -34,7 +34,7 @@ export interface Persona {
   // matches avatars/violet_evergarden.png (or .gif/.jpg/.webp).
   avatarKey: string;
   // Which bot version introduced this persona, e.g. "v3.0" — powers the optional
-  // "browse by version" filter in /persona set and /mypersona set. Purely organizational,
+  // "browse by version" filter in /persona set and /persona my set. Purely organizational,
   // has no runtime effect on the persona's behavior.
   addedInVersion: string;
   // Replaces the default "1-5 sentences" length rule entirely for this persona.
