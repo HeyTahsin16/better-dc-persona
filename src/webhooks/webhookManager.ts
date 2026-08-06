@@ -1,30 +1,49 @@
-import { TextChannel, NewsChannel, Webhook, WebhookType } from 'discord.js';
+import { TextChannel, NewsChannel, VoiceChannel, StageChannel, AnyThreadChannel, Webhook, WebhookType } from 'discord.js';
 import { logger } from '../logger';
 import { getAvatarUrl } from './avatarResolver';
 import { Persona } from '../types';
 import { recordPersonaMessage } from './threadTracker';
 import { chunkText } from '../utils/chunk';
 
-export type WebhookCapableChannel = TextChannel | NewsChannel;
+// Channels a persona reply might be sent to. Threads don't own a webhook of
+// their own (Discord's API has no such thing) — sending into a thread means
+// using its PARENT's webhook with `threadId` set. Voice channels, on the
+// other hand, genuinely do support their own webhook directly, same as a
+// normal text channel, so they need no special-casing beyond being included
+// in this type — only threads need the parent-resolution below.
+export type WebhookCapableChannel = TextChannel | NewsChannel | VoiceChannel | StageChannel | AnyThreadChannel;
+type WebhookHost = TextChannel | NewsChannel | VoiceChannel | StageChannel;
 
 const WEBHOOK_NAME = 'Persona Relay';
-const webhookCache = new Map<string, Webhook<WebhookType.Incoming>>(); // channelId -> webhook
+const webhookCache = new Map<string, Webhook<WebhookType.Incoming>>(); // hostChannelId -> webhook
+
+// A thread's messages are hosted by its parent channel's webhook (with `threadId`
+// set at send time) — the thread itself has no fetchWebhooks()/createWebhook() of
+// its own. Everything else can own a webhook directly.
+function resolveWebhookHost(channel: WebhookCapableChannel): WebhookHost | null {
+  if (!channel.isThread()) return channel;
+  const parent = channel.parent;
+  return parent instanceof TextChannel || parent instanceof NewsChannel ? parent : null;
+}
 
 async function getOrCreateWebhook(channel: WebhookCapableChannel): Promise<Webhook<WebhookType.Incoming> | null> {
-  const cached = webhookCache.get(channel.id);
+  const host = resolveWebhookHost(channel);
+  if (!host) return null; // e.g. a thread whose parent is a forum/media channel — no webhook home to use
+
+  const cached = webhookCache.get(host.id);
   if (cached) return cached;
 
   try {
-    const existing = await channel.fetchWebhooks();
+    const existing = await host.fetchWebhooks();
     let webhook = existing.find(w => w.name === WEBHOOK_NAME && w.isIncoming());
     if (!webhook) {
-      webhook = await channel.createWebhook({ name: WEBHOOK_NAME, reason: 'Persona relay for AI character replies' });
-      logger.info(`Created persona webhook in #${channel.name}`);
+      webhook = await host.createWebhook({ name: WEBHOOK_NAME, reason: 'Persona relay for AI character replies' });
+      logger.info(`Created persona webhook in #${host.name}`);
     }
-    webhookCache.set(channel.id, webhook as Webhook<WebhookType.Incoming>);
+    webhookCache.set(host.id, webhook as Webhook<WebhookType.Incoming>);
     return webhook as Webhook<WebhookType.Incoming>;
   } catch (err) {
-    logger.error(`Could not get/create a webhook in #${channel.name} — check the bot has "Manage Webhooks" permission`, err);
+    logger.error(`Could not get/create a webhook in #${host.name} — check the bot has "Manage Webhooks" permission`, err);
     return null;
   }
 }
@@ -50,12 +69,13 @@ export async function sendAsRawAI(
   const webhook = await getOrCreateWebhook(channel);
   if (!webhook) return null;
 
+  const threadId = channel.isThread() ? channel.id : undefined;
   const chunks = withMentionPrefix(chunkText(text), mentionUserId);
   const messageIds: string[] = [];
 
   try {
     for (const chunk of chunks) {
-      const sent = await webhook.send({ content: chunk, username: displayName });
+      const sent = await webhook.send({ content: chunk, username: displayName, ...(threadId ? { threadId } : {}) });
       messageIds.push(sent.id);
       recordPersonaMessage(sent.id, personaIdToResume, channel.id);
     }
@@ -76,6 +96,7 @@ export async function sendAsPersona(
   if (!webhook) return null;
 
   const avatarURL = getAvatarUrl(persona.avatarKey);
+  const threadId = channel.isThread() ? channel.id : undefined;
   const chunks = withMentionPrefix(chunkText(text), mentionUserId);
   const messageIds: string[] = [];
 
@@ -85,6 +106,7 @@ export async function sendAsPersona(
         content: chunk,
         username: persona.name,
         ...(avatarURL ? { avatarURL } : {}),
+        ...(threadId ? { threadId } : {}),
       });
       messageIds.push(sent.id);
       recordPersonaMessage(sent.id, persona.id, channel.id);

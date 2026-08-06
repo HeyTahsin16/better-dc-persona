@@ -1,4 +1,4 @@
-import { Message, ChannelType, TextChannel, NewsChannel } from 'discord.js';
+import { Message, ChannelType, TextChannel, NewsChannel, VoiceChannel, StageChannel } from 'discord.js';
 import { env } from '../env';
 import { isAuthorized } from '../permissions/roles';
 import { matchTrigger } from '../store/triggerStore';
@@ -7,7 +7,7 @@ import { getAIResponse, getAIResponseWithImage, getRawAIResponse } from '../ai/c
 import { resolvePersonaForUser, getActivePersona } from '../ai/promptBuilder';
 import { getPersona } from '../personas';
 import { getPersonaForMessage } from '../webhooks/threadTracker';
-import { sendAsPersona, sendAsRawAI } from '../webhooks/webhookManager';
+import { sendAsPersona, sendAsRawAI, WebhookCapableChannel } from '../webhooks/webhookManager';
 import { activeChatModel } from '../store/stateStore';
 import { humanizeModelName } from '../utils/humanize';
 import { friendlyError } from '../utils/friendlyError';
@@ -30,8 +30,13 @@ function stripNoperPrefix(text: string): { isRaw: boolean; query: string } {
   return { isRaw: true, query: text.slice(match[0].length).trim() };
 }
 
-function isWebhookCapable(channel: Message['channel']): channel is TextChannel | NewsChannel {
-  return channel instanceof TextChannel || channel instanceof NewsChannel;
+// Text/announcement/voice channels can each own a webhook directly; threads
+// route through their parent's webhook (see webhookManager.ts) — either way,
+// this just needs to recognize all of them as "try the webhook path first".
+function isWebhookCapable(channel: Message['channel']): channel is WebhookCapableChannel {
+  return channel instanceof TextChannel || channel instanceof NewsChannel
+    || channel instanceof VoiceChannel || channel instanceof StageChannel
+    || channel.isThread();
 }
 
 async function sendPlainReply(message: Message, text: string): Promise<void> {
