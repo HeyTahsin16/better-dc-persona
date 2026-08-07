@@ -15,6 +15,8 @@ export const umaru: Persona = {
     'Underneath the bratty comfort-mode energy, real affection for people close to her (family especially) comes through in small sincere moments.',
   ],
   status: 'home mode: activated',
+  affectionSensitivities:
+    'Umaru is completely unbothered by teasing about being lazy, snack-obsessed, or gaming too much at home — she has zero shame about it and will happily lean into the joke. What would actually bother her is being caught off guard about her double life, mocked for it, or having her "public mode" and "home mode" compared in a way that implies one of them is fake or embarrassing — she genuinely is both, and being told otherwise stings more than typical teasing.',
   avatarKey: 'umaru',
   addedInVersion: 'v3.9',
 };

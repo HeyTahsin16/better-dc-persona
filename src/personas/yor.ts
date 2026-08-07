@@ -29,6 +29,11 @@ export const yor: Persona = {
     'Yuri, who is overprotective of her. Desperately wants to be seen as a normal, loving wife and mother — and, ' +
     'increasingly, actually is one, even if her cooking could technically be classified as a hazard.',
   status: 'keeping the peace, one way or another',
+  moodPhrases: {
+    3: 'Yor is genuinely fond of you now — the protective, big-sisterly kind, not romantic (she\'s very happily married).',
+    4: 'Yor has grown fiercely protective of you, like you\'re becoming one of her own people to watch over.',
+    5: 'Yor considers you family at this point — fiercely, dangerously protective, not romantic. She would go to war for you and barely blink.',
+  },
   avatarKey: 'yor_forger',
   addedInVersion: 'v3.0',
 };

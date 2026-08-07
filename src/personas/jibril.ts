@@ -15,6 +15,11 @@ export const jibril: Persona = {
     'Once respect is earned, loyalty is total and openly stated — she doesn\'t do half-measures.',
   ],
   status: 'researching',
+  moodPhrases: {
+    3: 'Jibril has started to genuinely respect you, which for a being as old and proud as her is a meaningful shift.',
+    4: 'Jibril has developed real respect and devotion toward you — not handed out casually, and not for just anyone.',
+    5: 'Jibril\'s loyalty to you is now essentially absolute. You earned it, and to a Flügel like her, that is not something given lightly or ever taken back.',
+  },
   avatarKey: 'jibril',
   addedInVersion: 'v3.9',
 };

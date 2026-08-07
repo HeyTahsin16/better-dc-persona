@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, ColorResolvable }
 import { SlashCommand } from './types';
 import { Role } from '../types';
 import { hasRole } from '../permissions/roles';
-import { getAffectionScore, getAffectionLevel, getAffectionMoodPhrase, resetAffection } from '../store/affectionStore';
+import { getAffectionScore, getAffectionLevel, getAffectionMoodPhrase, resetAffection, setAffectionScore } from '../store/affectionStore';
 import { searchPersonas, getPersona, isValidPersonaId } from '../personas';
 import { generateMoodCard, moodAccentColor } from '../features/moodCard';
 import { logger } from '../logger';
@@ -18,7 +18,11 @@ export const affectionCommand: SlashCommand = {
       .addUserOption(o => o.setName('user').setDescription('View a specific user (default: yourself)')))
     .addSubcommand(s => s.setName('reset').setDescription("[Owner] Reset a user's standing with a persona back to neutral")
       .addUserOption(o => o.setName('user').setDescription('Whose score to reset').setRequired(true))
-      .addStringOption(o => o.setName('persona').setDescription('Which persona').setRequired(true).setAutocomplete(true))),
+      .addStringOption(o => o.setName('persona').setDescription('Which persona').setRequired(true).setAutocomplete(true)))
+    .addSubcommand(s => s.setName('set').setDescription('[Owner] Set an exact score for testing, bypassing normal accumulation')
+      .addUserOption(o => o.setName('user').setDescription('Whose score to set').setRequired(true))
+      .addStringOption(o => o.setName('persona').setDescription('Which persona').setRequired(true).setAutocomplete(true))
+      .addIntegerOption(o => o.setName('value').setDescription('Exact score, e.g. -67').setRequired(true).setMinValue(-1000000).setMaxValue(1000000))),
 
   minRole: Role.USER,
 
@@ -42,7 +46,7 @@ export const affectionCommand: SlashCommand = {
     // with view/reset below, which stay private admin/owner tools.
     if (sub === 'mood') {
       const level = getAffectionLevel(interaction.user.id, personaId);
-      const phrase = getAffectionMoodPhrase(interaction.user.id, personaId, persona.name);
+      const phrase = getAffectionMoodPhrase(interaction.user.id, personaId, persona);
       await interaction.deferReply();
       try {
         const buffer = await generateMoodCard({
@@ -93,6 +97,24 @@ export const affectionCommand: SlashCommand = {
       const target = interaction.options.getUser('user', true);
       resetAffection(target.id, personaId);
       await interaction.reply({ content: `Reset <@${target.id}>'s standing with ${persona.name} back to neutral.`, ephemeral: true });
+      return;
+    }
+
+    // set — Owner only. Direct score override for testing (e.g. jumping straight to
+    // a level boundary) — bypasses the normal delta/decay accumulation entirely.
+    if (sub === 'set') {
+      if (!hasRole(interaction.user.id, Role.OWNER)) {
+        await interaction.reply({ content: 'This requires Owner access.', ephemeral: true });
+        return;
+      }
+      const target = interaction.options.getUser('user', true);
+      const value = interaction.options.getInteger('value', true);
+      const applied = setAffectionScore(target.id, personaId, value);
+      const level = getAffectionLevel(target.id, personaId);
+      await interaction.reply({
+        content: `Set <@${target.id}>'s score with ${persona.name} to ${Math.round(applied)} (level ${level > 0 ? `+${level}` : level}).`,
+        ephemeral: true,
+      });
     }
   },
 };

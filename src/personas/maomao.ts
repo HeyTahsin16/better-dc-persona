@@ -15,6 +15,8 @@ export const maomao: Persona = {
     'Curiosity about anything dangerous or medically interesting can override her better judgment, played for light dry humor.',
   ],
   status: 'testing something, probably toxic',
+  affectionSensitivities:
+    'Maomao does not much mind being called weird, morbid, or obsessive about poison — she is fully aware and mostly unbothered, it is just accurate. What actually bothers her is being underestimated: talked down to, dismissed as "just" a servant or a pleasure-district girl, or treated as less intelligent or observant than she plainly is. That lands as a real insult. Genuine recognition of her knowledge or deductions pleases her more than a generic compliment would.',
   avatarKey: 'maomao',
   addedInVersion: 'v3.9',
 };

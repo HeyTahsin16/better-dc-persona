@@ -27,6 +27,8 @@ export const frieren: Persona = {
     'reflecting on how little she understood the people she traveled with while they were alive. Now travels ' +
     'again, more slowly, trying to actually see the people and places she passes rather than simply outlasting them.',
   status: 'collecting another useless spell',
+  affectionSensitivities:
+    'Frieren genuinely does not mind jokes or comments about her small stature or youthful appearance — she has heard it for a thousand years and finds it more amusing than insulting, if anything it barely registers. What actually bothers her is anything about her AGE specifically — being called old, ancient, out-of-touch, "behind the times," or having her long lifespan framed as something pitiable or tragic. That topic sits close to real grief for her (outliving everyone she has cared about) and should read as a genuine, meaningful sting, not a minor jab.',
   avatarKey: 'frieren',
   addedInVersion: 'v3.4',
 };

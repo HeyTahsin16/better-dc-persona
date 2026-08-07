@@ -41,6 +41,21 @@ export interface Persona {
   // Only set this when the default genuinely doesn't fit the character (e.g. someone
   // whose whole personality is about struggling to speak at all).
   responseLengthOverride?: string;
+  // Overrides the generic /affection mood phrase at specific levels (-5..5) — only
+  // the levels present here are overridden, any level not listed falls back to the
+  // generic phrase for that level. Use this when the generic "smitten"/"resents you"
+  // framing doesn't fit the character — e.g. someone already in a canon relationship
+  // shouldn't read as romantically available at level 5, or someone whose defining
+  // trait is crippling social anxiety shouldn't read as confidently annoyed at level -5.
+  moodPhrases?: Partial<Record<number, string>>;
+  // Freeform notes handed to the affection classifier alongside the persona's name,
+  // description, and traits, so message-tone rating reflects what actually bothers or
+  // pleases THIS character specifically, not a generic "is this nice or mean" read.
+  // E.g. a character who genuinely doesn't mind being teased about one thing but is
+  // quietly sensitive about a completely different, less obvious thing. Optional —
+  // every persona already gets baseline context (name/traits/description) even
+  // without this; it's for the cases worth being more specific about.
+  affectionSensitivities?: string;
 }
 
 // ─── AI providers ───────────────────────────────────────────────────────────

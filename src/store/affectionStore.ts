@@ -117,6 +117,19 @@ export function applyAffectionDelta(userId: string, personaId: string, delta: nu
   return next;
 }
 
+// Directly overwrites the score (as opposed to applyAffectionDelta, which adds to it) —
+// for /affection set, mainly so testing doesn't require actually accumulating real
+// messages to reach a given level. Resets lastUpdatedAt too, so decay starts fresh
+// from the moment it's set rather than being backdated against whenever the record
+// last existed.
+export function setAffectionScore(userId: string, personaId: string, value: number): number {
+  const clamped = Math.max(-MAX_SCORE, Math.min(MAX_SCORE, value));
+  const store = load();
+  store[recordKey(userId, personaId)] = { score: clamped, lastUpdatedAt: new Date().toISOString() };
+  save(store);
+  return clamped;
+}
+
 export function resetAffection(userId: string, personaId: string): void {
   const store = load();
   delete store[recordKey(userId, personaId)];
@@ -149,8 +162,10 @@ const MOOD_PHRASES = new Map<number, (name: string) => string>([
   [-5, name => `${name} wants nothing to do with you right now.`],
 ]);
 
-export function getAffectionMoodPhrase(userId: string, personaId: string, personaName: string): string {
+export function getAffectionMoodPhrase(userId: string, personaId: string, persona: { name: string; moodPhrases?: Partial<Record<number, string>> }): string {
   const level = getAffectionLevel(userId, personaId);
+  const override = persona.moodPhrases?.[level];
+  if (override) return override;
   const phraseFn = MOOD_PHRASES.get(level) ?? MOOD_PHRASES.get(0)!;
-  return phraseFn(personaName);
+  return phraseFn(persona.name);
 }

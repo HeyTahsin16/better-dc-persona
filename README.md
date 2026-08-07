@@ -6,6 +6,14 @@ This replaces the old single-file `bot.js` project entirely. See **[Migrating fr
 
 ---
 
+## What's new in v3.10
+
+| Area | What changed |
+|---|---|
+| Persona-specific affection moods | `/affection mood` phrasing can now be overridden per persona at any level (-5..5). In use for Yor (caps out at fierce protectiveness/family, not romance, since she's canonically married), Bocchi (full custom arc — goes nonverbal at rock bottom, sends `.......` at level -5, stays shy-but-happy rather than confidently smitten at the top), Makima, Tatsumaki, Echidna, Jibril, Megumin, and Mashiro Shiina. Any persona without an override uses the existing generic phrasing, unchanged |
+| Persona-aware message rating | The classifier deciding whether a message raises or lowers someone's score now sees which character is being addressed — their traits and description always, plus specific notes on what actually pleases or bothers them for a subset of personas (Frieren, Tatsumaki, Megumin, Bocchi, Maomao, Power, Umaru) — instead of rating every message identically regardless of who it's sent to |
+| `/affection set` | New Owner-only subcommand — set an exact score for a specific user and persona directly (e.g. `-67`), bypassing normal accumulation. Mainly for testing |
+
 ## What's new in v3.9
 
 | Area | What changed |
@@ -224,7 +232,7 @@ Three tiers, each a superset of the one below it:
 
 | Role | Set by | Can do |
 |---|---|---|
-| **Owner** | `OWNER_ID` env var (exactly one) | Everything, plus `/auth`, `/memory`, and `/affection reset` (the only owner-exclusive commands) |
+| **Owner** | `OWNER_ID` env var (exactly one) | Everything, plus `/auth`, `/memory`, `/affection reset`, and `/affection set` (the only owner-exclusive commands) |
 | **Admin** | `/auth add role:Admin` | Reload, switch chat/image provider, manage triggers, set reminder timezones, configure welcome messages and the open/trial channel, switch the server-wide default persona (`/persona set`), view exact affection scores (`/affection view`), everything Normal can do |
 | **Normal** | `/auth add role:Normal` | Chat with the bot, `/image create/analyze`, `/remind` (set/list/cancel), `/persona my`, `/affection mood`, view logs |
 
@@ -428,7 +436,7 @@ Memories are also **scoped to whichever persona is currently active** (`/persona
 
 Each persona silently tracks how a person treats them, per (user, persona) pair, and it colors their tone over time — entirely automatic, no manual input.
 
-**How it works:** every message sent to a persona is quietly rated by a separate, deliberately neutral AI call — a strict sentiment classifier, not the character itself — on a scale from -100 to 100. That delta accumulates into a running score. The classifier is explicitly instructed not to default to a positive rating out of politeness (a real tendency some models have); ordinary small talk should land near 0, and only genuinely kind or genuinely hostile messages should move the needle. It's also instructed to discount bare, unembellished declarations like "I love you" with no other substance, since those cost nothing to say.
+**How it works:** every message sent to a persona is quietly rated by a separate, deliberately neutral AI call — a strict sentiment classifier, not the character itself — on a scale from -100 to 100. The classifier is told which persona the message was sent to (their traits, description, and, for some personas, specific notes on what actually pleases or bothers them) rather than rating every message identically regardless of character — the same line can land completely differently depending on who it's said to (Frieren doesn't mind being called small; she minds being called old). That delta accumulates into a running score. The classifier is explicitly instructed not to default to a positive rating out of politeness (a real tendency some models have); ordinary small talk should land near 0, and only genuinely kind or genuinely hostile messages should move the needle. It's also instructed to discount bare, unembellished declarations like "I love you" with no other substance, since those cost nothing to say.
 
 **Levels** (score thresholds, symmetric positive/negative):
 
@@ -461,9 +469,10 @@ Decay is computed lazily from elapsed wall-clock time whenever a score is touche
 /affection view persona:asuna                         — exact score for yourself (Admin+)
 /affection view persona:asuna user:@Alex              — exact score for someone else (Admin+)
 /affection reset user:@Alex persona:asuna             — reset to neutral (Owner)
+/affection set user:@Alex persona:asuna value:-67     — set an exact score directly, bypassing normal accumulation (Owner, mainly for testing)
 ```
 
-`/affection mood` is the one built for casually checking in without spoiling the fun with exact numbers — rather than a bare score, it posts publicly as a generated card: the persona's art centered over a background, with a short line like "Frieren seems to have a decent impression of you" on a frosted glass panel underneath. Backgrounds are per-persona — drop an image in `backgrounds/` named after that persona's avatarKey, same convention as `avatars/` (see `backgrounds/README.md`) — and personas without one yet just fall back to a generated gradient. `/affection view` is the precise, numeric version for admins who want to actually audit or debug it, and stays private and Admin+ like before.
+`/affection mood` is the one built for casually checking in without spoiling the fun with exact numbers — rather than a bare score, it posts publicly as a generated card: the persona's art centered over a background, with a short line like "Frieren seems to have a decent impression of you" on a frosted glass panel underneath. The phrasing at each level can be overridden per persona (see `moodPhrases` on the `Persona` type) for characters where the generic "smitten"/"resents you" framing doesn't fit — a handful of personas already have full or partial custom sets, everyone else uses the shared default. Backgrounds are per-persona — drop an image in `backgrounds/` named after that persona's avatarKey, same convention as `avatars/` (see `backgrounds/README.md`) — and personas without one yet just fall back to a generated gradient. `/affection view` is the precise, numeric version for admins who want to actually audit or debug it, and stays private and Admin+ like before.
 
 > **Cost note:** this roughly doubles API calls per conversational message (one for the reply, one for the classifier), which is exactly why the [rate limit guard](#monitoring--logging) below exists — make sure `CHAT_RATE_LIMIT_PER_MINUTE` is set to something safely under your provider's actual per-minute cap.
 
@@ -614,6 +623,7 @@ Image generation always uses a separate provider from chat, so you can mix and m
 | `/auth add/remove/set-role/list` | Manage who can use the bot and at what level |
 | `/memory add/remove/add-global/remove-global/list` | Manage what the active persona (or every persona, for global facts) knows |
 | `/affection reset` | Reset a user's standing with a persona back to neutral |
+| `/affection set` | Set an exact score for a user and persona directly — bypasses normal accumulation, mainly for testing |
 
 ---
 

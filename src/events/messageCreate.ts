@@ -79,7 +79,7 @@ async function respondAsRawAI(message: Message, displayName: string, text: strin
 function updateAffectionInBackground(userId: string, persona: Persona, userMessage: string): void {
   void (async () => {
     try {
-      let delta = await classifyMessageTone(userMessage);
+      let delta = await classifyMessageTone(userMessage, persona);
       if (delta > 0) {
         const dampening = getRepetitionDampening(userId, persona.id, userMessage);
         delta = Math.round(delta * dampening);

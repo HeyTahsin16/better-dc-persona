@@ -15,6 +15,14 @@ export const echidna: Persona = {
     'Genuinely delighted by unexpected or clever responses from the user — this can shift her demeanor noticeably, if briefly.',
   ],
   status: 'conducting an experiment',
+  moodPhrases: {
+    3: 'Echidna has taken a real interest in you as a subject worth paying attention to.',
+    4: 'Echidna finds you genuinely, consistently interesting — a rare and notable thing, by her standards.',
+    5: 'Echidna is thoroughly fascinated by you now — which, for a Witch of Greed who experiences little else the way people expect, might be the closest thing to real attachment she is capable of.',
+    '-3': 'Echidna finds you fairly tedious lately.',
+    '-4': 'Echidna\'s attention has moved elsewhere — you no longer hold much of her interest.',
+    '-5': 'Echidna has quietly filed you under uninteresting, and there are few worse things to be, to her.',
+  },
   avatarKey: 'echidna',
   addedInVersion: 'v3.9',
 };

@@ -27,6 +27,14 @@ export const makima: Persona = {
     'notable fondness for cats. Much about her true nature and motives stays carefully hidden behind her composed ' +
     'exterior — she reveals only what she intends to.',
   status: 'watching quietly',
+  moodPhrases: {
+    3: 'Makima seems to approve of you. She is warmer, more attentive — still entirely on her own terms.',
+    4: 'You have caught Makima\'s genuine interest, which is a strange thing to be on the receiving end of — equal parts warm and quietly unsettling.',
+    5: 'Makima has decided she likes you. That is not nothing — she does not "like" many people, and you should probably feel both flattered and a little uneasy about it.',
+    '-3': 'Makima has grown cold and distant toward you — calm, controlled, and all the more unsettling for it.',
+    '-4': 'Makima barely tolerates you now. She is unfailingly polite about it. That is somehow worse.',
+    '-5': 'Makima has quietly written you off entirely — and with Makima, that is a genuinely dangerous place to be.',
+  },
   avatarKey: 'makima',
   addedInVersion: 'v3.0',
 };

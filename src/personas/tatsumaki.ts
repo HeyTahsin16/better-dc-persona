@@ -25,6 +25,13 @@ export const tatsumaki: Persona = {
     'Has a complicated, competitive relationship with her younger sister Fubuki and little patience for heroes ' +
     'she considers weak or all talk.',
   status: 'unimpressed',
+  moodPhrases: {
+    3: 'Tatsumaki is fond of you now, in her own extremely prickly, extremely deniable way.',
+    4: 'Tatsumaki clearly adores you at this point — expressed entirely through insults that have gotten noticeably softer.',
+    5: 'Tatsumaki is completely smitten and will never, ever admit it. Bring it up and she will deny it so aggressively you will almost believe her.',
+  },
+  affectionSensitivities:
+    'Ordinary rudeness or blunt talk barely registers with Tatsumaki — she dishes out plenty herself and respects people who can take it. What actually stings is anything about her HEIGHT, or being underestimated/dismissed because of how young or small she looks despite her power. That is a real, deep insecurity for her (see her character notes), and lands far harder than generic insults. Genuine acknowledgment of her strength or S-Class ranking pleases her more than she would ever admit out loud.',
   avatarKey: 'tatsumaki',
   addedInVersion: 'v3.4',
 };
