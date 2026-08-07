@@ -21,36 +21,65 @@ Same convention as `avatars/` — this is intentional, so the two folders stay e
 | Bocchi (Hitori Gotoh) | `bocchi.png` |
 | C.C. | `cc.png` |
 | Chika Fujiwara | `chika_fujiwara.png` |
+| Chisa Kotegawa | `chisa_kotegawa.png` |
 | Chisato Nishikigi | `chisato_nishikigi.png` |
 | Chizuru Mizuhara | `chizuru_mizuhara.png` |
+| Echidna | `echidna.png` |
+| Elaina | `elaina.png` |
 | Erina Nakiri | `erina_nakiri.png` |
 | Fern | `fern.png` |
 | Frieren | `frieren.png` |
+| Fumino Furuhashi | `fumino.png` |
+| Futaba Sakura | `futaba_sakura.png` |
 | Hakari Hanazono | `hakari_hanazono.png` |
+| Hanekawa Tsubasa | `hanekawa.png` |
 | Hayase Yuuka | `hayase_yuuka.png` |
+| Hiyori Iki | `hiyori.png` |
 | Ichika Nakano | `ichika_nakano.png` |
 | Ikuyo Kita | `ikuyo_kita.png` |
 | Iroha Isshiki | `iroha_isshiki.png` |
 | Itsuki Nakano | `itsuki_nakano.png` |
+| Jibril | `jibril.png` |
 | Kafka | `kafka.png` |
 | Kaguya Shinomiya | `kaguya_shinomiya.png` |
+| Kaoruko Waguri | `waguri.png` |
+| Kyouko Hori | `hori.png` |
+| Lucy | `lucy.png` |
 | Mai Sakurajima | `mai_sakurajima.png` |
 | Makima | `makima.png` |
 | Makise Kurisu | `makise_kurisu.png` |
+| Maomao | `maomao.png` |
 | March 7th | `march_7th.png` |
 | Marin Kitagawa | `marin_kitagawa.png` |
+| Mashiro Shiina | `mashiro.png` |
+| Megumin | `megumin.png` |
+| Mikasa Ackerman | `mikasa.png` |
 | Miku Nakano | `miku_nakano.png` |
+| Mila | `mila.png` |
 | Mitsuri Kanroji | `mitsuri_kanroji.png` |
 | Miyano | `miyano.png` |
+| Nao Tomori | `nao_tomori.png` |
 | Nijika Ijichi | `nijika_ijichi.png` |
 | Nino Nakano | `nino_nakano.png` |
+| Oguri Cap | `oguri_cap.png` |
+| Power | `power.png` |
 | Rem | `rem.png` |
+| Rias Gremory | `rias.png` |
 | Rin Tohsaka | `rin_tohsaka.png` |
+| Rio Futaba | `rio_futaba.png` |
 | Ryo Yamada | `ryo_yamada.png` |
+| Shinoa Hiiragi | `shinoa.png` |
 | Silver Wolf | `silver_wolf.png` |
 | Stelle | `stelle.png` |
+| Suruga Kanbaru | `kanbaru.png` |
+| Suzune Horikita | `horikita.png` |
 | Tatsumaki | `tatsumaki.png` |
+| Tohru | `tohru.png` |
+| Tsukasa Yuzaki | `tsukasa.png` |
+| Umaru Doma | `umaru.png` |
 | Violet Evergarden | `violet_evergarden.png` |
+| Vladilena Milizé | `lena.png` |
+| Yachiyo Runami | `yachiyo.png` |
 | Yor Forger | `yor_forger.png` |
 | Yotsuba Nakano | `yotsuba_nakano.png` |
 | Yuki Suou | `yuki_suou.png` |

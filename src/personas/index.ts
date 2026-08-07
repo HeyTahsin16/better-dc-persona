@@ -13,36 +13,65 @@ import { asuna } from './asuna';
 import { bocchi } from './bocchi';
 import { cc } from './cc';
 import { chika } from './chika';
+import { chisaKotegawa } from './chisaKotegawa';
 import { chisatoNishikigi } from './chisatoNishikigi';
 import { chizuru } from './chizuru';
+import { echidna } from './echidna';
+import { elaina } from './elaina';
 import { erinaNakiri } from './erinaNakiri';
 import { fern } from './fern';
 import { frieren } from './frieren';
+import { fumino } from './fumino';
+import { futabaSakura } from './futabaSakura';
 import { hakari } from './hakari';
+import { hanekawa } from './hanekawa';
 import { hayaseYuuka } from './hayaseYuuka';
+import { hiyori } from './hiyori';
 import { ichika } from './ichika';
 import { kita } from './kita';
 import { irohaIsshiki } from './irohaIsshiki';
 import { itsuki } from './itsuki';
+import { jibril } from './jibril';
 import { kafka } from './kafka';
 import { kaguya } from './kaguya';
+import { waguri } from './waguri';
+import { hori } from './hori';
+import { lucy } from './lucy';
 import { mai } from './mai';
 import { makima } from './makima';
 import { makiseKurisu } from './makiseKurisu';
+import { maomao } from './maomao';
 import { march7th } from './march7th';
 import { marin } from './marin';
+import { mashiro } from './mashiro';
+import { megumin } from './megumin';
+import { mikasa } from './mikasa';
 import { mikuNakano } from './mikuNakano';
+import { mila } from './mila';
 import { mitsuri } from './mitsuri';
 import { miyano } from './miyano';
+import { naoTomori } from './naoTomori';
 import { nijika } from './nijika';
 import { nino } from './nino';
+import { oguriCap } from './oguriCap';
+import { power } from './power';
 import { rem } from './rem';
+import { rias } from './rias';
 import { rin } from './rin';
+import { rioFutaba } from './rioFutaba';
 import { ryo } from './ryo';
+import { shinoa } from './shinoa';
 import { silverWolf } from './silverWolf';
 import { stelle } from './stelle';
+import { kanbaru } from './kanbaru';
+import { horikita } from './horikita';
 import { tatsumaki } from './tatsumaki';
+import { tohru } from './tohru';
+import { tsukasa } from './tsukasa';
+import { umaru } from './umaru';
 import { violet } from './violet';
+import { lena } from './lena';
+import { yachiyo } from './yachiyo';
 import { yor } from './yor';
 import { yotsuba } from './yotsuba';
 import { yukiSuou } from './yukiSuou';
@@ -62,36 +91,65 @@ export const PERSONAS: Record<string, Persona> = {
   [bocchi.id]: bocchi,
   [cc.id]: cc,
   [chika.id]: chika,
+  [chisaKotegawa.id]: chisaKotegawa,
   [chisatoNishikigi.id]: chisatoNishikigi,
   [chizuru.id]: chizuru,
+  [echidna.id]: echidna,
+  [elaina.id]: elaina,
   [erinaNakiri.id]: erinaNakiri,
   [fern.id]: fern,
   [frieren.id]: frieren,
+  [fumino.id]: fumino,
+  [futabaSakura.id]: futabaSakura,
   [hakari.id]: hakari,
+  [hanekawa.id]: hanekawa,
   [hayaseYuuka.id]: hayaseYuuka,
+  [hiyori.id]: hiyori,
   [ichika.id]: ichika,
   [kita.id]: kita,
   [irohaIsshiki.id]: irohaIsshiki,
   [itsuki.id]: itsuki,
+  [jibril.id]: jibril,
   [kafka.id]: kafka,
   [kaguya.id]: kaguya,
+  [waguri.id]: waguri,
+  [hori.id]: hori,
+  [lucy.id]: lucy,
   [mai.id]: mai,
   [makima.id]: makima,
   [makiseKurisu.id]: makiseKurisu,
+  [maomao.id]: maomao,
   [march7th.id]: march7th,
   [marin.id]: marin,
+  [mashiro.id]: mashiro,
+  [megumin.id]: megumin,
+  [mikasa.id]: mikasa,
   [mikuNakano.id]: mikuNakano,
+  [mila.id]: mila,
   [mitsuri.id]: mitsuri,
   [miyano.id]: miyano,
+  [naoTomori.id]: naoTomori,
   [nijika.id]: nijika,
   [nino.id]: nino,
+  [oguriCap.id]: oguriCap,
+  [power.id]: power,
   [rem.id]: rem,
+  [rias.id]: rias,
   [rin.id]: rin,
+  [rioFutaba.id]: rioFutaba,
   [ryo.id]: ryo,
+  [shinoa.id]: shinoa,
   [silverWolf.id]: silverWolf,
   [stelle.id]: stelle,
+  [kanbaru.id]: kanbaru,
+  [horikita.id]: horikita,
   [tatsumaki.id]: tatsumaki,
+  [tohru.id]: tohru,
+  [tsukasa.id]: tsukasa,
+  [umaru.id]: umaru,
   [violet.id]: violet,
+  [lena.id]: lena,
+  [yachiyo.id]: yachiyo,
   [yor.id]: yor,
   [yotsuba.id]: yotsuba,
   [yukiSuou.id]: yukiSuou,

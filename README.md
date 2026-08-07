@@ -6,6 +6,12 @@ This replaces the old single-file `bot.js` project entirely. See **[Migrating fr
 
 ---
 
+## What's new in v3.9
+
+| Area | What changed |
+|---|---|
+| 29 new personas | Mikasa Ackerman, Power, Futaba Sakura, Rias Gremory, Jibril, Hanekawa Tsubasa, Tohru, Mila, Maomao, Mashiro Shiina, Vladilena Milizé, Kyouko Hori, Nao Tomori, Lucy, Shinoa Hiiragi, Elaina, Tsukasa Yuzaki, Echidna, Suruga Kanbaru, Kaoruko Waguri, Umaru Doma, Rio Futaba, Chisa Kotegawa, Suzune Horikita, Hiyori Iki, Megumin, Fumino Furuhashi, Oguri Cap, and Yachiyo Runami — roster is now 71 personas. As always, browsable with `/persona list version:v3.9` or by name via autocomplete on `/persona set` / `/persona my set` |
+
 ## What's new in v3.8
 
 | Area | What changed |
@@ -115,7 +121,7 @@ discord-persona-bot/
 │ ├── logger.ts Structured logger
 │ ├── store/ JSON-backed persistence (auth, memories, triggers, state, reminders, welcome, chat logs)
 │ ├── permissions/roles.ts Role resolution (Owner/Admin/Normal)
-│ ├── personas/ 8 persona definitions + registry (expandable)
+│ ├── personas/ One file per persona + registry (71 currently, see Personas below — easy to add more)
 │ ├── ai/
 │ │ ├── promptBuilder.ts Builds the system prompt (persona + memories + emojis + safety)
 │ │ ├── chatRouter.ts Dispatches to the active chat provider, retries, logs
