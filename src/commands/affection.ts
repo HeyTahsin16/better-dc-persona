@@ -5,6 +5,7 @@ import { hasRole } from '../permissions/roles';
 import { getAffectionScore, getAffectionLevel, getAffectionMoodPhrase, resetAffection, setAffectionScore } from '../store/affectionStore';
 import { searchPersonas, getPersona, isValidPersonaId } from '../personas';
 import { generateMoodCard, moodAccentColor } from '../features/moodCard';
+import { buildRatingPrompt } from '../features/ratingPrompt';
 import { logger } from '../logger';
 
 export const affectionCommand: SlashCommand = {
@@ -61,7 +62,8 @@ export const affectionCommand: SlashCommand = {
           .setAuthor({ name: interaction.user.displayName, iconURL: interaction.user.displayAvatarURL() })
           .setImage('attachment://mood-card.png')
           .setFooter({ text: persona.source });
-        await interaction.editReply({ embeds: [embed], files: [attachment] });
+        const { embed: rateEmbed, row: rateRow } = buildRatingPrompt(persona.id, persona.name);
+        await interaction.editReply({ embeds: [embed, rateEmbed], files: [attachment], components: [rateRow] });
       } catch (err) {
         logger.error('[affection] Mood card generation failed, falling back to text', err);
         await interaction.editReply({ content: phrase });

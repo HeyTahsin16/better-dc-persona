@@ -11,6 +11,8 @@ import { NEUTRAL_PERSONA_ID } from '../constants';
 import { replyChunked } from '../utils/interactionReply';
 import { getAvatarFilePath } from '../webhooks/avatarResolver';
 import { getBackgroundFilePath } from '../features/moodCard';
+import { buildRatingPrompt } from '../features/ratingPrompt';
+import { setRating, getPersonaRatingStats, getLeaderboard } from '../store/ratingStore';
 import { logger } from '../logger';
 
 // Deterministic per-persona accent color (hash the avatarKey -> hue, fixed
@@ -44,6 +46,10 @@ export const personaCommand: SlashCommand = {
     .addSubcommand(s => s.setName('current').setDescription('Show the server-wide default persona'))
     .addSubcommand(s => s.setName('profile').setDescription("View a character's profile: avatar, bio, and background art")
       .addStringOption(o => o.setName('persona').setDescription('Which persona').setRequired(true).setAutocomplete(true)))
+    .addSubcommand(s => s.setName('rate').setDescription('Rate how lore-accurate a persona feels, 1-10')
+      .addStringOption(o => o.setName('persona').setDescription('Which persona').setRequired(true).setAutocomplete(true))
+      .addIntegerOption(o => o.setName('rating').setDescription('1 (not accurate) to 10 (perfectly accurate)').setRequired(true).setMinValue(1).setMaxValue(10)))
+    .addSubcommand(s => s.setName('leaderboard').setDescription('Top personas by lore-accuracy rating'))
     .addSubcommand(s => s.setName('list').setDescription('List all available personas')
       .addStringOption(o => {
         o.setName('version').setDescription('Optional: only show personas added in a specific version');
@@ -151,13 +157,22 @@ export const personaCommand: SlashCommand = {
           .setDescription(persona.description)
           .setFooter({ text: persona.source });
 
+        // Rating sits right after the name in the author line — there's no
+        // "right side of a line" concept in a Discord embed, so appending it
+        // to the same string is the closest real equivalent.
+        const stats = getPersonaRatingStats(persona.id);
+        const ratingText = stats
+          ? `⭐ ${stats.average.toFixed(1)}/10 (${stats.count} rating${stats.count === 1 ? '' : 's'})`
+          : '⭐ Not yet rated';
+        const authorName = `${persona.name}  ·  ${ratingText}`;
+
         const avatarPath = getAvatarFilePath(persona.avatarKey);
         if (avatarPath) {
           const avatarFile = `persona-avatar${path.extname(avatarPath)}`;
           files.push(new AttachmentBuilder(avatarPath, { name: avatarFile }));
-          embed.setAuthor({ name: persona.name, iconURL: `attachment://${avatarFile}` });
+          embed.setAuthor({ name: authorName, iconURL: `attachment://${avatarFile}` });
         } else {
-          embed.setAuthor({ name: persona.name });
+          embed.setAuthor({ name: authorName });
         }
 
         // Raw background art, unedited — no avatar composited on top, unlike
@@ -170,11 +185,47 @@ export const personaCommand: SlashCommand = {
           embed.setImage(`attachment://${bgFile}`);
         }
 
-        await interaction.editReply({ embeds: [embed], files });
+        const { embed: rateEmbed, row: rateRow } = buildRatingPrompt(persona.id, persona.name);
+        await interaction.editReply({ embeds: [embed, rateEmbed], files, components: [rateRow] });
       } catch (err) {
         logger.error('[persona] Profile command failed', err);
         await interaction.editReply({ content: `**${persona.name}** — *${persona.source}*\n${persona.description}` });
       }
+      return;
+    }
+
+    if (sub === 'rate') {
+      const id = interaction.options.getString('persona', true);
+      if (!isValidPersonaId(id)) {
+        await interaction.reply({ content: `❌ Unknown persona \`${id}\` — try searching again with the autocomplete list.`, ephemeral: true });
+        return;
+      }
+      const persona = getPersona(id)!;
+      const rating = interaction.options.getInteger('rating', true);
+      setRating(interaction.user.id, id, rating);
+      const stats = getPersonaRatingStats(id)!; // guaranteed non-null, we just wrote a rating
+      await interaction.reply({
+        content: `Thanks! You rated **${persona.name}** ${rating}/10 for lore accuracy. (${persona.name} is now at ${stats.average.toFixed(1)}/10 across ${stats.count} rating${stats.count === 1 ? '' : 's'}.)`,
+        ephemeral: true,
+      });
+      return;
+    }
+
+    if (sub === 'leaderboard') {
+      const entries = getLeaderboard();
+      if (!entries.length) {
+        await interaction.reply({ content: 'No personas have been rated yet — be the first with `/persona rate` or the rating prompt under `/affection mood` / `/persona profile`!', ephemeral: true });
+        return;
+      }
+      const top = entries.slice(0, 20);
+      const medal = (i: number) => (i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`);
+      const lines = top.map((entry, i) => {
+        const persona = getPersona(entry.personaId);
+        const name = persona ? persona.name : entry.personaId; // defensive: persona removed since being rated
+        return `${medal(i)} **${name}** — ⭐ ${entry.average.toFixed(1)}/10 (${entry.count} rating${entry.count === 1 ? '' : 's'})`;
+      });
+      const title = `**🏆 Lore-Accuracy Leaderboard**${entries.length > top.length ? ` — top ${top.length} of ${entries.length} rated` : ''}`;
+      await replyChunked(interaction, `${title}\n${lines.join('\n')}`, false);
       return;
     }
 

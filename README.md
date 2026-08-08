@@ -6,6 +6,12 @@ This replaces the old single-file `bot.js` project entirely. See **[Migrating fr
 
 ---
 
+## What's new in v3.11
+
+| Area | What changed |
+|---|---|
+| Persona ratings | New community rating system, separate from the Affection Meter — anyone can rate how lore-accurate a persona feels (1-10) via `/persona rate` or an optional dropdown prompt that now appears under `/affection mood` and `/persona profile`. Ratings show up right next to the persona's name in `/persona profile` (with a clean "not yet rated" fallback), plus a new public `/persona leaderboard` ranking the top 20 by average |
+
 ## What's new in v3.10
 
 | Area | What changed |
@@ -234,7 +240,7 @@ Three tiers, each a superset of the one below it:
 |---|---|---|
 | **Owner** | `OWNER_ID` env var (exactly one) | Everything, plus `/auth`, `/memory`, `/affection reset`, and `/affection set` (the only owner-exclusive commands) |
 | **Admin** | `/auth add role:Admin` | Reload, switch chat/image provider, manage triggers, set reminder timezones, configure welcome messages and the open/trial channel, switch the server-wide default persona (`/persona set`), view exact affection scores (`/affection view`), everything Normal can do |
-| **Normal** | `/auth add role:Normal` | Chat with the bot, `/image create/analyze`, `/remind` (set/list/cancel), `/persona my`, `/affection mood`, view logs |
+| **Normal** | `/auth add role:Normal` | Chat with the bot, `/image create/analyze`, `/remind` (set/list/cancel), `/persona my`, `/persona rate/leaderboard`, `/affection mood`, view logs |
 
 ```
 /auth add user:@Alex role:Admin
@@ -478,6 +484,22 @@ Decay is computed lazily from elapsed wall-clock time whenever a score is touche
 
 ---
 
+## Persona Ratings
+
+Separate from the Affection Meter — this isn't "how does the character feel about you," it's "how lore-accurate does this persona feel to the people talking to it," rated by the community and visible to everyone.
+
+**Rating a persona**, two ways:
+1. `/persona rate persona:frieren rating:9` — direct, anytime.
+2. A "How lore-accurate does X feel?" prompt with a 1-10 dropdown appears automatically under both `/affection mood` and `/persona profile`. Anyone who sees the message can use it — it's not restricted to whoever ran the original command, and using it is entirely optional; ignoring the prompt does nothing.
+
+Rating the same persona again overwrites your previous rating rather than adding a second one — one rating per person per persona, so nobody can skew an average by repeat-voting, and changing your mind later is just a normal re-rate.
+
+**Where it shows up:**
+- `/persona profile` — the average and rating count appear right next to the persona's name (e.g. "Frieren  ·  ⭐ 8.7/10 (14 ratings)"). A persona nobody's rated yet shows "⭐ Not yet rated" instead of a blank or a misleading 0.
+- `/persona leaderboard` — top 20 personas ranked by average rating (ties broken by rating count), posted publicly. Personas with zero ratings simply don't appear — there's nothing meaningful to rank them by yet. If literally nobody has rated anything, it says so plainly and points at `/persona rate`.
+
+Ratings are stored per (user, persona) pair in `data/persona_ratings.json` (created automatically, gitignored like the rest of `data/`).
+
 ## Reminders
 
 Anyone can schedule the bot to mention them at a specific time — only for themselves. Pick which persona delivers it, and use autocomplete suggestions for common times instead of typing one out.
@@ -597,7 +619,9 @@ Image generation always uses a separate provider from chat, so you can mix and m
 | `/remind set/list/cancel` | Manage your own reminders |
 | `/persona my set/current/clear` | Set your own personal persona (only affects you) |
 | `/persona list` / `current` | Browse personas / see the server default |
-| `/persona profile persona:` | View a character's profile — avatar, bio, and background art |
+| `/persona profile persona:` | View a character's profile — avatar, bio, background art, and community rating |
+| `/persona rate persona: rating:` | Rate how lore-accurate a persona feels, 1-10 |
+| `/persona leaderboard` | Top personas by lore-accuracy rating (public) |
 | `/affection mood persona:` | Casual, number-free read on how a persona feels about you — posts publicly as a generated card |
 | `/provider list` / `models` | View chat provider info |
 | `/provider image list` | View image provider info |
