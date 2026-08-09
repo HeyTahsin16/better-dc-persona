@@ -71,7 +71,6 @@ import { tsukasa } from './tsukasa';
 import { umaru } from './umaru';
 import { violet } from './violet';
 import { lena } from './lena';
-import { yachiyo } from './yachiyo';
 import { yor } from './yor';
 import { yotsuba } from './yotsuba';
 import { yukiSuou } from './yukiSuou';
@@ -149,7 +148,6 @@ export const PERSONAS: Record<string, Persona> = {
   [umaru.id]: umaru,
   [violet.id]: violet,
   [lena.id]: lena,
-  [yachiyo.id]: yachiyo,
   [yor.id]: yor,
   [yotsuba.id]: yotsuba,
   [yukiSuou.id]: yukiSuou,

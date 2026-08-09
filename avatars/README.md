@@ -77,7 +77,6 @@ Drop character profile pictures in this folder. The bot serves them to Discord a
 | Umaru Doma | `umaru.png` |
 | Violet Evergarden | `violet_evergarden.png` |
 | Vladilena Milizé | `lena.png` |
-| Yachiyo Runami | `yachiyo.png` |
 | Yor Forger | `yor_forger.png` |
 | Yotsuba Nakano | `yotsuba_nakano.png` |
 | Yuki Suou | `yuki_suou.png` |

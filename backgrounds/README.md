@@ -79,7 +79,6 @@ Same convention as `avatars/` — this is intentional, so the two folders stay e
 | Umaru Doma | `umaru.png` |
 | Violet Evergarden | `violet_evergarden.png` |
 | Vladilena Milizé | `lena.png` |
-| Yachiyo Runami | `yachiyo.png` |
 | Yor Forger | `yor_forger.png` |
 | Yotsuba Nakano | `yotsuba_nakano.png` |
 | Yuki Suou | `yuki_suou.png` |
