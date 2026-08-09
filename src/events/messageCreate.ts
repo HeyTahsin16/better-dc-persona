@@ -1,4 +1,4 @@
-import { Message, ChannelType, TextChannel, NewsChannel, VoiceChannel, StageChannel } from 'discord.js';
+import { Message, ChannelType } from 'discord.js';
 import { env } from '../env';
 import { isAuthorized } from '../permissions/roles';
 import { matchTrigger } from '../store/triggerStore';
@@ -7,7 +7,7 @@ import { getAIResponse, getAIResponseWithImage, getRawAIResponse } from '../ai/c
 import { resolvePersonaForUser, getActivePersona } from '../ai/promptBuilder';
 import { getPersona } from '../personas';
 import { getPersonaForMessage } from '../webhooks/threadTracker';
-import { sendAsPersona, sendAsRawAI, WebhookCapableChannel } from '../webhooks/webhookManager';
+import { sendAsPersona, sendAsRawAI, isWebhookCapableChannel } from '../webhooks/webhookManager';
 import { activeChatModel } from '../store/stateStore';
 import { humanizeModelName } from '../utils/humanize';
 import { friendlyError } from '../utils/friendlyError';
@@ -31,13 +31,8 @@ function stripNoperPrefix(text: string): { isRaw: boolean; query: string } {
 }
 
 // Text/announcement/voice channels can each own a webhook directly; threads
-// route through their parent's webhook (see webhookManager.ts) — either way,
-// this just needs to recognize all of them as "try the webhook path first".
-function isWebhookCapable(channel: Message['channel']): channel is WebhookCapableChannel {
-  return channel instanceof TextChannel || channel instanceof NewsChannel
-    || channel instanceof VoiceChannel || channel instanceof StageChannel
-    || channel.isThread();
-}
+// route through their parent's webhook — see isWebhookCapableChannel in
+// webhookManager.ts, the single shared implementation of this check.
 
 async function sendPlainReply(message: Message, text: string): Promise<void> {
   if (!message.channel.isSendable()) return;
@@ -53,7 +48,7 @@ async function sendPlainReply(message: Message, text: string): Promise<void> {
 // whoever this is responding to (webhooks can't do native Discord replies — see README).
 // Falls back to a plain bot-identity reply for DMs or if webhooks aren't usable here.
 async function respondAsPersona(message: Message, persona: Persona, text: string): Promise<void> {
-  if (isWebhookCapable(message.channel)) {
+  if (isWebhookCapableChannel(message.channel)) {
     const sent = await sendAsPersona(message.channel, persona, text, message.author.id);
     if (sent) return;
   }
@@ -63,7 +58,7 @@ async function respondAsPersona(message: Message, persona: Persona, text: string
 // Same idea, but styled as the active AI model with no avatar (raw/"noper" mode).
 // `personaToResume` is tracked so a later reply without "noper" resumes that character.
 async function respondAsRawAI(message: Message, displayName: string, text: string, personaToResume: Persona): Promise<void> {
-  if (isWebhookCapable(message.channel)) {
+  if (isWebhookCapableChannel(message.channel)) {
     const sent = await sendAsRawAI(message.channel, displayName, text, personaToResume.id, message.author.id);
     if (sent) return;
   }

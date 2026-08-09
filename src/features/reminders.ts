@@ -1,19 +1,15 @@
-import { Client, TextChannel, NewsChannel } from 'discord.js';
+import { Client } from 'discord.js';
 import { listAllReminders, markFired, deleteReminderById } from '../store/reminderStore';
 import { getCurrentTimeInZone } from '../utils/time';
 import { completeOneShot } from '../ai/chatRouter';
 import { buildSystemPrompt, getActivePersona } from '../ai/promptBuilder';
 import { getPersona } from '../personas';
 import { resolveEmojis } from '../emoji/appEmojis';
-import { sendAsPersona } from '../webhooks/webhookManager';
+import { sendAsPersona, isWebhookCapableChannel } from '../webhooks/webhookManager';
 import { logger } from '../logger';
 import { Reminder } from '../types';
 
 const TICK_INTERVAL_MS = 30_000; // check every 30 seconds — cheap and precise enough for minute-granularity reminders
-
-function isWebhookCapable(channel: unknown): channel is TextChannel | NewsChannel {
-  return channel instanceof TextChannel || channel instanceof NewsChannel;
-}
 
 async function fireReminder(client: Client, reminder: Reminder): Promise<void> {
   const user = await client.users.fetch(reminder.userId).catch(() => null);
@@ -37,12 +33,12 @@ async function fireReminder(client: Client, reminder: Reminder): Promise<void> {
   try {
     if (reminder.channelId) {
       const channel = await client.channels.fetch(reminder.channelId).catch(() => null);
-      if (isWebhookCapable(channel)) {
+      if (isWebhookCapableChannel(channel)) {
         const sent = await sendAsPersona(channel, persona, text, reminder.userId);
         if (sent) return;
       }
       if (channel?.isTextBased() && 'send' in channel) {
-        await (channel as TextChannel).send(`<@${reminder.userId}> ${text}`);
+        await channel.send(`<@${reminder.userId}> ${text}`);
         return;
       }
     }

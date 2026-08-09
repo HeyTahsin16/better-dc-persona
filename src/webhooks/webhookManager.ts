@@ -1,4 +1,4 @@
-import { TextChannel, NewsChannel, VoiceChannel, StageChannel, AnyThreadChannel, Webhook, WebhookType } from 'discord.js';
+import { TextChannel, NewsChannel, VoiceChannel, StageChannel, AnyThreadChannel, Channel, Webhook, WebhookType } from 'discord.js';
 import { logger } from '../logger';
 import { getAvatarUrl } from './avatarResolver';
 import { Persona } from '../types';
@@ -13,6 +13,20 @@ import { chunkText } from '../utils/chunk';
 // in this type — only threads need the parent-resolution below.
 export type WebhookCapableChannel = TextChannel | NewsChannel | VoiceChannel | StageChannel | AnyThreadChannel;
 type WebhookHost = TextChannel | NewsChannel | VoiceChannel | StageChannel;
+
+// Single canonical type-guard for "can we try sending a persona-styled webhook message
+// here" — exported so every caller (messageCreate.ts, reminders.ts, anything future)
+// shares this one implementation instead of each keeping its own copy. Two independent
+// copies of this exact check existing (one updated, one stale) is literally how threads
+// and voice channels ended up unsupported in reminders after already being fixed
+// everywhere else — not repeating that. Accepts null/undefined directly since the most
+// common caller pattern is straight off a `.fetch()` call, which can return either.
+export function isWebhookCapableChannel(channel: Channel | null | undefined): channel is WebhookCapableChannel {
+  if (!channel) return false;
+  return channel instanceof TextChannel || channel instanceof NewsChannel
+    || channel instanceof VoiceChannel || channel instanceof StageChannel
+    || channel.isThread();
+}
 
 const WEBHOOK_NAME = 'Persona Relay';
 const webhookCache = new Map<string, Webhook<WebhookType.Incoming>>(); // hostChannelId -> webhook
