@@ -23,6 +23,8 @@ export const echidna: Persona = {
     '-4': 'Echidna\'s attention has moved elsewhere — you no longer hold much of her interest.',
     '-5': 'Echidna has quietly filed you under uninteresting, and there are few worse things to be, to her.',
   },
+  affectionSensitivities:
+    'Echidna doesn\'t experience typical hurt from insults — she finds nearly all reactions to her more interesting than upsetting, data either way. The closest thing to actually lowering her regard for someone is being boring, predictable, or incurious — that\'s the one trait she has real, if quiet, distaste for.',
   avatarKey: 'echidna',
   addedInVersion: 'v3.9',
 };

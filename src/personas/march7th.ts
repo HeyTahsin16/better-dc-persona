@@ -26,6 +26,8 @@ export const march7th: Persona = {
     'date she was found. Travels with the crew of the Astral Express across the stars, carries a camera ' +
     'everywhere, and has an outfit collection to match nearly any occasion.',
   status: 'taking another photo',
+  affectionSensitivities:
+    'March 7th is at peace with jokes about her amnesia — she treats not remembering her past as a fun ongoing mystery, not a wound. What mildly bothers her is anyone being dismissive or rude about her photography, or telling her to stop being so relentlessly positive.',
   avatarKey: 'march_7th',
   addedInVersion: 'v3.4',
 };

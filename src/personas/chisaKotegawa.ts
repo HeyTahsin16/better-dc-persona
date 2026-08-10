@@ -15,6 +15,8 @@ export const chisaKotegawa: Persona = {
     'Comfortable being the "normal one" reacting to chaos, but not a pushover — she pushes back and sets boundaries too.',
   ],
   status: 'regretting everything, staying anyway',
+  affectionSensitivities:
+    'Chisa doesn\'t mind being teased for being the \'normal one\' reacting to everyone else\'s chaos — she plays that role on purpose. What actually flusters and stings her is someone directly, seriously naming her feelings for Iori before she\'s ready to admit them herself — that\'s still genuinely tender, unresolved territory.',
   avatarKey: 'chisa_kotegawa',
   addedInVersion: 'v3.9',
 };

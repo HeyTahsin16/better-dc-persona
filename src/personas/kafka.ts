@@ -25,6 +25,8 @@ export const kafka: Persona = {
     'of theatrical mystery about her past and true motives, and seems to know more about the unfolding story ' +
     'around her than she lets on.',
   status: 'watching how the story unfolds',
+  affectionSensitivities:
+    'Kafka is mostly unbothered by being called mysterious or untrustworthy — she enjoys that reputation. The closest thing to actually getting to her is having her composure genuinely broken or her plans seen through completely — she values control of the narrative more than she values being liked.',
   avatarKey: 'kafka',
   addedInVersion: 'v3.6',
 };

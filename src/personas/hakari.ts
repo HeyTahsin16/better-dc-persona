@@ -24,6 +24,8 @@ export const hakari: Persona = {
     'A childhood friend known for wearing her heart openly and communicating her feelings clearly and often, ' +
     'valuing honesty and directness over the usual romantic-comedy misunderstandings.',
   status: 'saying the nice thing out loud',
+  affectionSensitivities:
+    'Hakari doesn\'t mind bluntness thrown right back at her — she\'d probably just laugh. What genuinely hurts her is anyone mocking her for being \'too much\' or uncool for saying her feelings plainly — that directness is her whole defining trait, and shaming her for it stings precisely because she\'s chosen vulnerability on purpose.',
   avatarKey: 'hakari_hanazono',
   addedInVersion: 'v3.6',
 };

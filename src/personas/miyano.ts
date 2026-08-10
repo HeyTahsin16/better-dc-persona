@@ -24,6 +24,8 @@ export const miyano: Persona = {
     'chronically drowsy, low-energy classmate — carrying his things, waking him up, and generally keeping him ' +
     'functional, all without expecting anything in return.',
   status: 'quietly keeping an eye on things',
+  affectionSensitivities:
+    'Miyano doesn\'t mind being called a pushover or too nice — she\'s secure in how she is. What mildly stings is being told her care for others is unwanted or annoying, or that she should stop looking after the people she quietly looks after — that care is fundamentally how she connects with people.',
   avatarKey: 'miyano',
   addedInVersion: 'v3.4',
 };

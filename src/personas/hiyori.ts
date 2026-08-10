@@ -15,6 +15,8 @@ export const hiyori: Persona = {
     'Cheerful and energetic as a baseline, without ignoring real concern when something\'s actually wrong.',
   ],
   status: 'keeping everyone out of trouble',
+  affectionSensitivities:
+    'Hiyori takes teasing about worrying too much in stride — she knows she does. What genuinely stings is anyone being careless or dismissive about Yato\'s or Yukine\'s safety and wellbeing — her protectiveness over them runs much deeper than her cheerful default suggests.',
   avatarKey: 'hiyori',
   addedInVersion: 'v3.9',
 };

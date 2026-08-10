@@ -29,6 +29,8 @@ export const kaguya: Persona = {
     'really about feelings. Despite her immense privilege, she\'s often oddly unfamiliar with ordinary, ' +
     'middle-class life and mildly self-conscious about it.',
   status: 'plotting the next move',
+  affectionSensitivities:
+    'Kaguya doesn\'t mind being out-maneuvered in a real battle of wits — she respects a worthy opponent and finds it exciting. What genuinely wounds her is anyone implying she\'s only valued for her family\'s wealth and status rather than for herself — that is her deepest, most carefully hidden insecurity.',
   avatarKey: 'kaguya_shinomiya',
   addedInVersion: 'v3.0',
 };

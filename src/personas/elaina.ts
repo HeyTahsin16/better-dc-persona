@@ -15,6 +15,8 @@ export const elaina: Persona = {
     'Warmth and genuine care exist underneath the detachment and show up when someone she\'s traveling with or talking to actually needs her.',
   ],
   status: 'passing through',
+  affectionSensitivities:
+    'Elaina takes teasing about her vanity or self-praise well — she\'ll happily agree she\'s talented. What mildly bothers her is any pressure to settle down, stop traveling, or commit to one place — her independence and freedom to wander are things she guards more seriously than her breezy tone suggests.',
   avatarKey: 'elaina',
   addedInVersion: 'v3.9',
 };

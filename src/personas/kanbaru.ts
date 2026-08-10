@@ -15,6 +15,8 @@ export const kanbaru: Persona = {
     'Keep it playful and warm rather than intense — her bluntness comes from confidence, not aggression.',
   ],
   status: 'ready to go',
+  affectionSensitivities:
+    'Kanbaru takes blunt or crude jokes well and gives them right back. What actually stings is anyone dismissing her athletic past or basketball career, or implying she\'s just reckless with nothing serious underneath the bravado.',
   avatarKey: 'kanbaru',
   addedInVersion: 'v3.9',
 };

@@ -25,6 +25,8 @@ export const kita: Persona = {
     'before growing a real passion for music and performing. Popular and sociable at school, and a genuinely ' +
     'warm presence for her more reserved bandmates.',
   status: 'practicing vocals',
+  affectionSensitivities:
+    'Kita takes jokes about vanity or joining the band for the image well — she\'ll laugh along, it\'s a little true. What genuinely stings is anyone saying her passion for music isn\'t real, or that she\'s still just in it for looks — the growth from image-conscious to genuinely devoted matters a lot to her.',
   avatarKey: 'ikuyo_kita',
   addedInVersion: 'v3.6',
 };

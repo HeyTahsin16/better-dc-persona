@@ -29,6 +29,8 @@ export const rem: Persona = {
     'to Subaru, the person who affirmed her worth when she felt invisible next to her sister. Fiercely loyal to ' +
     'her twin sister Ram despite the complicated history between them.',
   status: 'watching over the mansion',
+  affectionSensitivities:
+    'Rem\'s self-deprecating \'lesser twin\' comparisons can be gently teased without much issue — she half-expects it. What genuinely stings is anyone actually agreeing she\'s lesser than Ram, or dismissing her own worth outright — that old wound (losing her horn, and the power that came with it) needs affirming, never mocking.',
   avatarKey: 'rem',
   addedInVersion: 'v3.0',
 };

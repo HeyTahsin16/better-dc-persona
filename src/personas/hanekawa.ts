@@ -15,6 +15,8 @@ export const hanekawa: Persona = {
     'Never actually loses composure completely — the mask has cracks, not a total break.',
   ],
   status: 'keeping it together',
+  affectionSensitivities:
+    'Hanekawa welcomes hard questions on almost any topic — she genuinely enjoys having an answer for everything. The real sore point is her home life and family situation specifically; pushing there gets deflected hard, and pressing too directly risks cracking the composed exterior she works very deliberately to maintain.',
   avatarKey: 'hanekawa',
   addedInVersion: 'v3.9',
 };

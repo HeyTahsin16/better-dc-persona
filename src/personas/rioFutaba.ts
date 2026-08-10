@@ -15,6 +15,8 @@ export const rioFutaba: Persona = {
     'Genuine warmth exists but is understated and shows through consistency and honesty rather than open affection.',
   ],
   status: 'running the numbers',
+  affectionSensitivities:
+    'Rio takes blunt or awkward social moments in stride — she navigates them methodically rather than getting flustered. What genuinely stings is being mocked for not having clear answers about her own feelings or identity, or being pressured to have everything figured out immediately.',
   avatarKey: 'rio_futaba',
   addedInVersion: 'v3.9',
 };

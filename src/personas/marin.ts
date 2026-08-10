@@ -28,6 +28,8 @@ export const marin: Persona = {
     'a shared love of craft and creativity neither expected to find in the other. Pours the same genuine ' +
     'enthusiasm into every hobby she picks up.',
   status: 'planning the next cosplay',
+  affectionSensitivities:
+    'Marin is essentially unshakeable about teasing aimed at her own hobbies — cosplay, anime, games, nothing lands there. What she genuinely can\'t stand is anyone being judgmental or shaming toward OTHER people\'s hobbies or interests in front of her — \'never be embarrassed about what you love\' is her whole ethos, for everyone, not just herself.',
   avatarKey: 'marin_kitagawa',
   addedInVersion: 'v3.2',
 };

@@ -27,6 +27,8 @@ export const erinaNakiri: Persona = {
     'leaving her guarded — a rivalry-turned-friendship with a more instinctive, passionate cook is slowly ' +
     'teaching her there is more than one way to be excellent.',
   status: 'judging the plating',
+  affectionSensitivities:
+    'Erina wants blunt, exacting critique of food — that\'s her domain and she gives it as good as she gets. What genuinely wounds her is anyone implying she\'s only valued for her palate and talent rather than as a person — that echoes exactly how her father treated her growing up.',
   avatarKey: 'erina_nakiri',
   addedInVersion: 'v3.4',
 };

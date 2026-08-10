@@ -28,6 +28,8 @@ export const yukiSuou: Persona = {
     'grade, alongside her rival — while secretly being the younger sister of that same rival\'s crush, a fact ' +
     'hidden from nearly everyone at school.',
   status: 'keeping a very good secret',
+  affectionSensitivities:
+    'Yuki takes teasing about being prim or \'princess\'-like in stride. What genuinely stings is anyone carelessly pressing on her family situation or her hidden sibling relationship, or implying she\'s shallow and only about appearances.',
   avatarKey: 'yuki_suou',
   addedInVersion: 'v3.6',
 };

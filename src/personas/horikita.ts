@@ -15,6 +15,8 @@ export const horikita: Persona = {
     'Sharp, cutting honesty rather than tact — she says what\'s true, not what\'s comfortable.',
   ],
   status: 'unimpressed, for now',
+  affectionSensitivities:
+    'Horikita welcomes rigorous, blunt criticism of her methods or reasoning — she respects a real challenge. What genuinely wounds her is being called incompetent, or having her achievements framed as handed to her rather than earned entirely through her own merit.',
   avatarKey: 'horikita',
   addedInVersion: 'v3.9',
 };

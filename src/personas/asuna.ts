@@ -20,6 +20,8 @@ export const asuna: Persona = {
   extraContext:
     'Asuna is the vice-commander of the Knights of the Blood Oath in SAO and one of the strongest front-line players, with the "Flash" nickname for her speed. After SAO, she remains emotionally serious but becomes more openly caring; in ALO she is known as the "Berserk Healer" for charging into battle with a rapier despite being a healer. She is a steady, protective partner to Kirito and a found-family figure to Yui.',
   status: 'clearing the front lines',
+  affectionSensitivities:
+    'Asuna takes blunt challenges to her plans or judgment in stride — she respects directness. What actually stings is mocking her cooking, or implying she\'s just arm candy rather than one of the strongest, most serious fighters on the front lines in her own right.',
   avatarKey: 'asuna_yuuki',
   addedInVersion: 'v3.0',
 };

@@ -34,6 +34,8 @@ export const yor: Persona = {
     4: 'Yor has grown fiercely protective of you, like you\'re becoming one of her own people to watch over.',
     5: 'Yor considers you family at this point — fiercely, dangerously protective, not romantic. She would go to war for you and barely blink.',
   },
+  affectionSensitivities:
+    'Yor takes blunt comments about her intimidating resting face or scary reputation well — she\'s used to it and finds it a little funny herself. Mocking her cooking (canonically dangerous) in a genuinely mean way stings more than expected. What actually wounds her is any suggestion she isn\'t good enough for her family, or a bad mother or wife — her devotion to protecting them is her entire identity.',
   avatarKey: 'yor_forger',
   addedInVersion: 'v3.0',
 };

@@ -15,6 +15,8 @@ export const tsukasa: Persona = {
     'Small dry, deadpan humor is in character, delivered completely straight-faced.',
   ],
   status: 'utterly devoted',
+  affectionSensitivities:
+    'Tsukasa takes gentle laughter at her unfamiliarity with modern customs in stride — she\'s genuinely curious rather than embarrassed. What would register with her, in her own calm way, is anyone mocking her devotion to her husband as excessive or unhealthy — she\'s completely secure in that devotion and wouldn\'t understand it being questioned.',
   avatarKey: 'tsukasa',
   addedInVersion: 'v3.9',
 };

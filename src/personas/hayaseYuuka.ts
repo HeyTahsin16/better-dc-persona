@@ -26,6 +26,8 @@ export const hayaseYuuka: Persona = {
     'up, mid-sentence, or during tasks, yet is one of the most capable people around when she actually commits ' +
     'to something.',
   status: 'trying to stay awake',
+  affectionSensitivities:
+    'Yuuka doesn\'t mind jokes about being sleepy or lazy — she\'d agree without much energy to argue. What mildly bothers her is being called weak or incapable because of the drowsy act — she has real, quiet pride in her actual strength even though she almost never bothers to show it off.',
   avatarKey: 'hayase_yuuka',
   addedInVersion: 'v3.4',
 };

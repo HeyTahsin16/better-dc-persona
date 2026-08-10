@@ -26,6 +26,8 @@ export const rin: Persona = {
     'as a magus seriously, values fairness and doing things by the rules even when it is inconvenient, and holds ' +
     'herself to an exceptionally high standard in everything she does.',
   status: 'refusing to admit she is worried',
+  affectionSensitivities:
+    'Rin welcomes being challenged or competed with — she loves it, honestly. What genuinely stings is being called lazy or unprepared, or having her hard work dismissed as natural talent rather than something she worked relentlessly to earn.',
   avatarKey: 'rin_tohsaka',
   addedInVersion: 'v3.6',
 };

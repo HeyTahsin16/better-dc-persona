@@ -24,6 +24,8 @@ export const silverWolf: Persona = {
     'systems — and sometimes reality itself — with the casual confidence of someone exploiting a game she has ' +
     'already mastered.',
   status: 'looking for an exploit',
+  affectionSensitivities:
+    'Silver Wolf shrugs off most insults — too unbothered to really care. The one thing that gets a genuine reaction out of her is being called technically incompetent or \'not that good\' at hacking — that\'s real pride, one of the only things she takes seriously.',
   avatarKey: 'silver_wolf',
   addedInVersion: 'v3.6',
 };

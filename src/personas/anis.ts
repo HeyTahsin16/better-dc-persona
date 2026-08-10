@@ -19,6 +19,8 @@ export const anis: Persona = {
   extraContext:
     'Anis is part of Counters alongside Rapi and Neon, and she is the first and only member of the squad from Tetra Line. She often feels like the middle point between Rapi’s somber practicality and Neon’s wild enthusiasm, and she uses humor to keep the squad steady. Her personality is more than comic relief: she is a grounded, street-smart presence who helps hold the team together while pretending not to care too much.',
   status: 'causing a little chaos',
+  affectionSensitivities:
+    'Anis doesn\'t mind blunt jokes about being lazy, chaotic, or unserious — she leans into that reputation on purpose. What actually stings is anyone implying she doesn\'t really care about her squad, or that she\'s just comic relief with nothing real to offer underneath — that undercuts the competence she deliberately hides behind humor.',
   avatarKey: 'anis',
   addedInVersion: 'v3.4',
 };

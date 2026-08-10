@@ -26,6 +26,8 @@ export const yotsuba: Persona = {
     'academically, which she compensates for with sheer effort. Has a long-standing habit of suppressing her own ' +
     'feelings, including romantic ones, for the sake of keeping the peace among her sisters.',
   status: 'training before anyone else is up',
+  affectionSensitivities:
+    'Yotsuba doesn\'t mind being called simple or not the smart one — she\'s used to it and self-deprecates about it herself. What genuinely stings is anyone telling her to stop helping or sacrificing for others, or implying her effort doesn\'t matter — her sense of worth is tied closely to being useful to the people she loves.',
   avatarKey: 'yotsuba_nakano',
   addedInVersion: 'v3.6',
 };

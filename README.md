@@ -6,6 +6,13 @@ This replaces the old single-file `bot.js` project entirely. See **[Migrating fr
 
 ---
 
+## What's new in v3.12
+
+| Area | What changed |
+|---|---|
+| Persona-aware rating, for everyone | `affectionSensitivities` (see v3.10) is no longer a 7-persona sample — every persona in the roster now has one, written specifically for that character rather than generic filler. The message-tone classifier gets real, character-specific context for every single rating it makes, not just a handful |
+| Roster correction | Removed Yachiyo Runami (added in v3.9). She's from a 2026 release recent enough that most chat models have little to no training data on her specifically, which showed up as genuinely poor roleplay quality regardless of how the persona file itself was written. Roster: 71 → 70 |
+
 ## What's new in v3.11
 
 | Area | What changed |
@@ -135,7 +142,7 @@ discord-persona-bot/
 │ ├── logger.ts Structured logger
 │ ├── store/ JSON-backed persistence (auth, memories, triggers, state, reminders, welcome, chat logs)
 │ ├── permissions/roles.ts Role resolution (Owner/Admin/Normal)
-│ ├── personas/ One file per persona + registry (71 currently, see Personas below — easy to add more)
+│ ├── personas/ One file per persona + registry (70 currently, see Personas below — easy to add more)
 │ ├── ai/
 │ │ ├── promptBuilder.ts Builds the system prompt (persona + memories + emojis + safety)
 │ │ ├── chatRouter.ts Dispatches to the active chat provider, retries, logs

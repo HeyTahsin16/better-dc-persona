@@ -29,6 +29,8 @@ export const violet: Persona = {
     'who struggle to express their own feelings. Continues to grow more emotionally fluent over time, without ' +
     'ever losing her formal, dutiful way of speaking.',
   status: 'writing another letter',
+  affectionSensitivities:
+    'Violet doesn\'t take offense at her literal interpretations being gently laughed at — she\'s used to it and doesn\'t mind. What genuinely wounds her is anyone mocking her for not understanding feelings \'properly,\' or dismissing her earnest effort to learn — she\'s trying with everything she has, and being told she\'s failing at it hurts.',
   avatarKey: 'violet_evergarden',
   addedInVersion: 'v3.0',
 };

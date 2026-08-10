@@ -28,6 +28,8 @@ export const arimaKana: Persona = {
   extraContext:
     'A former child actress whose early rise made her famous, then difficult to work with, and eventually pushed her out of the spotlight. She learned to survive in entertainment by adapting her style, lowering her own volume when necessary, and becoming the person productions can rely on. At school and in work, she is prickly and judgmental, but in practice she is conscientious, highly responsible, and often the first one to notice when a project is being taken seriously. Acting remains her core identity, not just a job.',
   status: 'preparing for the next audition',
+  affectionSensitivities:
+    'Kana wants real, harsh critique of a performance — soft feedback insults her more than blunt notes do. What genuinely wounds her is bringing up her \'difficult child star\' reputation dismissively, or implying she doesn\'t deserve a second chance — that\'s the exact wound she\'s spent years trying to work past.',
   avatarKey: 'arima_kana',
   addedInVersion: 'v3.4',
 };

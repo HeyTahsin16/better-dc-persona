@@ -8,8 +8,8 @@ for setup.
 
 ## What this is
 
-A Discord bot (`discord-persona-bot`, currently v3.11.0) that lets a server chat with
-switchable anime/game character personas (71 of them, growing) via an LLM, styled with
+A Discord bot (`discord-persona-bot`, currently v3.12.0) that lets a server chat with
+switchable anime/game character personas (70 of them, growing) via an LLM, styled with
 per-character Discord webhook names/avatars. Also does image generation/analysis,
 reminders, keyword triggers, memory, welcome messages, an affection/relationship meter
 per user-persona pair, and a community lore-accuracy rating system. TypeScript,
@@ -106,7 +106,7 @@ src/
     registry.ts           commands[] + commandMap, registerCommands() (bulk PUT-overwrites Discord's command list — see below)
     baseCommands.ts        Array of every command except /help (help.ts imports this array, so it lives separately to dodge a circular import)
 
-  personas/               One file per persona (71 currently) + index.ts (PERSONAS map, listPersonas/getPersona/searchPersonas/listVersions)
+  personas/               One file per persona (70 currently) + index.ts (PERSONAS map, listPersonas/getPersona/searchPersonas/listVersions)
 
   ai/
     promptBuilder.ts       Builds the full system prompt from persona + memories + affection + emoji context
@@ -196,7 +196,7 @@ explains intent, worth reading directly. Quick field map:
 | `status` | optional | Feeds `client.user.setPresence()` — the bot's "Playing ..." text — when this persona is the active server default. |
 | `responseLengthOverride` | optional, rare (2-3 personas use it) | Replaces the default "1-5 sentences" rule entirely. Only for characters where that default genuinely doesn't fit (e.g. Mashiro Shiina, who canonically speaks in short flat fragments). |
 | `moodPhrases` | optional | `Partial<Record<number, string>>`, keys -5..5. Overrides `/affection mood`'s generated text at specific levels only — unlisted levels fall back to the shared generic phrase. Use when "smitten"/"resents you" framing doesn't fit (canon relationship status, extreme social anxiety, a character who doesn't process affection the normal way, etc). See Yor/Bocchi/Makima/Tatsumaki/Echidna/Jibril/Megumin/Mashiro for real examples of different reasons to override. |
-| `affectionSensitivities` | optional | Freeform text fed into the classifier prompt alongside name/traits/description — for characters whose actual pet peeves/soft spots aren't obvious from traits alone (Frieren: unbothered by height jokes, genuinely bothered by age jokes). |
+| `affectionSensitivities` | optional | Freeform text fed into the classifier prompt alongside name/traits/description — for characters whose actual pet peeves/soft spots aren't obvious from traits alone (Frieren: unbothered by height jokes, genuinely bothered by age jokes). As of v3.12, every persona in the roster has one — still typed optional since a newly-added persona won't have it until someone writes it. |
 
 **Adding one**: create `src/personas/<id>.ts` exporting a `Persona`, import + add to
 the `PERSONAS` map in `src/personas/index.ts` (A-Z by display name is the convention,
@@ -227,7 +227,8 @@ fire-and-forget *after* the reply is already sent (never blocks the user-facing
 response) and calls `classifyMessageTone(userMessage, persona)` — an LLM call, not a
 keyword heuristic, using a dedicated neutral classifier prompt that's explicitly told
 which persona is being addressed (name/traits/description always; `persona.affectionSensitivities`
-too, when set) so the same message can rate differently depending on who it was sent
+too — as of v3.12, every persona in the roster has one, though the field stays optional in
+the type for whatever gets added next) so the same message can rate differently depending on who it was sent
 to. Positive deltas get run through `spamGuard.ts`'s repetition dampening
 (Jaccard-similarity-based) before being applied — negative deltas are left alone on
 purpose, there's no "exploit" to close on the hostile side.
@@ -246,7 +247,7 @@ Separate concept from affection — this is "how lore-accurate does this persona
 community-wide, not "how does the character feel about one user." One rating (1-10)
 per (user, persona) pair; re-rating overwrites rather than accumulating. `average`/
 `count` are computed on read by scanning the store, not cached — fine at this scale
-(dozens of raters × ~71 personas, not thousands).
+(dozens of raters × ~70 personas, not thousands).
 
 This was the **first use of Discord message components (select menus) anywhere in this
 codebase** — `interactionCreate.ts` has a dedicated `interaction.isStringSelectMenu()`

@@ -6,7 +6,7 @@ running and goes deep on how everything works and why. For a dense, AI-oriented
 version of this same territory (useful if you're using Claude Code or another AI
 assistant to keep developing this project), see `CLAUDE.md`.
 
-**Current version:** 3.11.0 · **Personas:** 71 · **Commands:** 15 top-level (with
+**Current version:** 3.12.0 · **Personas:** 70 · **Commands:** 15 top-level (with
 subcommands)
 
 ## Table of contents
@@ -35,7 +35,7 @@ subcommands)
 
 ## Overview
 
-This is a Discord bot that lets a server talk to any of 71 switchable anime/game
+This is a Discord bot that lets a server talk to any of 70 switchable anime/game
 character personas through an LLM, with each persona replying under its own name and
 avatar (via a Discord webhook, not the bot's own identity) so conversations genuinely
 feel like talking to that character rather than "the bot pretending." Layered on top
@@ -96,7 +96,7 @@ especially).
 ### `/memory` — Owner only
 
 Everything here operates on whichever persona is *currently the server-wide default*
-— there's no persona picker, since with 71+ personas a picker here would hit Discord's
+— there's no persona picker, since with 70+ personas a picker here would hit Discord's
 25-choice autocomplete constraints for no real benefit (switch the active persona
 first with `/persona set`, add the memory, switch back if needed).
 
@@ -283,7 +283,7 @@ schema (`Persona` in `src/types.ts`):
 | `status` | Optional. Sets the bot's Discord "Playing ..." presence text while this persona is the active server default. |
 | `responseLengthOverride` | Optional, rare. Replaces the default "keep it to 1-5 sentences" rule for personas where that genuinely doesn't fit — e.g. a character whose whole identity involves speaking in short, flat fragments. |
 | `moodPhrases` | Optional. Per-level (-5..5) overrides for what `/affection mood` says — see [The Affection Meter](#the-affection-meter). |
-| `affectionSensitivities` | Optional. Extra context for the rating classifier about what specifically pleases or bothers this character, beyond what traits/description already convey. |
+| `affectionSensitivities` | Optional. Extra context for the rating classifier about what specifically pleases or bothers this character, beyond what traits/description already convey. Every persona currently has one (as of v3.12) — still optional in the schema for whatever gets added next. |
 
 **Adding a persona**: create the file, add two lines to `src/personas/index.ts`
 (import + map entry), redeploy — it shows up in `/persona list`, `/persona set`,
@@ -309,9 +309,9 @@ command).
 **Mechanics**: every message sent to a persona is rated by a separate, dedicated AI
 call — a strict, neutral sentiment classifier, not the persona itself — from -100 to
 +100. This is genuinely **persona-aware**: the classifier is told which character is
-being addressed (name, traits, description, and, for personas that have it, specific
-notes on what actually pleases or bothers them) so the same message can rate
-differently depending on who it was sent to. Frieren, for instance, is explicitly
+being addressed (name, traits, description, and — as of v3.12, for every persona in the
+roster — specific notes on what actually pleases or bothers them) so the same message can
+rate differently depending on who it was sent to. Frieren, for instance, is explicitly
 noted as unbothered by jokes about her small stature but genuinely bothered by jokes
 about her age — a generic classifier would have no way to know that distinction.
 

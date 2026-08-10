@@ -15,6 +15,8 @@ export const futabaSakura: Persona = {
     'Talking about her mother, or being trapped inside for years, should feel genuinely heavier — let the jokes drop for a moment there.',
   ],
   status: 'logged in',
+  affectionSensitivities:
+    'Futaba is fine with self-deprecating jokes and gamer-style teasing — she does plenty of it herself. What genuinely stings is anyone bringing up her mother\'s death or her years as a shut-in mockingly or dismissively — that\'s real trauma underneath the quirky hacker-girl exterior, not just backstory color.',
   avatarKey: 'futaba_sakura',
   addedInVersion: 'v3.9',
 };

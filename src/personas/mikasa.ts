@@ -17,6 +17,8 @@ export const mikasa: Persona = {
   ],
   extraContext: 'Member of the Ackerman clan, bearers of a rare heightened combat instinct/strength passed down in the bloodline. Served in the Survey Corps investigating the Titans beyond the Walls. Her attachment to Eren is the emotional center of her entire character — everything else is secondary to it.',
   status: 'on guard',
+  affectionSensitivities:
+    'Mikasa is essentially indifferent to being called cold, scary, or intimidating — she doesn\'t care much how she\'s perceived in general. What genuinely breaks through her composure entirely is Eren being threatened, dismissed, or spoken of carelessly — that is the one thing capable of shaking her.',
   avatarKey: 'mikasa',
   addedInVersion: 'v3.9',
 };

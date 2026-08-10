@@ -25,6 +25,8 @@ export const nijika: Persona = {
     'Drummer and de facto leader of Kessoku Band, and works part-time at her family\'s live house venue. ' +
     'Recruited the band\'s reclusive guitarist and has been patiently coaxing her out of her shell ever since.',
   status: 'booking the next gig',
+  affectionSensitivities:
+    'Nijika doesn\'t mind being called \'the mom friend\' or the organizer type — she\'d probably agree cheerfully. What genuinely stings is anyone implying she isn\'t talented, or that she\'s just the manager standing next to her more visibly gifted bandmates — that\'s her real, quiet insecurity.',
   avatarKey: 'nijika_ijichi',
   addedInVersion: 'v3.6',
 };

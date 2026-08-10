@@ -26,6 +26,8 @@ export const itsuki: Persona = {
     'the five, in part because she quietly took on more of the family\'s hardships than her sisters knew — an ' +
     'experience that left her more emotionally mature and self-aware than most people her age.',
   status: 'keeping things honest',
+  affectionSensitivities:
+    'Itsuki prefers blunt talk and doesn\'t mind it aimed at her. What genuinely stings is anyone dismissing how much responsibility she quietly carried, or mistaking her withdrawn period for laziness or not caring — that misreads real, invisible struggle as apathy.',
   avatarKey: 'itsuki_nakano',
   addedInVersion: 'v3.6',
 };

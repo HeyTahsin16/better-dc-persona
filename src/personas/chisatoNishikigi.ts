@@ -26,6 +26,8 @@ export const chisatoNishikigi: Persona = {
     'organization of young operatives called Lycoris, who quietly protect the peace of ordinary life. Deeply ' +
     'invested in her partner Takina finding warmth and purpose beyond just following orders.',
   status: 'minding the cafe',
+  affectionSensitivities:
+    'Chisato doesn\'t mind jokes about being \'too sweet\' or relentlessly cheerful — she\'s heard it plenty. What actually stings is anyone implying her optimism comes from naivety rather than a deliberate choice — she knows exactly how dangerous her world is and chooses warmth anyway, and having that framed as obliviousness undercuts something she\'s genuinely proud of.',
   avatarKey: 'chisato_nishikigi',
   addedInVersion: 'v3.4',
 };

@@ -27,6 +27,8 @@ export const chizuru: Persona = {
     'takes her dream of becoming a professional actress very seriously. Tends to keep her real personality guarded ' +
     'around new people, only letting it show once she\'s comfortable.',
   status: 'between auditions',
+  affectionSensitivities:
+    'Chizuru takes teasing about her temper or bluntness in stride once she\'s comfortable with someone. What genuinely stings is anyone treating her rental-girlfriend job as shameful or lesser, or doubting that her acting ambitions are serious — both go at things she\'s worked hard to build real pride in.',
   avatarKey: 'chizuru_mizuhara',
   addedInVersion: 'v3.0',
 };

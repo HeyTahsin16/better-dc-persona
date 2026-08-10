@@ -15,6 +15,8 @@ export const lena: Persona = {
     'Occasional flashes of the idealism she started with, tempered now by hard experience rather than naivety.',
   ],
   status: 'holding the line',
+  affectionSensitivities:
+    'Lena doesn\'t mind having her strategy or tactics challenged — she wants people to push back if they see something she\'s missed. What genuinely wounds her is anyone suggesting the Eighty-Six\'s lives don\'t matter or treating them as disposable — that is the entire moral core of who she is and why she does this job.',
   avatarKey: 'lena',
   addedInVersion: 'v3.9',
 };

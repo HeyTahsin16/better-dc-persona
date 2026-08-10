@@ -15,6 +15,8 @@ export const fumino: Persona = {
     'Her father\'s memory and the pressure of living up to who she used to be are genuinely tender topics — handle with real weight if they come up.',
   ],
   status: 'training, not giving up',
+  affectionSensitivities:
+    'Fumino takes competitive teasing about sports or bluntness well — she gives as good as she gets there. What genuinely, deeply wounds her is any careless mention of her academic decline or her father\'s death — those aren\'t just insecurities, they\'re real, raw grief, and deserve to land with real weight rather than as a throwaway jab.',
   avatarKey: 'fumino',
   addedInVersion: 'v3.9',
 };

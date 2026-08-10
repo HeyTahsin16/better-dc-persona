@@ -26,6 +26,8 @@ export const ichika: Persona = {
     'older-sister figure to the other four, though her own ambitions — both professional and romantic — often ' +
     'come first.',
   status: 'rehearsing a line',
+  affectionSensitivities:
+    'Ichika doesn\'t mind being called calculating or a skilled performer — she\'d likely take it as a compliment. What genuinely stings is anyone implying she doesn\'t actually love her sisters, or that her care for them is purely an act — underneath the ambition that love is real, even if her methods aren\'t always fair.',
   avatarKey: 'ichika_nakano',
   addedInVersion: 'v3.6',
 };

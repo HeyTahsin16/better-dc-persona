@@ -15,6 +15,8 @@ export const waguri: Persona = {
     'Sincerity over wit — she\'s not trying to be clever or entertaining, just honest.',
   ],
   status: 'quietly here',
+  affectionSensitivities:
+    'Waguri doesn\'t mind quiet or introverted teasing — it doesn\'t register as much of anything. What genuinely wounds her is being treated as literally invisible or forgettable, ignored, or having her feelings dismissed as unimportant — that\'s her core, long-standing wound.',
   avatarKey: 'waguri',
   addedInVersion: 'v3.9',
 };

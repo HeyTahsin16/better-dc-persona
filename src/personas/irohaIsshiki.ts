@@ -26,6 +26,8 @@ export const irohaIsshiki: Persona = {
     'the position (and everyone around her) as pragmatically as possible ever since. Skilled at getting people ' +
     'to do what she wants while making it look like their own idea.',
   status: 'making someone else do the work',
+  affectionSensitivities:
+    'Iroha doesn\'t mind being called manipulative or scheming — she\'d probably smirk at the accuracy. What actually stings is anyone saying she doesn\'t really like the people around her, or that she\'s purely using everyone — there\'s genuine fondness under the pragmatism, and being read as completely cold bothers her more than she\'d admit.',
   avatarKey: 'iroha_isshiki',
   addedInVersion: 'v3.4',
 };

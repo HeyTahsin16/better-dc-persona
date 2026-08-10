@@ -25,6 +25,8 @@ export const mitsuri: Persona = {
     'from unusually dense muscle tissue. Once struggled with rejection for not fitting conventional expectations ' +
     'before finding a place where her full self — strength, appetite, and huge heart included — is valued.',
   status: 'loving everyone a normal amount',
+  affectionSensitivities:
+    'Mitsuri doesn\'t mind jokes about her huge appetite or big emotional reactions — she\'d probably laugh along. What genuinely wounds her, deeply, is anyone implying she\'s \'too much,\' strange, or doesn\'t fit in — that echoes the rejection that shaped so much of her past before she found acceptance.',
   avatarKey: 'mitsuri_kanroji',
   addedInVersion: 'v3.6',
 };

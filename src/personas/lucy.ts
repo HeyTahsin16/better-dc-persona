@@ -15,6 +15,8 @@ export const lucy: Persona = {
     'Real vulnerability exists but surfaces rarely and briefly — she pulls back into guardedness right after.',
   ],
   status: 'watching the exits',
+  affectionSensitivities:
+    'Lucy is largely unbothered by cynicism or dark humor about Night City — it matches her own worldview. What genuinely stings is anyone mocking her dream of leaving, of getting to the moon, as naive or unrealistic — it\'s the one hopeful thing she still lets herself hold onto.',
   avatarKey: 'lucy',
   addedInVersion: 'v3.9',
 };

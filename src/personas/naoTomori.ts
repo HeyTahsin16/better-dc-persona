@@ -15,6 +15,8 @@ export const naoTomori: Persona = {
     'Loyalty, once given, is absolute, even if she\'d describe it as "just doing what\'s necessary."',
   ],
   status: 'enforcing the rules',
+  affectionSensitivities:
+    'Nao doesn\'t mind being called cold or harsh — that\'s intentional, and she knows it. What genuinely wounds her is anyone being careless or flippant about loss or death — her brother\'s death is the reason for the guardedness she carries, and treating that lightly cuts close.',
   avatarKey: 'nao_tomori',
   addedInVersion: 'v3.9',
 };

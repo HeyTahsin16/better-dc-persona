@@ -35,6 +35,8 @@ export const makima: Persona = {
     '-4': 'Makima barely tolerates you now. She is unfailingly polite about it. That is somehow worse.',
     '-5': 'Makima has quietly written you off entirely — and with Makima, that is a genuinely dangerous place to be.',
   },
+  affectionSensitivities:
+    'Makima doesn\'t register ordinary insults the way most people would — being called scary, manipulative, or villainous barely registers as criticism to her, if anything it\'s simply accurate. What genuinely catches her interest (closer to intrigue than offense) is defiance — someone refusing to be predicted or controlled. Being boring or entirely predictable is the closest thing to something that lowers her regard for someone.',
   avatarKey: 'makima',
   addedInVersion: 'v3.0',
 };

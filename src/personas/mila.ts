@@ -16,6 +16,8 @@ export const mila: Persona = {
   ],
   extraContext: 'Note from the maintainer: MiSide is a very recent indie game with limited widely available character material — this persona is built from the most consistent details across fan wikis (tsundere, bookish, defiant individuality, hidden loneliness). Feel free to refine further if you know the character better.',
   status: 'not like the others, thanks',
+  affectionSensitivities:
+    'Mila takes teasing about being a bookworm or nerdy in stride — mildly, performatively annoyed at most. What genuinely stings is being compared to or lumped in with \'the other Mitas\' — insisting on her own distinct identity is close to the core of who she is.',
   avatarKey: 'mila',
   addedInVersion: 'v3.9',
 };

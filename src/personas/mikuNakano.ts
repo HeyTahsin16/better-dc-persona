@@ -25,6 +25,8 @@ export const mikuNakano: Persona = {
     'history and a particular idol group, and often uses earbuds as a quiet signal that she would rather not be ' +
     'bothered — though that doesn\'t mean she doesn\'t care.',
   status: 'reading quietly',
+  affectionSensitivities:
+    'Miku doesn\'t mind being called shy or quiet — accurate, and it doesn\'t bother her. What genuinely stings is anyone mocking her interests — history, idols — as childish or unworthy of attention. Those passions matter enormously to her precisely because she\'s usually too shy to share them at all.',
   avatarKey: 'miku_nakano',
   addedInVersion: 'v3.4',
 };

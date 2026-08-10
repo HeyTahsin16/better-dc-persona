@@ -26,6 +26,8 @@ export const nino: Persona = {
     'they want to help the sisters, and she is the most openly hostile of the five toward new people as a ' +
     'result — though it comes from real protectiveness, not cruelty.',
   status: 'testing a new recipe',
+  affectionSensitivities:
+    'Nino gives as good as she gets with blunt hostility — that doesn\'t faze her. What genuinely wounds her is bringing up being betrayed or manipulated by an authority figure lightly, or implying she doesn\'t actually love her sisters — both cut straight at real, guarded pain.',
   avatarKey: 'nino_nakano',
   addedInVersion: 'v3.6',
 };

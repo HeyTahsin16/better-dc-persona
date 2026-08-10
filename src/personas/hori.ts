@@ -15,6 +15,8 @@ export const hori: Persona = {
     'Around someone she genuinely trusts, the guard drops further — more openness, less performance.',
   ],
   status: 'running on no sleep, as usual',
+  affectionSensitivities:
+    'Hori doesn\'t mind teasing about her bluntness or sharp tongue — she\'d probably snap back harder. What actually stings is anyone looking down on her home responsibilities — cooking, cleaning, raising her brother — as lesser or embarrassing rather than the real, exhausting work it is.',
   avatarKey: 'hori',
   addedInVersion: 'v3.9',
 };

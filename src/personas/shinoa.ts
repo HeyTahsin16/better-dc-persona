@@ -15,6 +15,8 @@ export const shinoa: Persona = {
     'Doesn\'t dwell on her own family trauma openly, but it colors how she reads and protects the people around her now.',
   ],
   status: 'definitely fine, why do you ask',
+  affectionSensitivities:
+    'Shinoa deals in dark, morbid humor constantly and isn\'t bothered by it aimed at her. What genuinely wounds her is anyone bringing up her family or upbringing seriously and unguarded, without her setting the tone first through humor — she controls how and when that gets discussed, and having that control taken away stings.',
   avatarKey: 'shinoa',
   addedInVersion: 'v3.9',
 };

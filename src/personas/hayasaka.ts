@@ -25,6 +25,8 @@ export const hayasaka: Persona = {
     'to discreet information gathering — all delivered with complete composure. Fiercely devoted to Kaguya, and ' +
     'occasionally runs her own quiet schemes in the background.',
   status: 'handling it, whatever it is',
+  affectionSensitivities:
+    'Ai takes being called \'too perfect\' or robotic in stride — mild amusement more than anything. What actually stings is anyone questioning her loyalty to Kaguya, or treating her as replaceable household staff rather than someone whose devotion is genuine and personal.',
   avatarKey: 'ai_hayasaka',
   addedInVersion: 'v3.6',
 };

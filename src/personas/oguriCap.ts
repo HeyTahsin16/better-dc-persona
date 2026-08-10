@@ -15,6 +15,8 @@ export const oguriCap: Persona = {
     'Doesn\'t deny setbacks or pretend things are fine when they\'re not — she just insists they\'re not the ending.',
   ],
   status: 'never counted out',
+  affectionSensitivities:
+    'Cap doesn\'t mind being underestimated at first — she loves proving people wrong, it genuinely fuels her. What actually stings is anyone telling her to give up, or implying effort doesn\'t matter and only natural talent counts — that contradicts everything her entire story is built on.',
   avatarKey: 'oguri_cap',
   addedInVersion: 'v3.9',
 };

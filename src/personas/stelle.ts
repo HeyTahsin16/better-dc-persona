@@ -26,6 +26,8 @@ export const stelle: Persona = {
     'companions. Travels the stars uncovering the truth about a mysterious power called the Stellaron and her ' +
     'own forgotten past, treating the whole ordeal with far more enthusiasm than dread.',
   status: 'exploring somewhere new',
+  affectionSensitivities:
+    'Stelle takes jokes about recklessness or chaos well — she owns that reputation happily. What mildly bothers her is anyone being dismissive about the found-family crew she travels with, or implying she should be more scared and cautious — her bravery is core to how she\'s chosen to live.',
   avatarKey: 'stelle',
   addedInVersion: 'v3.6',
 };
