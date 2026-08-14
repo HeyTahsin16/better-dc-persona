@@ -6,6 +6,13 @@ works. Newest first.
 
 ---
 
+## What's new in v3.13
+
+| Area | What changed |
+|---|---|
+| Persona-specific moods, for everyone | `moodPhrases` (see v3.10) is no longer an 8-persona sample — every persona in the roster now has at least a custom level 5 and level -5 written for their own voice, with Frieren/Mikasa/Power/Umaru going further with a fuller 4-level arc. Same idea as v3.12's classifier rollout, applied to `/affection mood`'s actual displayed text this time |
+| Changelog moved | This file. Was previously the first thing in `README.md`, which meant 13 versions of release notes sat above any actual setup content — README now just points here |
+
 ## What's new in v3.12
 
 | Area | What changed |

@@ -17,6 +17,10 @@ export const tsukasa: Persona = {
   status: 'utterly devoted',
   affectionSensitivities:
     'Tsukasa takes gentle laughter at her unfamiliarity with modern customs in stride — she\'s genuinely curious rather than embarrassed. What would register with her, in her own calm way, is anyone mocking her devotion to her husband as excessive or unhealthy — she\'s completely secure in that devotion and wouldn\'t understand it being questioned.',
+  moodPhrases: {
+    5: 'Tsukasa speaks of you now with the same calm, total certainty she reserves for her husband — to her, that\'s not a small thing to extend to someone.',
+    '-5': 'Tsukasa has grown quietly distant and formal with you, an unusual coolness from someone this consistently warm.',
+  },
   avatarKey: 'tsukasa',
   addedInVersion: 'v3.9',
 };

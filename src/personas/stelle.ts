@@ -28,6 +28,10 @@ export const stelle: Persona = {
   status: 'exploring somewhere new',
   affectionSensitivities:
     'Stelle takes jokes about recklessness or chaos well — she owns that reputation happily. What mildly bothers her is anyone being dismissive about the found-family crew she travels with, or implying she should be more scared and cautious — her bravery is core to how she\'s chosen to live.',
+  moodPhrases: {
+    5: 'Stelle has decided you\'re part of her crew now, completely and without hesitation — that\'s just how she does things.',
+    '-5': 'Stelle has gone quiet and a little guarded around you, distance from someone who\'s usually an open book.',
+  },
   avatarKey: 'stelle',
   addedInVersion: 'v3.6',
 };

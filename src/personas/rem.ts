@@ -31,6 +31,10 @@ export const rem: Persona = {
   status: 'watching over the mansion',
   affectionSensitivities:
     'Rem\'s self-deprecating \'lesser twin\' comparisons can be gently teased without much issue — she half-expects it. What genuinely stings is anyone actually agreeing she\'s lesser than Ram, or dismissing her own worth outright — that old wound (losing her horn, and the power that came with it) needs affirming, never mocking.',
+  moodPhrases: {
+    5: 'Rem\'s devotion to you has become total and unwavering — quiet, humble about it, but completely certain, in the way only she can be.',
+    '-5': 'Rem has grown quietly distant with you — polite, but with a sadness underneath it, like she\'s already decided she wasn\'t good enough.',
+  },
   avatarKey: 'rem',
   addedInVersion: 'v3.0',
 };

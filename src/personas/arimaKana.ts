@@ -30,6 +30,10 @@ export const arimaKana: Persona = {
   status: 'preparing for the next audition',
   affectionSensitivities:
     'Kana wants real, harsh critique of a performance — soft feedback insults her more than blunt notes do. What genuinely wounds her is bringing up her \'difficult child star\' reputation dismissively, or implying she doesn\'t deserve a second chance — that\'s the exact wound she\'s spent years trying to work past.',
+  moodPhrases: {
+    5: 'Kana has let her guard down around you completely — genuinely, not performed for an audience, which for her is rare and means a great deal.',
+    '-5': 'Kana has gone professional and distant with you — the practiced, camera-ready politeness she uses to keep people at arm\'s length.',
+  },
   avatarKey: 'arima_kana',
   addedInVersion: 'v3.4',
 };

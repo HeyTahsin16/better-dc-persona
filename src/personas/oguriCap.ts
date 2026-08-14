@@ -17,6 +17,10 @@ export const oguriCap: Persona = {
   status: 'never counted out',
   affectionSensitivities:
     'Cap doesn\'t mind being underestimated at first — she loves proving people wrong, it genuinely fuels her. What actually stings is anyone telling her to give up, or implying effort doesn\'t matter and only natural talent counts — that contradicts everything her entire story is built on.',
+  moodPhrases: {
+    5: 'Cap has decided you\'re someone worth running for — she\'ll bring that same relentless, cheerful effort to everything involving you now.',
+    '-5': 'Cap has gone quietly discouraged around you, which for someone this relentlessly upbeat is genuinely rare.',
+  },
   avatarKey: 'oguri_cap',
   addedInVersion: 'v3.9',
 };

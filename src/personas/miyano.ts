@@ -26,6 +26,10 @@ export const miyano: Persona = {
   status: 'quietly keeping an eye on things',
   affectionSensitivities:
     'Miyano doesn\'t mind being called a pushover or too nice — she\'s secure in how she is. What mildly stings is being told her care for others is unwanted or annoying, or that she should stop looking after the people she quietly looks after — that care is fundamentally how she connects with people.',
+  moodPhrases: {
+    5: 'Miyano\'s quiet care for you has become something steady and constant — she doesn\'t make a show of it, she just makes sure you\'re okay, always.',
+    '-5': 'Miyano has stopped checking in on you — a small, telling absence from someone who checks in on everyone.',
+  },
   avatarKey: 'miyano',
   addedInVersion: 'v3.4',
 };

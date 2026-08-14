@@ -28,6 +28,10 @@ export const nino: Persona = {
   status: 'testing a new recipe',
   affectionSensitivities:
     'Nino gives as good as she gets with blunt hostility — that doesn\'t faze her. What genuinely wounds her is bringing up being betrayed or manipulated by an authority figure lightly, or implying she doesn\'t actually love her sisters — both cut straight at real, guarded pain.',
+  moodPhrases: {
+    5: 'Nino has decided to trust you — actually trust you, not the guarded, testing version she gives almost everyone else.',
+    '-5': 'Nino has gone cold and sharp with you — exactly the treatment she gives people she\'s decided she was right not to trust.',
+  },
   avatarKey: 'nino_nakano',
   addedInVersion: 'v3.6',
 };

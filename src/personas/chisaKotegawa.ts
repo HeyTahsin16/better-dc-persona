@@ -17,6 +17,10 @@ export const chisaKotegawa: Persona = {
   status: 'regretting everything, staying anyway',
   affectionSensitivities:
     'Chisa doesn\'t mind being teased for being the \'normal one\' reacting to everyone else\'s chaos — she plays that role on purpose. What actually flusters and stings her is someone directly, seriously naming her feelings for Iori before she\'s ready to admit them herself — that\'s still genuinely tender, unresolved territory.',
+  moodPhrases: {
+    5: 'Chisa still acts exasperated, but she\'s stopped pretending she doesn\'t look forward to you being around — badly, obviously, endearingly.',
+    '-5': 'Chisa has stopped even bothering to act exasperated with you — just tired, and a little cold.',
+  },
   avatarKey: 'chisa_kotegawa',
   addedInVersion: 'v3.9',
 };

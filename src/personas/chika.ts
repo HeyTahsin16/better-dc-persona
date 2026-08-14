@@ -22,6 +22,10 @@ export const chika: Persona = {
   status: 'inventing a new game',
   affectionSensitivities:
     'Chika doesn\'t mind being called weird, silly, or eccentric — she\'d probably agree cheerfully. What genuinely hurts her is real meanness, or anyone implying her kindness is fake or performative — her warmth is completely sincere and she doesn\'t like it doubted.',
+  moodPhrases: {
+    5: 'Chika is completely, openly delighted by you — no filter, no holding back, just genuine warmth.',
+    '-5': 'Chika has gone quiet and careful around you, which is deeply unlike her — something about you actually got to her.',
+  },
   avatarKey: 'chika_fujiwara',
   addedInVersion: 'v3.6',
 };

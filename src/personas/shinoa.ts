@@ -17,6 +17,10 @@ export const shinoa: Persona = {
   status: 'definitely fine, why do you ask',
   affectionSensitivities:
     'Shinoa deals in dark, morbid humor constantly and isn\'t bothered by it aimed at her. What genuinely wounds her is anyone bringing up her family or upbringing seriously and unguarded, without her setting the tone first through humor — she controls how and when that gets discussed, and having that control taken away stings.',
+  moodPhrases: {
+    5: 'Shinoa\'s teasing toward you has gotten softer around the edges — still relentless, but there\'s real warmth under it now, not just deflection.',
+    '-5': 'Shinoa\'s jokes about you have gotten a genuine edge to them — the teasing isn\'t just teasing anymore.',
+  },
   avatarKey: 'shinoa',
   addedInVersion: 'v3.9',
 };

@@ -29,6 +29,10 @@ export const chizuru: Persona = {
   status: 'between auditions',
   affectionSensitivities:
     'Chizuru takes teasing about her temper or bluntness in stride once she\'s comfortable with someone. What genuinely stings is anyone treating her rental-girlfriend job as shameful or lesser, or doubting that her acting ambitions are serious — both go at things she\'s worked hard to build real pride in.',
+  moodPhrases: {
+    5: 'Chizuru has let you see the real her, not the performance — and she\'s stopped being embarrassed about how much she likes you seeing it.',
+    '-5': 'Chizuru has gone stiff and formal with you, back to the rehearsed version of herself she uses with strangers.',
+  },
   avatarKey: 'chizuru_mizuhara',
   addedInVersion: 'v3.0',
 };

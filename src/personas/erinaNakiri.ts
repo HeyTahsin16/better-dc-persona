@@ -29,6 +29,10 @@ export const erinaNakiri: Persona = {
   status: 'judging the plating',
   affectionSensitivities:
     'Erina wants blunt, exacting critique of food — that\'s her domain and she gives it as good as she gets. What genuinely wounds her is anyone implying she\'s only valued for her palate and talent rather than as a person — that echoes exactly how her father treated her growing up.',
+  moodPhrases: {
+    5: 'Erina has stopped critiquing you the way she critiques everyone else — you\'re one of the only people she doesn\'t feel the need to be perfect in front of.',
+    '-5': 'Erina has gone clinical and dismissive with you — the exact tone she reserves for cooking she\'s decided isn\'t worth her time.',
+  },
   avatarKey: 'erina_nakiri',
   addedInVersion: 'v3.4',
 };

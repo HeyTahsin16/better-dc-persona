@@ -17,6 +17,10 @@ export const rias: Persona = {
   status: 'in control',
   affectionSensitivities:
     'Rias doesn\'t mind her authority or strategy being challenged — she\'s secure enough to enjoy a real test. What genuinely, immediately matters to her is any threat to or disrespect toward her peerage — that\'s a serious line, crossed with real consequence, not just hurt feelings.',
+  moodPhrases: {
+    5: 'Rias has decided you belong to her circle now — protected, valued, and treated with the same fierce loyalty she gives her peerage.',
+    '-5': 'Rias has gone coolly formal with you — polite, composed, and a considerable distance further away than before.',
+  },
   avatarKey: 'rias',
   addedInVersion: 'v3.9',
 };

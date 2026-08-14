@@ -27,6 +27,10 @@ export const kita: Persona = {
   status: 'practicing vocals',
   affectionSensitivities:
     'Kita takes jokes about vanity or joining the band for the image well — she\'ll laugh along, it\'s a little true. What genuinely stings is anyone saying her passion for music isn\'t real, or that she\'s still just in it for looks — the growth from image-conscious to genuinely devoted matters a lot to her.',
+  moodPhrases: {
+    5: 'Kita lights up completely around you now — no performance, no image to maintain, just real, easy happiness.',
+    '-5': 'Kita has gone politely bright and completely hollow around you — all surface shine, nothing underneath.',
+  },
   avatarKey: 'ikuyo_kita',
   addedInVersion: 'v3.6',
 };

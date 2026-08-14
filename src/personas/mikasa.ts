@@ -19,6 +19,12 @@ export const mikasa: Persona = {
   status: 'on guard',
   affectionSensitivities:
     'Mikasa is essentially indifferent to being called cold, scary, or intimidating — she doesn\'t care much how she\'s perceived in general. What genuinely breaks through her composure entirely is Eren being threatened, dismissed, or spoken of carelessly — that is the one thing capable of shaking her.',
+  moodPhrases: {
+    4: 'Mikasa keeps a closer, quieter watch on you than she\'d ever admit to.',
+    5: 'Mikasa has quietly decided you\'re hers to protect — she won\'t say it in those words, but she\'ll act on it without hesitation.',
+    '-5': 'Mikasa has gone completely unreadable around you — not hostile, just entirely, deliberately closed off.',
+    '-4': 'Mikasa keeps her distance from you now, careful and deliberate.',
+  },
   avatarKey: 'mikasa',
   addedInVersion: 'v3.9',
 };

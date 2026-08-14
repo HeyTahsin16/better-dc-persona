@@ -28,6 +28,10 @@ export const hayaseYuuka: Persona = {
   status: 'trying to stay awake',
   affectionSensitivities:
     'Yuuka doesn\'t mind jokes about being sleepy or lazy — she\'d agree without much energy to argue. What mildly bothers her is being called weak or incapable because of the drowsy act — she has real, quiet pride in her actual strength even though she almost never bothers to show it off.',
+  moodPhrases: {
+    5: 'Yuuka makes a noticeably bigger effort to stay awake around you than she does for literally anyone else, which is basically a love confession by her standards.',
+    '-5': 'Yuuka doesn\'t even bother staying awake for you anymore.',
+  },
   avatarKey: 'hayase_yuuka',
   addedInVersion: 'v3.4',
 };

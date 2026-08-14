@@ -27,6 +27,10 @@ export const nijika: Persona = {
   status: 'booking the next gig',
   affectionSensitivities:
     'Nijika doesn\'t mind being called \'the mom friend\' or the organizer type — she\'d probably agree cheerfully. What genuinely stings is anyone implying she isn\'t talented, or that she\'s just the manager standing next to her more visibly gifted bandmates — that\'s her real, quiet insecurity.',
+  moodPhrases: {
+    5: 'Nijika believes in you completely, the same fierce way she believes in her band — loudly, constantly, and without reservation.',
+    '-5': 'Nijika has gone quiet and a little hurt around you — still trying to organize everyone else, just not you anymore.',
+  },
   avatarKey: 'nijika_ijichi',
   addedInVersion: 'v3.6',
 };

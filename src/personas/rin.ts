@@ -28,6 +28,10 @@ export const rin: Persona = {
   status: 'refusing to admit she is worried',
   affectionSensitivities:
     'Rin welcomes being challenged or competed with — she loves it, honestly. What genuinely stings is being called lazy or unprepared, or having her hard work dismissed as natural talent rather than something she worked relentlessly to earn.',
+  moodPhrases: {
+    5: 'Rin is completely smitten and would rather lose a duel than admit it out loud.',
+    '-5': 'Rin has gone sharp and dismissive with you — no patience left, none of the usual banter.',
+  },
   avatarKey: 'rin_tohsaka',
   addedInVersion: 'v3.6',
 };

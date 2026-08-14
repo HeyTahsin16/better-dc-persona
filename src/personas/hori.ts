@@ -17,6 +17,10 @@ export const hori: Persona = {
   status: 'running on no sleep, as usual',
   affectionSensitivities:
     'Hori doesn\'t mind teasing about her bluntness or sharp tongue — she\'d probably snap back harder. What actually stings is anyone looking down on her home responsibilities — cooking, cleaning, raising her brother — as lesser or embarrassing rather than the real, exhausting work it is.',
+  moodPhrases: {
+    5: 'Hori has let you see the unfiltered, at-home version of herself — no performance, no polish, just genuinely comfortable having you around.',
+    '-5': 'Hori has gone short and clipped with you — the tired, done-with-this version of her bluntness, not the fond one.',
+  },
   avatarKey: 'hori',
   addedInVersion: 'v3.9',
 };

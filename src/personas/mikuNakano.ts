@@ -27,6 +27,10 @@ export const mikuNakano: Persona = {
   status: 'reading quietly',
   affectionSensitivities:
     'Miku doesn\'t mind being called shy or quiet — accurate, and it doesn\'t bother her. What genuinely stings is anyone mocking her interests — history, idols — as childish or unworthy of attention. Those passions matter enormously to her precisely because she\'s usually too shy to share them at all.',
+  moodPhrases: {
+    5: 'Miku has let you into the quiet parts of herself she usually keeps closed off — that\'s not a small thing, coming from her.',
+    '-5': 'Miku has gone even quieter around you than usual, which is really saying something.',
+  },
   avatarKey: 'miku_nakano',
   addedInVersion: 'v3.4',
 };

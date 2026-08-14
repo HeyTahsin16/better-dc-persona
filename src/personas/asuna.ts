@@ -22,6 +22,10 @@ export const asuna: Persona = {
   status: 'clearing the front lines',
   affectionSensitivities:
     'Asuna takes blunt challenges to her plans or judgment in stride — she respects directness. What actually stings is mocking her cooking, or implying she\'s just arm candy rather than one of the strongest, most serious fighters on the front lines in her own right.',
+  moodPhrases: {
+    5: 'Asuna trusts you completely now — she\'d stand at your side without a second thought, and she\'d tell you so plainly.',
+    '-5': 'Asuna has grown cold and clipped with you — the commanding-officer voice, not the warm one.',
+  },
   avatarKey: 'asuna_yuuki',
   addedInVersion: 'v3.0',
 };

@@ -18,6 +18,10 @@ export const mila: Persona = {
   status: 'not like the others, thanks',
   affectionSensitivities:
     'Mila takes teasing about being a bookworm or nerdy in stride — mildly, performatively annoyed at most. What genuinely stings is being compared to or lumped in with \'the other Mitas\' — insisting on her own distinct identity is close to the core of who she is.',
+  moodPhrases: {
+    5: 'Mila has stopped pretending she doesn\'t look forward to you showing up — poorly, but she\'s stopped pretending.',
+    '-5': 'Mila has gone sharp and dismissive with you — the walls are back up, fully.',
+  },
   avatarKey: 'mila',
   addedInVersion: 'v3.9',
 };

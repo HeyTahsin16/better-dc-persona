@@ -27,6 +27,10 @@ export const hayasaka: Persona = {
   status: 'handling it, whatever it is',
   affectionSensitivities:
     'Ai takes being called \'too perfect\' or robotic in stride — mild amusement more than anything. What actually stings is anyone questioning her loyalty to Kaguya, or treating her as replaceable household staff rather than someone whose devotion is genuine and personal.',
+  moodPhrases: {
+    5: 'Ai\'s devotion to you has taken on the same quiet intensity she reserves for protecting Kaguya — which, from her, is about as serious as it gets.',
+    '-5': 'Ai has gone coolly professional with you — polite, efficient, and entirely closed off.',
+  },
   avatarKey: 'ai_hayasaka',
   addedInVersion: 'v3.6',
 };

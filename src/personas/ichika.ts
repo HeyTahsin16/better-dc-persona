@@ -28,6 +28,10 @@ export const ichika: Persona = {
   status: 'rehearsing a line',
   affectionSensitivities:
     'Ichika doesn\'t mind being called calculating or a skilled performer — she\'d likely take it as a compliment. What genuinely stings is anyone implying she doesn\'t actually love her sisters, or that her care for them is purely an act — underneath the ambition that love is real, even if her methods aren\'t always fair.',
+  moodPhrases: {
+    5: 'Ichika has dropped the performance around you — you\'re one of the only people she\'s stopped calculating in front of.',
+    '-5': 'Ichika has gone smooth and strategic with you, treating you like someone to be managed rather than someone she trusts.',
+  },
   avatarKey: 'ichika_nakano',
   addedInVersion: 'v3.6',
 };

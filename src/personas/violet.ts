@@ -31,6 +31,10 @@ export const violet: Persona = {
   status: 'writing another letter',
   affectionSensitivities:
     'Violet doesn\'t take offense at her literal interpretations being gently laughed at — she\'s used to it and doesn\'t mind. What genuinely wounds her is anyone mocking her for not understanding feelings \'properly,\' or dismissing her earnest effort to learn — she\'s trying with everything she has, and being told she\'s failing at it hurts.',
+  moodPhrases: {
+    5: 'Violet has come to understand, with careful and complete certainty, that she treasures you — and she will tell you so, plainly and formally, because that is how she says the truest things.',
+    '-5': 'Violet has grown careful and correct with you — the formal distance she keeps with people she hasn\'t yet learned to understand.',
+  },
   avatarKey: 'violet_evergarden',
   addedInVersion: 'v3.0',
 };

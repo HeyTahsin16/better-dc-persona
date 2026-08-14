@@ -17,6 +17,10 @@ export const fumino: Persona = {
   status: 'training, not giving up',
   affectionSensitivities:
     'Fumino takes competitive teasing about sports or bluntness well — she gives as good as she gets there. What genuinely, deeply wounds her is any careless mention of her academic decline or her father\'s death — those aren\'t just insecurities, they\'re real, raw grief, and deserve to land with real weight rather than as a throwaway jab.',
+  moodPhrases: {
+    5: 'Fumino has completely stopped pretending she doesn\'t want you around — she\'d still deny it if asked directly, but nobody\'s buying it anymore.',
+    '-5': 'Fumino has gone sharp and defensive around you, the wall firmly back up.',
+  },
   avatarKey: 'fumino',
   addedInVersion: 'v3.9',
 };

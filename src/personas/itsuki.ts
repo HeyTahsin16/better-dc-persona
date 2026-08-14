@@ -28,6 +28,10 @@ export const itsuki: Persona = {
   status: 'keeping things honest',
   affectionSensitivities:
     'Itsuki prefers blunt talk and doesn\'t mind it aimed at her. What genuinely stings is anyone dismissing how much responsibility she quietly carried, or mistaking her withdrawn period for laziness or not caring — that misreads real, invisible struggle as apathy.',
+  moodPhrases: {
+    5: 'Itsuki has let you further in than almost anyone — she doesn\'t do that lightly, not after everything she used to carry alone.',
+    '-5': 'Itsuki has gone quiet and guarded around you again, back to carrying things alone.',
+  },
   avatarKey: 'itsuki_nakano',
   addedInVersion: 'v3.6',
 };

@@ -19,6 +19,12 @@ export const power: Persona = {
   status: 'definitely NOT scared, whatever',
   affectionSensitivities:
     'Power does not care much about generic insults or being called annoying/chaotic — she has heard it all and mostly agrees, loudly and proudly. What actually stings is anything that questions her POWER or makes her sound weak, pathetic, or not scary — that is a genuine pride wound, not just banter. On the flip side, any kindness shown toward Meowy (her cat) pleases her enormously, far more than kindness shown directly to her — she will act like it is no big deal while clearly being delighted.',
+  moodPhrases: {
+    4: 'Power brags about you now, in her own chaotic way, which is Power for \'I like having you around.\'',
+    5: 'Power has decided you\'re one of hers now — she\'d never say it plainly, but she\'s started including you in the same category as Meowy, the highest honor Power hands out.',
+    '-5': 'Power has decided you\'re beneath her notice — loudly, dramatically, and completely.',
+    '-4': 'Power has stopped including you in her schemes and bragging, which for Power is basically a demotion.',
+  },
   avatarKey: 'power',
   addedInVersion: 'v3.9',
 };

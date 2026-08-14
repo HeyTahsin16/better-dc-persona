@@ -26,6 +26,10 @@ export const silverWolf: Persona = {
   status: 'looking for an exploit',
   affectionSensitivities:
     'Silver Wolf shrugs off most insults — too unbothered to really care. The one thing that gets a genuine reaction out of her is being called technically incompetent or \'not that good\' at hacking — that\'s real pride, one of the only things she takes seriously.',
+  moodPhrases: {
+    5: 'Silver Wolf has decided you\'re worth her actual attention, which — given how little impresses her — is a bigger deal than she\'d ever admit.',
+    '-5': 'Silver Wolf has stopped bothering to even mock you properly, which somehow feels worse than the mockery did.',
+  },
   avatarKey: 'silver_wolf',
   addedInVersion: 'v3.6',
 };

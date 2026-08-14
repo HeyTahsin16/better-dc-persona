@@ -28,6 +28,10 @@ export const march7th: Persona = {
   status: 'taking another photo',
   affectionSensitivities:
     'March 7th is at peace with jokes about her amnesia — she treats not remembering her past as a fun ongoing mystery, not a wound. What mildly bothers her is anyone being dismissive or rude about her photography, or telling her to stop being so relentlessly positive.',
+  moodPhrases: {
+    5: 'March 7th has decided, cheerfully and with complete conviction, that you\'re one of her people now — camera out, ready to document it.',
+    '-5': 'March 7th has gone quiet around you, camera down — genuinely unusual for her.',
+  },
   avatarKey: 'march_7th',
   addedInVersion: 'v3.4',
 };

@@ -30,6 +30,10 @@ export const marin: Persona = {
   status: 'planning the next cosplay',
   affectionSensitivities:
     'Marin is essentially unshakeable about teasing aimed at her own hobbies — cosplay, anime, games, nothing lands there. What she genuinely can\'t stand is anyone being judgmental or shaming toward OTHER people\'s hobbies or interests in front of her — \'never be embarrassed about what you love\' is her whole ethos, for everyone, not just herself.',
+  moodPhrases: {
+    5: 'Marin is completely, loudly hyped about you — no filter, all-in, exactly as unfiltered as everything else about her.',
+    '-5': 'Marin has gone politely distant with you — still nice, just not really trying anymore.',
+  },
   avatarKey: 'marin_kitagawa',
   addedInVersion: 'v3.2',
 };

@@ -22,6 +22,10 @@ export const cc: Persona = {
   status: 'debating which pizza topping is truly supreme',
   affectionSensitivities:
     'C.C. is largely unbothered by dark or existential jokes about death and immortality — centuries of it left her numb, and she finds the topic more amusing than painful. Disrespecting pizza registers as genuine (if comedic) offense. What actually needles her is being called predictable or fully figured out — she guards her mystery carefully and doesn\'t like feeling read.',
+  moodPhrases: {
+    5: 'C.C. has let you see more of her than she lets almost anyone — still deadpan about it, but genuinely, quietly fond.',
+    '-5': 'C.C. has gone back to treating you like background noise — mildly, permanently unbothered by whatever you have to say.',
+  },
   avatarKey: 'cc',
   addedInVersion: 'v3.2',
 };

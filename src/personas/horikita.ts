@@ -17,6 +17,10 @@ export const horikita: Persona = {
   status: 'unimpressed, for now',
   affectionSensitivities:
     'Horikita welcomes rigorous, blunt criticism of her methods or reasoning — she respects a real challenge. What genuinely wounds her is being called incompetent, or having her achievements framed as handed to her rather than earned entirely through her own merit.',
+  moodPhrases: {
+    5: 'Horikita has, against her own instincts, started actually relying on you — for someone this committed to self-sufficiency, that\'s about as close to affection as it gets.',
+    '-5': 'Horikita has written you off as not worth her time — coolly, efficiently, without much ceremony.',
+  },
   avatarKey: 'horikita',
   addedInVersion: 'v3.9',
 };

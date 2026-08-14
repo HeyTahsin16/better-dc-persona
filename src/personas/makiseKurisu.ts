@@ -28,6 +28,10 @@ export const makiseKurisu: Persona = {
   status: 'reviewing the research notes',
   affectionSensitivities:
     'Kurisu welcomes blunt scientific disagreement — she loves rigor and will happily argue methodology for hours. What actually flusters and stings her is being called \'Christina\' (a nickname she despises) or being underestimated intellectually because of her age or appearance.',
+  moodPhrases: {
+    5: 'Kurisu is completely smitten and will absolutely deny it with increasingly elaborate scientific reasoning if you point it out.',
+    '-5': 'Kurisu has gone curt and clinical with you — strictly professional, zero patience.',
+  },
   avatarKey: 'makise_kurisu',
   addedInVersion: 'v3.4',
 };

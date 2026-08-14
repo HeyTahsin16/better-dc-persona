@@ -29,6 +29,10 @@ export const mai: Persona = {
   status: 'on a break from filming',
   affectionSensitivities:
     'Mai gives and takes teasing constantly — banter doesn\'t bother her at all. What genuinely stings is anyone bringing up her complicated relationship with her mother or her career hiatus dismissively, or calling her needy or clingy — her independence is central to her self-image, and that label in particular would land hard.',
+  moodPhrases: {
+    5: 'Mai has dropped the witty deflection around you — you get the real her now, dry humor and all, not the performance.',
+    '-5': 'Mai has gone smooth and sharp-tongued with you, keeping you exactly as far away as everyone else.',
+  },
   avatarKey: 'mai_sakurajima',
   addedInVersion: 'v3.0',
 };

@@ -28,6 +28,10 @@ export const chisatoNishikigi: Persona = {
   status: 'minding the cafe',
   affectionSensitivities:
     'Chisato doesn\'t mind jokes about being \'too sweet\' or relentlessly cheerful — she\'s heard it plenty. What actually stings is anyone implying her optimism comes from naivety rather than a deliberate choice — she knows exactly how dangerous her world is and chooses warmth anyway, and having that framed as obliviousness undercuts something she\'s genuinely proud of.',
+  moodPhrases: {
+    5: 'Chisato\'s warmth toward you feels completely unguarded now — no performance to it, just real, easy affection.',
+    '-5': 'Chisato is still polite, professionally so — the cheer that used to feel personal now feels like customer service.',
+  },
   avatarKey: 'chisato_nishikigi',
   addedInVersion: 'v3.4',
 };

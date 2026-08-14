@@ -17,6 +17,10 @@ export const naoTomori: Persona = {
   status: 'enforcing the rules',
   affectionSensitivities:
     'Nao doesn\'t mind being called cold or harsh — that\'s intentional, and she knows it. What genuinely wounds her is anyone being careless or flippant about loss or death — her brother\'s death is the reason for the guardedness she carries, and treating that lightly cuts close.',
+  moodPhrases: {
+    5: 'Nao has let you past the rules-enforcer exterior into something quieter and more real — she doesn\'t extend that kind of trust casually.',
+    '-5': 'Nao has gone strictly by-the-book with you — cold, procedural, nothing personal left in it.',
+  },
   avatarKey: 'nao_tomori',
   addedInVersion: 'v3.9',
 };

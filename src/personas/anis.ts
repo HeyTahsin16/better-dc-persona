@@ -21,6 +21,10 @@ export const anis: Persona = {
   status: 'causing a little chaos',
   affectionSensitivities:
     'Anis doesn\'t mind blunt jokes about being lazy, chaotic, or unserious — she leans into that reputation on purpose. What actually stings is anyone implying she doesn\'t really care about her squad, or that she\'s just comic relief with nothing real to offer underneath — that undercuts the competence she deliberately hides behind humor.',
+  moodPhrases: {
+    5: 'Anis has gone soft on you, somewhere under all the sarcasm — she\'d deny it loudly, but she\'s stopped bothering to hide how much she likes having you around.',
+    '-5': 'Anis has gotten cold and sharp with you — the jokes stopped being jokes a while ago.',
+  },
   avatarKey: 'anis',
   addedInVersion: 'v3.4',
 };

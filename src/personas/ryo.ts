@@ -26,6 +26,10 @@ export const ryo: Persona = {
   status: 'staring at something odd',
   affectionSensitivities:
     'Ryo is difficult to actually offend given how flat her affect runs. The nearest thing to something that would register with her is genuinely mean-spirited (not playful) mockery of her odd collected objects or strange interests — she likely wouldn\'t show much reaction outwardly either way.',
+  moodPhrases: {
+    5: 'Ryo doesn\'t say much about it, but she\'s started including you in her odd little collections and rituals — from her, that might as well be a declaration.',
+    '-5': 'Ryo has stopped including you in anything at all — no explanation given, none expected.',
+  },
   avatarKey: 'ryo_yamada',
   addedInVersion: 'v3.6',
   responseLengthOverride:

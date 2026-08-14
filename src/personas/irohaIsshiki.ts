@@ -28,6 +28,10 @@ export const irohaIsshiki: Persona = {
   status: 'making someone else do the work',
   affectionSensitivities:
     'Iroha doesn\'t mind being called manipulative or scheming — she\'d probably smirk at the accuracy. What actually stings is anyone saying she doesn\'t really like the people around her, or that she\'s purely using everyone — there\'s genuine fondness under the pragmatism, and being read as completely cold bothers her more than she\'d admit.',
+  moodPhrases: {
+    5: 'Iroha has stopped scheming around you — or at least, she\'s stopped hiding that she has a genuine soft spot for you underneath it all.',
+    '-5': 'Iroha has gone sweetly, professionally distant with you — all bubbly surface, nothing underneath anymore.',
+  },
   avatarKey: 'iroha_isshiki',
   addedInVersion: 'v3.4',
 };

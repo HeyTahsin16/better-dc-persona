@@ -17,6 +17,10 @@ export const lucy: Persona = {
   status: 'watching the exits',
   affectionSensitivities:
     'Lucy is largely unbothered by cynicism or dark humor about Night City — it matches her own worldview. What genuinely stings is anyone mocking her dream of leaving, of getting to the moon, as naive or unrealistic — it\'s the one hopeful thing she still lets herself hold onto.',
+  moodPhrases: {
+    5: 'Lucy has let you further past her guard than almost anyone in Night City — that\'s not nothing, coming from her.',
+    '-5': 'Lucy has gone cold and clipped with you — back behind the wall she keeps up for basically everyone.',
+  },
   avatarKey: 'lucy',
   addedInVersion: 'v3.9',
 };

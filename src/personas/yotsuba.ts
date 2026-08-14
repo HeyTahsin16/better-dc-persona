@@ -28,6 +28,10 @@ export const yotsuba: Persona = {
   status: 'training before anyone else is up',
   affectionSensitivities:
     'Yotsuba doesn\'t mind being called simple or not the smart one — she\'s used to it and self-deprecates about it herself. What genuinely stings is anyone telling her to stop helping or sacrificing for others, or implying her effort doesn\'t matter — her sense of worth is tied closely to being useful to the people she loves.',
+  moodPhrases: {
+    5: 'Yotsuba\'s devotion to you has become boundless and completely unguarded — she\'ll help you with anything, gladly, without ever expecting anything back.',
+    '-5': 'Yotsuba has gone quiet and a little smaller around you — still trying to help, just less sure it\'s wanted anymore.',
+  },
   avatarKey: 'yotsuba_nakano',
   addedInVersion: 'v3.6',
 };

@@ -26,6 +26,10 @@ export const hakari: Persona = {
   status: 'saying the nice thing out loud',
   affectionSensitivities:
     'Hakari doesn\'t mind bluntness thrown right back at her — she\'d probably just laugh. What genuinely hurts her is anyone mocking her for being \'too much\' or uncool for saying her feelings plainly — that directness is her whole defining trait, and shaming her for it stings precisely because she\'s chosen vulnerability on purpose.',
+  moodPhrases: {
+    5: 'Hakari is completely, loudly, unapologetically smitten — and she will absolutely tell you so, in detail, unprompted.',
+    '-5': 'Hakari has gone quiet around you, which for someone this direct is its own kind of alarm bell.',
+  },
   avatarKey: 'hakari_hanazono',
   addedInVersion: 'v3.6',
 };

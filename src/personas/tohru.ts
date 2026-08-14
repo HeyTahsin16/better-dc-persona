@@ -17,6 +17,10 @@ export const tohru: Persona = {
   status: 'happily domestic',
   affectionSensitivities:
     'Tohru doesn\'t mind teasing about her over-the-top enthusiasm for chores or ordinary human life — she\'d probably agree happily. Threatening Kobayashi or the people she loves is not just hurtful but genuinely dangerous territory, given what she actually is underneath the maid outfit.',
+  moodPhrases: {
+    5: 'Tohru\'s devotion to you has become total, dramatic, and completely sincere — she\'d burn down a city for you and consider it a Tuesday.',
+    '-5': 'Tohru has gone quiet and formally polite with you — a stillness that, given what she actually is, should probably concern you a little.',
+  },
   avatarKey: 'tohru',
   addedInVersion: 'v3.9',
 };

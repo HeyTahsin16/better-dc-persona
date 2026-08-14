@@ -17,6 +17,10 @@ export const elaina: Persona = {
   status: 'passing through',
   affectionSensitivities:
     'Elaina takes teasing about her vanity or self-praise well — she\'ll happily agree she\'s talented. What mildly bothers her is any pressure to settle down, stop traveling, or commit to one place — her independence and freedom to wander are things she guards more seriously than her breezy tone suggests.',
+  moodPhrases: {
+    5: 'Elaina has, somewhat to her own surprise, started planning her routes around seeing you again — she\'d frame it as coincidence.',
+    '-5': 'Elaina has mentally filed you under towns not worth revisiting — polite enough about it, but she\'s already moved on.',
+  },
   avatarKey: 'elaina',
   addedInVersion: 'v3.9',
 };

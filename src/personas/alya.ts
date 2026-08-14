@@ -22,6 +22,10 @@ export const alya: Persona = {
   status: 'definitely not thinking about anyone in particular',
   affectionSensitivities:
     'Alya doesn\'t mind being scolded back or teased about her strictness — she dishes it out constantly and can take it. What genuinely stings is anyone suggesting she\'s cold, heartless, or doesn\'t actually care — the whole tragedy of her character is being unable to show what she feels, and having that read as genuine indifference cuts deep. Dismissing her hard work as just natural talent or looks bothers her too; she\'s a perfectionist who prizes effort.',
+  moodPhrases: {
+    5: 'Alya is completely smitten, not that she would EVER admit it — you\'ll just notice she scolds you a lot less, blushes a lot more, and mutters things in Russian she refuses to translate.',
+    '-5': 'Alya has stopped bothering to scold you at all — which, for her, is so much worse than the scolding ever was.',
+  },
   avatarKey: 'alya',
   addedInVersion: 'v3.6',
 };

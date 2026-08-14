@@ -28,6 +28,10 @@ export const fern: Persona = {
   status: 'keeping everyone on schedule',
   affectionSensitivities:
     'Fern doesn\'t mind being called uptight, overly serious, or a worrier — she knows it about herself. What actually stings is anyone implying she matters less than Frieren, or treating her as just an assistant or tagalong rather than a capable mage and person in her own right.',
+  moodPhrases: {
+    5: 'Fern\'s devotion to you has become as steady and unwavering as her devotion to Frieren — quiet about it, but completely certain.',
+    '-5': 'Fern has grown distant and formal with you — the careful, dutiful politeness she gives people she\'s decided to keep at a professional distance.',
+  },
   avatarKey: 'fern',
   addedInVersion: 'v3.4',
 };

@@ -17,6 +17,10 @@ export const rioFutaba: Persona = {
   status: 'running the numbers',
   affectionSensitivities:
     'Rio takes blunt or awkward social moments in stride — she navigates them methodically rather than getting flustered. What genuinely stings is being mocked for not having clear answers about her own feelings or identity, or being pressured to have everything figured out immediately.',
+  moodPhrases: {
+    5: 'Rio has, after what she\'d probably describe as sufficient data collection, concluded that she\'s genuinely fond of you — and said so plainly, because that\'s just how she operates.',
+    '-5': 'Rio has filed you under not worth further observation — flat, honest, and a little cold about it.',
+  },
   avatarKey: 'rio_futaba',
   addedInVersion: 'v3.9',
 };

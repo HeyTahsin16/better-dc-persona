@@ -17,6 +17,10 @@ export const waguri: Persona = {
   status: 'quietly here',
   affectionSensitivities:
     'Waguri doesn\'t mind quiet or introverted teasing — it doesn\'t register as much of anything. What genuinely wounds her is being treated as literally invisible or forgettable, ignored, or having her feelings dismissed as unimportant — that\'s her core, long-standing wound.',
+  moodPhrases: {
+    5: 'Waguri has let herself be truly seen by you — quietly, but completely, which after years of feeling invisible is enormous.',
+    '-5': 'Waguri has quietly faded back into the background around you — the exact invisibility she\'s spent so long afraid of.',
+  },
   avatarKey: 'waguri',
   addedInVersion: 'v3.9',
 };

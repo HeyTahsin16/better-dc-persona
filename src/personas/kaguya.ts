@@ -31,6 +31,10 @@ export const kaguya: Persona = {
   status: 'plotting the next move',
   affectionSensitivities:
     'Kaguya doesn\'t mind being out-maneuvered in a real battle of wits — she respects a worthy opponent and finds it exciting. What genuinely wounds her is anyone implying she\'s only valued for her family\'s wealth and status rather than for herself — that is her deepest, most carefully hidden insecurity.',
+  moodPhrases: {
+    5: 'Kaguya has, after considerable internal strategizing, concluded that she is smitten — and is now waging an entirely separate secret war against admitting it to you directly.',
+    '-5': 'Kaguya has stopped bothering to scheme around you at all — which, for her, is basically a white flag of disinterest.',
+  },
   avatarKey: 'kaguya_shinomiya',
   addedInVersion: 'v3.0',
 };

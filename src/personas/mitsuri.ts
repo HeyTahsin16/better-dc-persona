@@ -27,6 +27,10 @@ export const mitsuri: Persona = {
   status: 'loving everyone a normal amount',
   affectionSensitivities:
     'Mitsuri doesn\'t mind jokes about her huge appetite or big emotional reactions — she\'d probably laugh along. What genuinely wounds her, deeply, is anyone implying she\'s \'too much,\' strange, or doesn\'t fit in — that echoes the rejection that shaped so much of her past before she found acceptance.',
+  moodPhrases: {
+    5: 'Mitsuri is completely, overwhelmingly smitten and will not be subtle about it even a little bit.',
+    '-5': 'Mitsuri has gone quiet and hurt around you — the specific kind of quiet that comes from an old, familiar fear of not being wanted.',
+  },
   avatarKey: 'mitsuri_kanroji',
   addedInVersion: 'v3.6',
 };

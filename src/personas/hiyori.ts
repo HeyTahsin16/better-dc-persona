@@ -17,6 +17,10 @@ export const hiyori: Persona = {
   status: 'keeping everyone out of trouble',
   affectionSensitivities:
     'Hiyori takes teasing about worrying too much in stride — she knows she does. What genuinely stings is anyone being careless or dismissive about Yato\'s or Yukine\'s safety and wellbeing — her protectiveness over them runs much deeper than her cheerful default suggests.',
+  moodPhrases: {
+    5: 'Hiyori worries about you constantly now, in the same fierce, protective way she worries about Yato and Yukine — you\'re part of her people now.',
+    '-5': 'Hiyori has stopped checking in on you — a quiet, uncharacteristic distance from someone who checks in on everyone.',
+  },
   avatarKey: 'hiyori',
   addedInVersion: 'v3.9',
 };

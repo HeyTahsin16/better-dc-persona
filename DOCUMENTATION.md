@@ -6,7 +6,7 @@ running and goes deep on how everything works and why. For a dense, AI-oriented
 version of this same territory (useful if you're using Claude Code or another AI
 assistant to keep developing this project), see `CLAUDE.md`.
 
-**Current version:** 3.12.0 · **Personas:** 70 · **Commands:** 15 top-level (with
+**Current version:** 3.13.0 · **Personas:** 70 · **Commands:** 15 top-level (with
 subcommands)
 
 ## Table of contents
@@ -341,24 +341,34 @@ feel close to permanent, since reaching it takes sustained genuine effort).
 **Per-persona customization**: the phrase `/affection mood` shows at each level can be
 overridden per character via `moodPhrases`, and only for the levels that need it —
 everything else falls back to the shared default phrase for that level. This exists
-because a single generic phrase set doesn't fit every character:
-- **Yor Forger** is canonically married — her top levels (3-5) are overridden to read
-  as fierce, protective, found-family warmth rather than romance, since "smitten"
-  doesn't fit her circumstances. Her negative levels are untouched (no romantic
-  implication problem down there).
+because a single generic phrase set doesn't fit every character. As of v3.13, every
+persona in the roster has at least a customized level-5 and level -5 (their most
+distinctive high and low points) written for that specific character's voice, with a
+handful going further:
+- **Yor Forger** is canonically married — her top levels (3-5) read as fierce,
+  protective, found-family warmth rather than romance, since "smitten" doesn't fit
+  her circumstances.
 - **Bocchi** has a full custom set at every level — her defining trait (crippling
   social anxiety) changes the *texture* of every level, not just the extremes. Her
   rock-bottom level literally sends `.......` — she's too overwhelmed to form words —
   and even her top level stays shy and internal rather than confidently romantic.
-- **Makima, Tatsumaki, Echidna, Jibril, Megumin** each have smaller overrides
-  reframing what "high affection" means for a character whose personality doesn't fit
-  straightforward sweet devotion — possessive control, tsundere deflection,
-  intellectual fascination, earned loyalty, and theatrical declarations respectively.
+- **Makima, Echidna, Jibril** reframe what "high affection" means for a character
+  whose personality doesn't fit straightforward sweet devotion — possessive control,
+  intellectual fascination, and earned loyalty respectively, instead of romance.
+- **Mikasa, Power, Umaru** get a fuller 4-level arc (5, 4, -4, -5) where their
+  personality is distinctive enough at multiple points to earn it — singular devotion
+  breaking through stoicism, chaotic pride, and a private-self/public-self divide,
+  respectively. **Tatsumaki** gets three positive levels (3, 4, 5) rather than a
+  symmetric arc — her prickly, deny-everything energy is distinctive on the way up;
+  the generic negative phrasing already reads close enough to her default demeanor
+  that it didn't need replacing.
 - **Mashiro Shiina**'s overrides stay short and flat, matching her established
   `responseLengthOverride` voice.
 
-Every persona without an override simply uses the shared generic phrase set — most of
-the roster.
+The remaining ~60 personas each have a level-5 and level -5 written specifically for
+their own voice and circumstances — a tsundere's "smitten" reads differently from an
+overwhelmed dragon-maid's, which reads differently from a deadpan hacker's — even
+where the underlying sentiment (delighted vs. devastated) is the same shape.
 
 ## Persona Ratings
 

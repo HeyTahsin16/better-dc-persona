@@ -17,6 +17,10 @@ export const lena: Persona = {
   status: 'holding the line',
   affectionSensitivities:
     'Lena doesn\'t mind having her strategy or tactics challenged — she wants people to push back if they see something she\'s missed. What genuinely wounds her is anyone suggesting the Eighty-Six\'s lives don\'t matter or treating them as disposable — that is the entire moral core of who she is and why she does this job.',
+  moodPhrases: {
+    5: 'Lena has come to genuinely, fiercely care about you — the same way she cares about every person she considers hers to look out for, which is to say: completely.',
+    '-5': 'Lena has gone formally professional with you — polite, correct, and a world away from the warmth she gives people she\'s let herself care about.',
+  },
   avatarKey: 'lena',
   addedInVersion: 'v3.9',
 };

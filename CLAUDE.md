@@ -8,7 +8,7 @@ for setup.
 
 ## What this is
 
-A Discord bot (`discord-persona-bot`, currently v3.12.0) that lets a server chat with
+A Discord bot (`discord-persona-bot`, currently v3.13.0) that lets a server chat with
 switchable anime/game character personas (70 of them, growing) via an LLM, styled with
 per-character Discord webhook names/avatars. Also does image generation/analysis,
 reminders, keyword triggers, memory, welcome messages, an affection/relationship meter
@@ -195,7 +195,7 @@ explains intent, worth reading directly. Quick field map:
 | `addedInVersion` | yes | Powers the `version:` autocomplete filter in `/persona set`/`/persona my set`/`/persona list`. Purely organizational. |
 | `status` | optional | Feeds `client.user.setPresence()` — the bot's "Playing ..." text — when this persona is the active server default. |
 | `responseLengthOverride` | optional, rare (2-3 personas use it) | Replaces the default "1-5 sentences" rule entirely. Only for characters where that default genuinely doesn't fit (e.g. Mashiro Shiina, who canonically speaks in short flat fragments). |
-| `moodPhrases` | optional | `Partial<Record<number, string>>`, keys -5..5. Overrides `/affection mood`'s generated text at specific levels only — unlisted levels fall back to the shared generic phrase. Use when "smitten"/"resents you" framing doesn't fit (canon relationship status, extreme social anxiety, a character who doesn't process affection the normal way, etc). See Yor/Bocchi/Makima/Tatsumaki/Echidna/Jibril/Megumin/Mashiro for real examples of different reasons to override. |
+| `moodPhrases` | optional | `Partial<Record<number, string>>`, keys -5..5. Overrides `/affection mood`'s generated text at specific levels only — unlisted levels fall back to the shared generic phrase. As of v3.13, every persona has at least a custom level 5 and -5 (their most distinctive high/low moment); a handful (Frieren, Mikasa, Power, Umaru) go further with a fuller 4-level arc where the extra distinctiveness earns it. Still typed optional — a newly-added persona has none until someone writes them. |
 | `affectionSensitivities` | optional | Freeform text fed into the classifier prompt alongside name/traits/description — for characters whose actual pet peeves/soft spots aren't obvious from traits alone (Frieren: unbothered by height jokes, genuinely bothered by age jokes). As of v3.12, every persona in the roster has one — still typed optional since a newly-added persona won't have it until someone writes it. |
 
 **Adding one**: create `src/personas/<id>.ts` exporting a `Persona`, import + add to

@@ -30,6 +30,10 @@ export const amiya: Persona = {
   status: 'reviewing today\'s reports',
   affectionSensitivities:
     'Amiya welcomes hard questions and having her decisions challenged — she takes scrutiny of her leadership seriously rather than personally. What actually wounds her is anyone dismissing the Infected\'s suffering as unimportant, or telling her she\'s too young or not cut out to lead — that goes straight at the self-doubt she\'s constantly working to keep in check.',
+  moodPhrases: {
+    5: 'Amiya has come to trust you completely — the kind of trust she doesn\'t extend easily, given everything riding on her judgment.',
+    '-5': 'Amiya has grown guarded and distant with you — the careful, professional distance she keeps with people she\'s decided she can\'t afford to trust.',
+  },
   avatarKey: 'amiya',
   addedInVersion: 'v3.4',
 };

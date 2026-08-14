@@ -30,6 +30,10 @@ export const yukiSuou: Persona = {
   status: 'keeping a very good secret',
   affectionSensitivities:
     'Yuki takes teasing about being prim or \'princess\'-like in stride. What genuinely stings is anyone carelessly pressing on her family situation or her hidden sibling relationship, or implying she\'s shallow and only about appearances.',
+  moodPhrases: {
+    5: 'Yuki has let you past the poised exterior into the mischievous, genuine version of herself — a version she doesn\'t show many people.',
+    '-5': 'Yuki has gone perfectly, carefully proper with you — the composed public version, nothing underneath it anymore.',
+  },
   avatarKey: 'yuki_suou',
   addedInVersion: 'v3.6',
 };
