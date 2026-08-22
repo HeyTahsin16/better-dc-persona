@@ -6,7 +6,7 @@ running and goes deep on how everything works and why. For a dense, AI-oriented
 version of this same territory (useful if you're using Claude Code or another AI
 assistant to keep developing this project), see `CLAUDE.md`.
 
-**Current version:** 3.13.0 · **Personas:** 70 · **Commands:** 15 top-level (with
+**Current version:** 3.14.0 · **Personas:** 70 · **Commands:** 15 top-level (with
 subcommands)
 
 ## Table of contents
@@ -25,11 +25,12 @@ subcommands)
 12. [Welcome Messages](#welcome-messages)
 13. [Open/Trial Channel](#opentrial-channel)
 14. [Chat Logs](#chat-logs)
-15. [Permissions & Roles](#permissions--roles)
-16. [Mood Cards](#mood-cards)
-17. [Data Storage](#data-storage)
-18. [Configuration Reference](#configuration-reference)
-19. [Troubleshooting](#troubleshooting)
+15. [Channel Awareness](#channel-awareness)
+16. [Permissions & Roles](#permissions--roles)
+17. [Mood Cards](#mood-cards)
+18. [Data Storage](#data-storage)
+19. [Configuration Reference](#configuration-reference)
+20. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -51,6 +52,10 @@ of that core chat loop:
 - Image generation and analysis, reminders, keyword auto-replies, per-user and
   per-persona memory, welcome messages, and a role-based permission system (Owner /
   Admin / Normal).
+- **Cross-persona channel awareness** — a compact, persistent recap of each channel's
+  recent conversation, shared by every persona regardless of which one (if any) was
+  actually part of it, so a character invoked cold into an ongoing conversation isn't
+  blind to what's already happened there.
 
 Everything is backed by flat JSON files under `data/` (created automatically, never
 committed) — there's no database. State that needs to be fast and doesn't need to
@@ -64,8 +69,10 @@ at all (mentioned? DM? reply-continuing a thread? the designated open channel?
 `RESPOND_TO_ALL` on?) and whether the sender is authorized → resolves which persona
 should answer (their personal pick via `/persona my`, or the server-wide default, or
 whichever character a reply-thread is continuing) → builds a full system prompt
-(`ai/promptBuilder.ts`: persona identity + traits + rules + memories + current
-affection standing + available custom emoji + content-safety rules) → dispatches to
+(`ai/promptBuilder.ts`: persona identity + traits + rules + memories + a rolling
+cross-persona channel recap (`ai/channelContext.ts`, see [Channel
+Awareness](#channel-awareness)) + current affection standing + available custom emoji
++ content-safety rules) → dispatches to
 whichever AI provider is currently active (`ai/chatRouter.ts` → `ai/providers/*.ts`)
 → sends the reply styled as that persona through a per-channel Discord webhook
 (`webhooks/webhookManager.ts`) → logs the exchange → in the background (after the
@@ -118,6 +125,12 @@ first with `/persona set`, add the memory, switch back if needed).
 - **`ask question:<text>`** — an AI answers a question using only what's actually in
   this channel's log (explicitly instructed not to make anything up if the answer
   isn't there).
+- **`summary`** — shows the rolling cross-persona summary currently being injected
+  into every persona's system prompt for this channel (see [Channel
+  Awareness](#channel-awareness)).
+- **`forget`** — resets that rolling summary. The permanent log is untouched; a new
+  summary simply builds back up as the conversation continues, same spirit as `/clear`
+  not touching the log either.
 
 ### `/status` — Normal
 
@@ -471,6 +484,14 @@ themselves, that would trivially let someone fabricate a favorable history, whic
 would undermine the entire point of a relationship system meant to reflect earned
 behavior.
 
+Don't confuse this with [Channel Awareness](#channel-awareness): Memory is
+hand-curated facts *about a person*, scoped per-persona (or global) and never
+expiring on their own. Channel Awareness is an AI-generated, auto-refreshing recap of
+*recent conversation*, scoped per-channel and shared by every persona equally. A
+persona can know a Memory fact about you from six months ago while having no idea
+what was said five minutes ago in a channel it wasn't part of — the two systems solve
+different problems.
+
 ## Keyword Triggers
 
 Server-configured (`/trigger`, Admin+) keyword → canned reply mappings, checked before
@@ -511,7 +532,71 @@ Every exchange is appended to a per-channel `.jsonl` log (`data/logs/<channelId>
 regardless of anything else — this is a permanent record, separate from and
 unaffected by `/clear` (which only touches the AI's short-term conversational
 memory). `/logs recent`/`search`/`ask` read from it; `ask` runs a dedicated AI query
-explicitly instructed to answer only from what's actually in the log.
+explicitly instructed to answer only from what's actually in the log. It's also the
+raw material the rolling summary described in [Channel Awareness](#channel-awareness)
+is periodically distilled from.
+
+## Channel Awareness
+
+**The problem this solves:** conversation memory (`ai/history.ts`) is keyed
+`channelId:personaId` — scoped to one specific persona in one specific channel. A
+persona that's never spoken in a given channel before starts from a completely blank
+slate, even if other personas (or the raw user) have been chatting there for weeks. A
+persona in that position doesn't say "I don't know" — it stays in character and fills
+the gap with something plausible-sounding drawn from its own show's lore, which reads
+as confidently making things up (e.g. asked "what's he talking about?" with zero real
+context, a persona might guess based on its own backstory rather than the actual
+conversation, which had nothing to do with it).
+
+**The fix:** one compressed, persona-agnostic rolling summary per channel, persisted
+in `data/channel_context.json` and injected into *every* persona's system prompt
+(`ai/channelContext.ts` → `ai/promptBuilder.ts`) — so any persona, dropped in cold,
+still has an accurate, if brief, picture of what's actually been going on.
+
+**Why a summary and not just more raw history:** the summary — not raw log lines — is
+what gets sent on every single reply, and its length is capped (~130 words, with a
+hard character-limit backstop even if the model ignores that instruction), so the
+per-message token cost stays flat regardless of how old or busy a channel gets.
+Naively injecting the last N raw messages on every reply would make that cost grow
+without bound, and would recur on every message rather than occasionally.
+
+**How the summary refreshes:** a lightweight in-memory counter (deliberately not
+persisted — same tradeoff `ai/history.ts` already makes; losing it on restart just
+means the next refresh takes one extra interval) tracks new log lines per channel.
+Once `CHANNEL_SUMMARY_INTERVAL` (default 8) new lines accumulate — or just 4, for a
+channel's very first summary, so cold-start channels aren't left blind for long — a
+single one-shot AI call runs in the background, fire-and-forget, same pattern as the
+affection classifier: it never blocks the reply that triggered it, and a failure
+(rate limit, provider error) is caught and silently skipped rather than surfaced,
+since a stale-but-present summary is strictly better than crashing the actual
+in-character reply over a side feature. That call takes the existing summary plus the
+most recent ~30 raw log lines and produces a fresh, complete, merged summary — it's
+told to compress and fold in new information, not just append to what's there.
+
+**On-demand precision:** on top of the always-on summary, a cheap regex check (no AI
+call) looks for "catch me up" style phrasing — "what's he talking about", "what did I
+miss", "catch me up", "recap", and similar. When it matches, that single reply also
+gets a literal excerpt of the most recent ~20 raw log lines appended to its prompt,
+so specific questions get grounded in the real transcript rather than the lossy
+summary. This only fires on messages that look like they're asking, so it doesn't add
+cost to ordinary chat.
+
+**Commands:** `/logs summary` shows the current rolling summary for the channel;
+`/logs forget` resets it (the permanent log is untouched — see [Chat
+Logs](#chat-logs)).
+
+**Configuration:** `CHANNEL_CONTEXT_ENABLED` (default `true`) turns the whole feature
+off if you'd rather not have the extra background AI calls; `CHANNEL_SUMMARY_INTERVAL`
+(default `8`) controls how many new messages accumulate between refreshes — lower is
+fresher but calls the AI more often, higher is cheaper but slightly staler. See
+`env.ts` for both.
+
+**What this deliberately doesn't do:** it isn't a replacement for `/logs ask`, which
+does a deep, on-demand, exact-quote-capable Q&A pass over the *entire* log for a
+specific question, run explicitly and shown only to whoever asked (ephemeral). Channel
+Awareness is the opposite trade-off — always-on, ambient, and intentionally shallow —
+optimized for "don't be clueless," not "answer anything about this channel's entire
+history." For that, `/logs ask` is still the right tool.
 
 ## Permissions & Roles
 
@@ -563,6 +648,7 @@ Everything under `data/` (gitignored, created automatically on first write):
 | `open_channel.json` | The designated open channel id, if any |
 | `affection.json` | Per (user, persona) score + last-updated timestamp |
 | `persona_ratings.json` | Per (user, persona) lore-accuracy rating |
+| `channel_context.json` | Rolling cross-persona summary per channel (see [Channel Awareness](#channel-awareness)) |
 | `logs/<channelId>.jsonl` | Permanent chat log, one JSON object per line |
 | `logs/system/<date>.log` | Optional system log file, only written if `LOG_TO_FILE=true` |
 

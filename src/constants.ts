@@ -25,6 +25,11 @@ export const TRIGGERS_PATH = path.join(DATA_DIR, 'triggers.json');
 export const REMINDERS_PATH = path.join(DATA_DIR, 'reminders.json');
 export const WELCOME_PATH = path.join(DATA_DIR, 'welcome.json');
 export const CHAT_LOG_DIR = path.join(DATA_DIR, 'logs');
+// Rolling per-channel summary (see ai/channelContext.ts) — deliberately a separate file
+// from CHAT_LOG_DIR: the log is the permanent, unclearable record; this is a derived,
+// resettable recap of it, same persistence mechanism (readJSON/writeJSON) as every
+// other store/*.ts file.
+export const CHANNEL_CONTEXT_PATH = path.join(DATA_DIR, 'channel_context.json');
 export const SYSTEM_LOG_DIR = path.join(DATA_DIR, 'logs', 'system');
 
 // ─── Chat provider catalog ────────────────────────────────────────────────

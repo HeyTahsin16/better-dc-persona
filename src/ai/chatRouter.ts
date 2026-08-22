@@ -1,6 +1,7 @@
 import { state } from '../store/stateStore';
 import { buildSystemPrompt, buildRawSystemPrompt, getActivePersona } from './promptBuilder';
 import { appendLog } from '../store/chatLogStore';
+import { noteChannelExchangeLogged } from './channelContext';
 import { withRetry } from './retry';
 import { NATIVE_VISION_PROVIDERS } from '../constants';
 import { describeImageForChat } from './visionRouter';
@@ -35,13 +36,14 @@ async function dispatchChat(threadKeyStr: string, userText: string, systemPrompt
 export async function getAIResponse(
   channelId: string, userText: string, userId: string, username: string, persona: Persona = getActivePersona(),
 ): Promise<string> {
-  const systemPrompt = buildSystemPrompt(userId, username, persona);
+  const systemPrompt = buildSystemPrompt(userId, username, persona, channelId, userText);
   const key = threadKey(channelId, persona.id);
   const reply = await withRetry(() => dispatchChat(key, `[${username}]: ${userText}`, systemPrompt));
 
   const ts = new Date().toISOString();
   appendLog(channelId, { ts, userId, username, role: 'user', content: userText });
   appendLog(channelId, { ts, userId: 'bot', username: persona.name, role: 'model', content: reply });
+  noteChannelExchangeLogged(channelId);
 
   return reply;
 }
@@ -50,7 +52,7 @@ export async function getAIResponseWithImage(
   channelId: string, userText: string, userId: string, username: string,
   imageBuffer: Buffer, mimeType: string, persona: Persona = getActivePersona(),
 ): Promise<string> {
-  const systemPrompt = buildSystemPrompt(userId, username, persona);
+  const systemPrompt = buildSystemPrompt(userId, username, persona, channelId, userText);
   const key = threadKey(channelId, persona.id);
   const taggedText = `[${username}]: ${userText}`;
 
@@ -72,6 +74,7 @@ export async function getAIResponseWithImage(
   const ts = new Date().toISOString();
   appendLog(channelId, { ts, userId, username, role: 'user', content: `${userText} [image attached]` });
   appendLog(channelId, { ts, userId: 'bot', username: persona.name, role: 'model', content: reply });
+  noteChannelExchangeLogged(channelId);
 
   return reply;
 }

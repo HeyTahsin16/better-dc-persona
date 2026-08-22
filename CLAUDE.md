@@ -8,7 +8,7 @@ for setup.
 
 ## What this is
 
-A Discord bot (`discord-persona-bot`, currently v3.13.0) that lets a server chat with
+A Discord bot (`discord-persona-bot`, currently v3.14.0) that lets a server chat with
 switchable anime/game character personas (70 of them, growing) via an LLM, styled with
 per-character Discord webhook names/avatars. Also does image generation/analysis,
 reminders, keyword triggers, memory, welcome messages, an affection/relationship meter
@@ -109,16 +109,17 @@ src/
   personas/               One file per persona (70 currently) + index.ts (PERSONAS map, listPersonas/getPersona/searchPersonas/listVersions)
 
   ai/
-    promptBuilder.ts       Builds the full system prompt from persona + memories + affection + emoji context
+    promptBuilder.ts       Builds the full system prompt from persona + memories + channel-awareness recap + affection + emoji context
     chatRouter.ts          Dispatches to the active provider; also builds the "noper" (raw AI) path and one-shot completions
     imageRouter.ts, visionRouter.ts   Same dispatch pattern, for image gen and vision
     affectionClassifier.ts Rates message tone, now persona-aware (see below)
+    channelContext.ts      Cross-persona rolling channel summary + "catch me up" recall detection (see below)
     history.ts              In-memory conversation history, keyed "channelId:personaId"
     rateLimiter.ts, retry.ts   Shared per-minute call ceiling + transient-error retry, used by every provider call
     spamGuard.ts            Repetition dampening for the affection meter
     providers/               One file per backend (gemini, openaiCompatible [groq/openai/ollama], anthropic, mistral, cohere, together, stability)
 
-  store/                  One file per persisted concern, all using store/json.ts's readJSON/writeJSON. See "Adding a new store" below for the pattern.
+  store/                  One file per persisted concern, all using store/json.ts's readJSON/writeJSON (e.g. channelContextStore.ts). See "Adding a new store" below for the pattern.
 
   webhooks/
     webhookManager.ts       sendAsPersona/sendAsRawAI — the actual "speak as this character" mechanism. isWebhookCapableChannel() lives here (canonical, see pitfall below).
@@ -177,6 +178,24 @@ regardless of which option/subcommand/group is currently focused, and
 into, agnostic of the field name. If two different subcommands both want "search
 personas by name" behavior, one handler covers both — check `persona.ts`'s single
 handler serving both the bare `set` and the grouped `my set` options.
+
+## Adding a new store
+
+Every `store/*.ts` file follows the same shape (concrete example:
+`store/channelContextStore.ts`, added alongside channel awareness): a module-level
+`load()`/`save()` pair wrapping `store/json.ts`'s `readJSON<Shape>(PATH, emptyDefault)`
+/ `writeJSON(PATH, data)`, a path constant in `constants.ts` (not hardcoded inline),
+and a `Shape` interface in `types.ts` keyed however that store is naturally looked up
+(usually `channelId` or `userId`). Each exported function does its own `load()` at the
+top and `save()` at the bottom — there's no shared cache or long-lived store instance,
+so concurrent writes to *different* stores never race, but rely on Node's
+single-threaded event loop rather than any locking for writes to the *same* store file
+back-to-back (fine at this scale; would need revisiting under real write concurrency).
+Don't add a new top-level key to an existing store's shape unless it's genuinely the
+same concern — `channelContextStore.ts` is a separate file/`Shape` from
+`chatLogStore.ts` even though both are indexed by `channelId`, because one is a
+permanent unclearable log and the other a derived, resettable summary with completely
+different clearing semantics (see Channel Awareness below).
 
 ## Personas
 
@@ -317,6 +336,68 @@ welcome messages) for free, without each call site needing to remember to check 
 it supports vision — also add to `NATIVE_VISION_PROVIDERS`), add to
 `CHAT_PROVIDER_NAMES` (derived automatically from `PROVIDER_DEFAULTS`'s keys, no
 separate edit needed there).
+
+## Channel awareness (`ai/channelContext.ts`, `store/channelContextStore.ts`)
+
+**The bug this fixes, precisely**: `ai/history.ts` keys conversation memory
+`channelId:personaId`. A persona with no entry for that key — because it's never
+spoken in this channel, not because nothing happened — gets an empty history array,
+not an error or a signal of any kind. Nothing upstream distinguishes "genuinely fresh
+channel" from "this specific persona just hasn't been here yet." Combined with
+`buildSystemPrompt()` never having consulted the persona-agnostic `chatLogStore.ts`
+log at all (that log was write-only from the live chat path's perspective — only
+`/logs` read it), a persona dropped into an active conversation had zero signal that
+anything had happened, and — because it's instructed to stay in character rather than
+break the fourth wall — filled the gap with something plausible from its own
+lore/backstory instead of admitting it didn't know. That reads as confident
+fabrication, not a graceful "I don't know."
+
+**Why this is a separate store from both existing "history" concepts**, not a mode of
+either:
+- vs. `ai/history.ts`: that's ephemeral (memory-only, gone on restart), per-persona,
+  and *is* the actual multi-turn conversation sent to the provider. This is
+  persistent, persona-agnostic, and is a compressed *summary* injected as context, not
+  turns the provider thinks it said.
+- vs. `chatLogStore.ts`: that's the permanent, complete, unclearable raw record. This
+  is a small, lossy, resettable derivative of it. `/clear` intentionally never touches
+  the log (see Chat Logs in DOCUMENTATION.md) — this store follows the same
+  principle one level up: `/logs forget` resets the summary without touching the log
+  it's derived from.
+
+**Token-cost design, since this is the part most likely to regress if "improved"
+later**: the summary — never raw log lines — is what's injected into the prompt, and
+it's capped both by prompt instruction (~130 words) and defensively in code
+(`clampSummary`, hard char ceiling) so a model ignoring the word-count instruction
+still can't make the per-message cost grow unboundedly. The expensive part (an actual
+AI call) happens on a `CHANNEL_SUMMARY_INTERVAL`-message cadence via an in-memory
+pending-counter (`pendingSinceSummary`), not on every message — deliberately *not*
+persisted, for the same reason `ai/history.ts`'s turns aren't: losing it on restart
+costs one extra interval before the next refresh, not correctness. The refresh itself
+re-reads a bounded tail (`SUMMARY_SOURCE_LINES = 30`) of the log rather than tracking
+an exact "unsummarized since" cursor — simpler, self-healing after a restart, still
+bounded. If you're tempted to make this "smarter" by summarizing incrementally with an
+exact cursor, note that trade-off was made on purpose.
+
+**Fire-and-forget, mirroring `affectionClassifier.ts`'s established pattern exactly**:
+`noteChannelExchangeLogged()` (called from `chatRouter.ts` right next to the existing
+`appendLog()` calls) never blocks the reply. `refreshChannelSummary()` catches and
+swallows every error internally (logged at `debug`, easy to miss on purpose — a stale
+summary from a failed refresh is fine; surfacing a warning for a fire-and-forget side
+feature every time a provider hiccups is not) and it's still wrapped in `withRetry()`
+using the classifier's lower-priority retry settings (`retries=1, baseDelayMs=500`
+instead of the default `2`/`800`), so it never competes with the user-facing reply for
+`CHAT_RATE_LIMIT_PER_MINUTE` budget.
+
+**The recall heuristic (`looksLikeRecallQuery`) is intentionally regex, not a second AI
+call** — deciding "does this message want to be caught up" via a classifier call would
+double the AI calls on every single message just to maybe save a slightly-too-generic
+summary from being insufficient. False negatives just mean the persona relies on the
+always-on summary (strictly better than the pre-fix baseline of nothing); false
+positives just mean one bounded (`RECALL_EXCERPT_LINES = 20`) extra excerpt on an
+otherwise-ordinary reply. If you add patterns here, keep them cheap and keep that
+asymmetry — this list is deliberately biased toward false positives over false
+negatives, since the cost of the former is small and bounded while the cost of the
+latter is a persona going back to guessing.
 
 ## Mood cards (`features/moodCard.ts`)
 

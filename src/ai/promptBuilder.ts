@@ -5,6 +5,7 @@ import { buildMemoryBlock } from '../store/memoryStore';
 import { buildEmojiContext } from '../emoji/appEmojis';
 import { getUserPersonaId } from '../store/userPersonaStore';
 import { getAffectionContextLine } from '../store/affectionStore';
+import { buildChannelAwarenessBlock } from './channelContext';
 
 // Baseline content-safety rules — apply everywhere, persona mode or raw AI mode alike.
 // These are not overridable by persona files.
@@ -47,8 +48,20 @@ export function resolvePersonaForUser(userId: string): Persona {
 // `persona` is passed explicitly (rather than always read from global state) because a
 // reply to a specific character's webhook message should keep talking to THAT character,
 // even if the owner has since switched the server-wide active persona with /persona set.
-export function buildSystemPrompt(userId: string, username: string, persona: Persona = getActivePersona()): string {
+//
+// `channelId`/`userText` are optional and both needed only for the channel-awareness
+// block (ai/channelContext.ts). Callers that aren't a live, in-channel conversation turn
+// — image analysis, welcome messages, reminders — simply omit them and get the exact
+// same prompt as before this feature existed.
+export function buildSystemPrompt(
+  userId: string,
+  username: string,
+  persona: Persona = getActivePersona(),
+  channelId?: string,
+  userText = '',
+): string {
   const memBlock = buildMemoryBlock(userId, username, persona.id);
+  const channelBlock = channelId ? buildChannelAwarenessBlock(channelId, userText) : null;
   const emojiBlock = buildEmojiContext();
   const affectionLine = getAffectionContextLine(userId, persona.id);
   const responseLengthRule = persona.responseLengthOverride ?? DEFAULT_RESPONSE_LENGTH_RULE;
@@ -66,6 +79,8 @@ export function buildSystemPrompt(userId: string, username: string, persona: Per
     ...persona.rules.map((r, i) => `${i + 1}. ${r}`),
     '',
     persona.extraContext ? `Background context:\n${persona.extraContext}` : null,
+    '',
+    channelBlock,
     '',
     memBlock ? `Things you know about the people here:\n${memBlock}` : null,
     '',

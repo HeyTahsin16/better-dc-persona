@@ -21,6 +21,7 @@ This replaces the old single-file `bot.js` project entirely. See **[Migrating fr
 - [Open/Trial Channel](#opentrial-channel)
 - [Keyword Triggers](#keyword-triggers)
 - [Memories](#memories)
+- [Channel Awareness](#channel-awareness)
 - [Affection Meter](#affection-meter)
 - [Persona Ratings](#persona-ratings)
 - [Reminders](#reminders)
@@ -356,6 +357,40 @@ Memories are also **scoped to whichever persona is currently active** (`/persona
 
 ---
 
+## Channel Awareness
+
+Every persona automatically gets a short, shared recap of what's recently happened in
+a channel — even if that specific persona has never spoken there before. This is
+different from Memories above: Memories are hand-added facts about a *person*;
+this is an auto-generated recap of recent *conversation*, and it's the same for every
+persona in a given channel rather than scoped to one.
+
+Without this, a persona pulled into an ongoing conversation for the first time has no
+idea what's being discussed — and rather than admitting that, it tends to guess based
+on its own character lore, which looks like it's confidently making things up.
+
+It works in two layers, both designed to add minimal extra AI cost:
+- **Always-on recap** — a short, capped summary (persisted, not raw chat) refreshes
+  itself automatically every few messages in the background, and is included for
+  every persona's reply. It never blocks a response, and its length is capped so the
+  cost per message stays flat no matter how long the channel's history gets.
+- **On-demand precision** — if a message looks like it's asking to be caught up
+  ("what did I miss", "what's she talking about"), that one reply also gets a literal
+  excerpt of the actual recent messages, for accuracy beyond what the short summary
+  captures.
+
+```
+/logs summary     (see the current rolling summary for this channel)
+/logs forget       (reset it — the permanent chat log is untouched)
+```
+
+Two env vars control it — `CHANNEL_CONTEXT_ENABLED` (default on) and
+`CHANNEL_SUMMARY_INTERVAL` (default `8`, how many messages between refreshes) — see
+`.env.example`. Full design rationale, including why it's a compressed summary rather
+than raw history, is in `DOCUMENTATION.md`.
+
+---
+
 ## Affection Meter
 
 Each persona silently tracks how a person treats them, per (user, persona) pair, and it colors their tone over time — entirely automatic, no manual input.
@@ -533,7 +568,7 @@ Image generation always uses a separate provider from chat, so you can mix and m
 | `/help` | Show every command available to you, with descriptions (only visible to you) |
 | `/image create prompt:` | Generate an image |
 | `/image analyze image: [question:]` | Analyze an uploaded image |
-| `/logs recent [count:]` / `search keyword:` / `ask question:` | View, search, or ask AI about chat history |
+| `/logs recent [count:]` / `search keyword:` / `ask question:` / `summary` / `forget` | View, search, or ask AI about chat history; view or reset the rolling cross-persona channel summary |
 | `/remind set/list/cancel` | Manage your own reminders |
 | `/persona my set/current/clear` | Set your own personal persona (only affects you) |
 | `/persona list` / `current` | Browse personas / see the server default |

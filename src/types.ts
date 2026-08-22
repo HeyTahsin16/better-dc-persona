@@ -110,6 +110,19 @@ export interface ChatLogEntry {
   content: string;
 }
 
+// Persistent, persona-agnostic rolling summary of a channel's conversation — see
+// ai/channelContext.ts. Deliberately just a compressed string, not raw messages: this
+// is what gets injected into every persona's system prompt on every reply, so its size
+// is the recurring per-message token cost of the whole feature.
+export interface ChannelContextEntry {
+  summary: string;
+  updatedAt: string; // ISO timestamp of the last refresh
+}
+
+export interface ChannelContextStoreShape {
+  [channelId: string]: ChannelContextEntry;
+}
+
 export interface Reminder {
   id: string;
   userId: string;

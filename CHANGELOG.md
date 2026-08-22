@@ -6,6 +6,12 @@ works. Newest first.
 
 ---
 
+## What's new in v3.14
+
+| Area | What changed |
+|---|---|
+| Cross-persona channel awareness | Personas no longer start completely blind when pulled into a channel they've never spoken in — a short, auto-refreshing, persona-agnostic summary of that channel's recent conversation is now injected into every persona's system prompt, so a character invoked cold isn't left guessing from its own lore instead of the actual conversation. Capped length keeps the added per-message token cost flat regardless of channel age; the summary itself refreshes via one cheap background AI call every few messages (`CHANNEL_SUMMARY_INTERVAL`), never on every message. Messages that sound like "what did I miss" / "what's she talking about" additionally get a precise excerpt of the real recent log for that one reply. New: `/logs summary`, `/logs forget`. See "Channel Awareness" in `README.md`/`DOCUMENTATION.md` |
+
 ## What's new in v3.13
 
 | Area | What changed |

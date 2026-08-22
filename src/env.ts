@@ -50,6 +50,19 @@ export const env = {
   MAX_HISTORY: num('MAX_HISTORY', 30),
   REACTION_CHANCE: num('REACTION_CHANCE', 0.3),
 
+  // Cross-persona channel awareness (ai/channelContext.ts): a persistent, persona-agnostic
+  // rolling summary of each channel, injected into every persona's system prompt so a
+  // persona jumping into an ongoing conversation cold isn't blind to it — separate from,
+  // and complementary to, MAX_HISTORY above (which is per-persona, in-memory, unaware of
+  // other personas/older messages).
+  CHANNEL_CONTEXT_ENABLED: bool('CHANNEL_CONTEXT_ENABLED', true),
+  // New log lines (user+model combined) that accumulate before the rolling summary is
+  // refreshed. The refresh is one cheap one-shot AI call in the background (never blocks
+  // a reply) — this interval is what keeps it infrequent rather than firing every message,
+  // which is what keeps the feature's added token/call cost small. Lower = fresher summaries,
+  // more background AI calls; higher = cheaper, slightly staler.
+  CHANNEL_SUMMARY_INTERVAL: num('CHANNEL_SUMMARY_INTERVAL', 8),
+
   // Safety ceiling on outgoing chat-provider calls per rolling 60s window. Once hit,
   // new calls are refused outright (not queued/delayed) rather than risking the
   // provider's own hard rate limit. Default 14 leaves a 1-call buffer under a 15 RPM tier.
