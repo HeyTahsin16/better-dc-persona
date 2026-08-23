@@ -10,8 +10,7 @@ import { buildChannelAwarenessBlock } from './channelContext';
 // Baseline content-safety rules — apply everywhere, persona mode or raw AI mode alike.
 // These are not overridable by persona files.
 const CONTENT_SAFETY_RULES = [
-  'Keep all content appropriate for a general Discord audience — no explicit sexual content, no graphic violence, no real instructions for weapons, hacking, or other harmful acts.',
-  'If a conversation pushes toward romantic or sexual roleplay, keep things tasteful and gently steer elsewhere rather than escalating.',
+  'Keep all content exclude real instructions for weapons, hacking, or other harmful acts.',
   'If someone seems to be in genuine emotional distress, gently be supportive and suggest real support rather than deflecting.',
 ];
 
